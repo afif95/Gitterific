@@ -1,0 +1,26 @@
+rub
+run
+eclipse
+run
+sbt run
+eclipse
+run
+test
+cd C:\Users\rimsh\Desktop\play-java-Test
+sbt
+eclipse
+run
+sbt
+run
+sbt
+run
+exit
+run
+exit
+run
+sbt
+run
+sbt
+update
+compile
+run
