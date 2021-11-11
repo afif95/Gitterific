@@ -1,0 +1,18 @@
+
+@import helper._
+@import play.mvc.Http.Request
+@import dto.formData
+
+@(newUserForm: play.data.Form[formData])(implicit messages: play.i18n.Messages)
+<!-- HTML Head -->
+
+
+
+<body>
+   		<h1> Welcome to Gitterific! </h1>
+   		@helper.form(action = routes.ApiController.save()) {
+        @helper.inputText(newUserForm("searchInput"))
+        <button type="submit" class="btn btn-primary btn-block">Search</button>
+    }
+</body>
+
