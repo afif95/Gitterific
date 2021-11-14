@@ -3,15 +3,16 @@
 # ~~~~
 
 # An example controller showing a sample home page#
+GET     /                           controllers.HomeController.index
+
 GET     /index                           controllers.ApiController.index1
 
-GET	   /searchQuery/:key                 controllers.ApiController.searchQuery(key: String)
+#GET	   /searchQuery/:key               controllers.ApiController.searchQuery(key: String, request: Request)
 
-GET 	/home						controllers.ApiController.home(request: Request)
+GET 	/home						controllers.ApiController.showRepos(request: Request)
 +nocsrf
-POST 	/home						controllers.ApiController.save(request: Request)
+POST 	/home						controllers.ApiController.fetchRepos(request: Request)
 
-GET     /                           controllers.HomeController.index
 GET    /explore                     controllers.HomeController.explore
 GET    /tutorial                    controllers.HomeController.tutorial
 GET    /time                    	controllers.HomeController.time

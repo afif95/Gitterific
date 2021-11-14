@@ -1,4 +1,9 @@
-[0m[[0m[31merror[0m] [0m[0mC:\Users\rimsh\Downloads\play-samples-play-java-hello-world-tutorial (2)\play-samples-play-java-hello-world-tutorial\conf\routes:11:1: not enough arguments for method save: (x$1: play.mvc.Http.Request): play.mvc.Result.[0m
-[0m[[0m[31merror[0m] [0m[0mUnspecified value parameter x$1.[0m
-[0m[[0m[31merror[0m] [0m[0mPOST 	/home						controllers.ApiController.save()[0m
-[0m[[0m[31merror[0m] [0m[0mone error found[0m
+[0m[[0m[31merror[0m] [0m[0mC:\Users\amrit\Desktop\Concordia coursework\SOEN 6441 APP\Project\NAgr3\app\controllers\ApiController.java:96:1: no suitable method found for supplyAsync(()->{ form[...]; } })[0m
+[0m[[0m[31merror[0m] [0m[0m    method java.util.concurrent.CompletableFuture.<U>supplyAsync(java.util.function.Supplier<U>) is not applicable[0m
+[0m[[0m[31merror[0m] [0m[0m      (cannot infer type-variable(s) U[0m
+[0m[[0m[31merror[0m] [0m[0m        (argument mismatch; bad return type in lambda expression[0m
+[0m[[0m[31merror[0m] [0m[0m          missing return value))[0m
+[0m[[0m[31merror[0m] [0m[0m    method java.util.concurrent.CompletableFuture.<U>supplyAsync(java.util.function.Supplier<U>,java.util.concurrent.Executor) is not applicable[0m
+[0m[[0m[31merror[0m] [0m[0m      (cannot infer type-variable(s) U[0m
+[0m[[0m[31merror[0m] [0m[0m        (actual and formal argument lists differ in length))[0m
+[0m[[0m[31merror[0m] [0m[0mCompletableFuture.supplyAsync[0m
