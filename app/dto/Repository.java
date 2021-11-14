@@ -1,8 +1,9 @@
 package dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class RequestInputSearch {
+public class Repository {
 	
 	private String full_name;
 	private String name;
@@ -10,9 +11,9 @@ public class RequestInputSearch {
 	private List<String> topics;
 
 
-	public RequestInputSearch() {}
+	public Repository() {}
 	
-	public RequestInputSearch(String full_name,String name) {
+	public Repository(String full_name,String name) {
 		this.name=name;
 		this.full_name=full_name;
 	}
@@ -47,6 +48,20 @@ public class RequestInputSearch {
 
 	public void setTopics(List<String> topics) {
 		this.topics = topics;
+	}
+	
+	static List<Repository> repoList = new ArrayList<>();
+	
+	public static void addRepo(Repository repo) {
+		repoList.add(repo);
+	}
+	
+	public static void addAllRepo(List<Repository> repo) {
+		repoList.addAll(repo);
+	}
+	
+	public static List<Repository> getRepos() {
+		return repoList;
 	}
 
 	

@@ -10,32 +10,32 @@ import _root_.play.libs.F
 // @LINE:6
 package controllers {
 
-  // @LINE:14
+  // @LINE:6
   class ReverseHomeController(_prefix: => String) {
     def _defaultPrefix: String = {
       if (_prefix.endsWith("/")) "" else "/"
     }
 
   
-    // @LINE:17
+    // @LINE:18
     def time: Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "time")
     }
   
-    // @LINE:14
+    // @LINE:6
     def index: Call = {
       
       Call("GET", _prefix)
     }
   
-    // @LINE:16
+    // @LINE:17
     def tutorial: Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "tutorial")
     }
   
-    // @LINE:15
+    // @LINE:16
     def explore: Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "explore")
@@ -43,14 +43,14 @@ package controllers {
   
   }
 
-  // @LINE:21
+  // @LINE:22
   class ReverseAssets(_prefix: => String) {
     def _defaultPrefix: String = {
       if (_prefix.endsWith("/")) "" else "/"
     }
 
   
-    // @LINE:21
+    // @LINE:22
     def versioned(file:Asset): Call = {
       implicit lazy val _rrc = new play.core.routing.ReverseRouteContext(Map(("path", "/public"))); _rrc
       Call("GET", _prefix + { _defaultPrefix } + "assets/" + implicitly[play.api.mvc.PathBindable[Asset]].unbind("file", file))
@@ -58,35 +58,29 @@ package controllers {
   
   }
 
-  // @LINE:6
+  // @LINE:8
   class ReverseApiController(_prefix: => String) {
     def _defaultPrefix: String = {
       if (_prefix.endsWith("/")) "" else "/"
     }
 
   
-    // @LINE:10
-    def home(): Call = {
+    // @LINE:14
+    def fetchRepos(): Call = {
+      
+      Call("POST", _prefix + { _defaultPrefix } + "home")
+    }
+  
+    // @LINE:12
+    def showRepos(): Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "home")
     }
   
-    // @LINE:6
+    // @LINE:8
     def index1: Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "index")
-    }
-  
-    // @LINE:8
-    def searchQuery(key:String): Call = {
-      
-      Call("GET", _prefix + { _defaultPrefix } + "searchQuery/" + play.core.routing.dynamicString(implicitly[play.api.mvc.PathBindable[String]].unbind("key", key)))
-    }
-  
-    // @LINE:12
-    def save(): Call = {
-      
-      Call("POST", _prefix + { _defaultPrefix } + "home")
     }
   
   }

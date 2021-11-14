@@ -9,8 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RequestInputSearchTest {
-	RequestInputSearch test = new RequestInputSearch("TestFullName", "testName");
-	RequestInputSearch testNull = new RequestInputSearch();
+	Repository test = new Repository("TestFullName", "testName");
+	Repository testNull = new Repository();
 	OwnerInfo owner = new OwnerInfo("someName");
 	List<String> topics = Arrays.asList("topic1", "topic2");
 	
