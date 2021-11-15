@@ -18,7 +18,7 @@ package controllers.javascript {
     }
 
   
-    // @LINE:18
+    // @LINE:19
     def time: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.HomeController.time",
       """
@@ -38,7 +38,7 @@ package controllers.javascript {
       """
     )
   
-    // @LINE:17
+    // @LINE:18
     def tutorial: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.HomeController.tutorial",
       """
@@ -48,7 +48,7 @@ package controllers.javascript {
       """
     )
   
-    // @LINE:16
+    // @LINE:17
     def explore: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.HomeController.explore",
       """
@@ -60,7 +60,7 @@ package controllers.javascript {
   
   }
 
-  // @LINE:22
+  // @LINE:23
   class ReverseAssets(_prefix: => String) {
 
     def _defaultPrefix: String = {
@@ -68,7 +68,7 @@ package controllers.javascript {
     }
 
   
-    // @LINE:22
+    // @LINE:23
     def versioned: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.Assets.versioned",
       """
@@ -88,7 +88,7 @@ package controllers.javascript {
     }
 
   
-    // @LINE:14
+    // @LINE:15
     def fetchRepos: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.ApiController.fetchRepos",
       """
@@ -98,12 +98,22 @@ package controllers.javascript {
       """
     )
   
-    // @LINE:12
+    // @LINE:13
     def showRepos: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.ApiController.showRepos",
       """
         function() {
           return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "home"})
+        }
+      """
+    )
+  
+    // @LINE:9
+    def getOwner: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.ApiController.getOwner",
+      """
+        function(key0) {
+          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "owner/" + encodeURIComponent((""" + implicitly[play.api.mvc.PathBindable[String]].javascriptUnbind + """)("key", key0))})
         }
       """
     )

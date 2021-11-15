@@ -11,12 +11,14 @@ import com.typesafe.config.ConfigFactory;
 
 import dto.Repository;
 import dto.formData;
+import dto.PublicOwnerInfo;
 import play.libs.ws.*;
 import views.html.*;
 
 import javax.inject.Inject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -59,6 +61,9 @@ public class ApiController extends Controller {
 	private Form<formData> form;
     private MessagesApi messagesApi;
 	private List<Repository> repos;
+	private Integer id = 0;
+	private HashMap <String, List<Repository>> user_searches;
+	private HashMap <String, List<Repository>> all_searches;
 	String baseUrl = "https://api.github.com";
 
 
@@ -69,7 +74,10 @@ public class ApiController extends Controller {
 	    this.ws = ws;
 	    this.form=formFactory.form(formData.class);
 	    this.messagesApi= messagesApi;
-	    repos = new ArrayList<>();
+	    this.repos = new ArrayList<>();
+	    //this.id = id;
+	    this.user_searches = new HashMap<>();
+	    this.all_searches = new HashMap<>();
 	    
 	  }
 	  
@@ -84,7 +92,20 @@ public class ApiController extends Controller {
 	   }*/
 	  
 	  public CompletionStage<Result> showRepos(Request request) {
-			return CompletableFuture.completedFuture(ok(views.html.home.render(form, repos, request, messagesApi.preferred(request))));
+		  	String uid;
+		  	 if((request.session().get("id")).isPresent()) {
+		  		//return CompletableFuture.completedFuture(ok(Json.toJson("STFU")));
+		  		 return CompletableFuture.completedFuture(ok(views.html.home.render(form, user_searches.get(request.session().get("id").get()), request, messagesApi.preferred(request))));
+		  	 }
+		  	 else {
+		  		id=id+1;
+		    	uid = id.toString();
+		    	List<Repository> repo = new ArrayList<>();
+		    	//Optional<List<Repository>> opt_list = Optional.ofNullable(repo); 
+		    	user_searches.put(uid, repo);
+		        return CompletableFuture.completedFuture(ok(views.html.home.render(form, repo, request, messagesApi.preferred(request))).addingToSession(request, "id",uid));
+		    	//return CompletableFuture.completedFuture(ok(Json.toJson(uid)).addingToSession(request, "id",uid));
+		  	 }
 		}
 	  
 		public CompletionStage<Result> fetchRepos(Request request) {
@@ -95,13 +116,17 @@ public class ApiController extends Controller {
 			} else {
 				//return CompletableFuture.supplyAsync(() -> {
 				formData data = bindedForm.get();
-				//Session session = new Session();
-				//session.adding(data.searchInput, "session");
-		
+				
+				//IMPLEMENT IF CACH
+				/*if(all_searches.get(data.searchInput) != null) {
+					user_searches.put(data.searchInput, all_searches.get(data.searchInput));
+					
+				}*/
 
 				try {
 					
 					String searchVal = data.searchInput;
+					
 					
 					return ws.url(baseUrl + "/search/repositories?q="+ searchVal  + "&per_page=5")
 			        .get()
@@ -125,8 +150,17 @@ public class ApiController extends Controller {
 			  		    //List<Repository> repoList = Repository.getRepos();
 			        	return list;
 			        }).thenApply(list -> {
-			        	repos.addAll(list);
-			        	return repos;
+			        	String s = request.session().get("id").get();
+			        	if(!all_searches.containsKey(searchVal)){
+			        		all_searches.put(searchVal, list);
+			        	}
+			        	/*else {
+			        		all_searches.put(searchVal, list);
+			        	}*/
+
+			        	//repos.addAll(list);
+			        	user_searches.get(s).addAll(list);
+			        	return user_searches.get(s);
 			        }).thenApply(m -> redirect(routes.ApiController.showRepos()));
 			        		
 				} catch (Exception exp) {
@@ -140,52 +174,20 @@ public class ApiController extends Controller {
 	    
 	  
 	  
-	/*  public Result save(Request request) {
-		  
-	        form = formFactory.form(formData.class).bindFromRequest(request);
-	        if(form.hasErrors()){
-	           
-	            return badRequest(views.html.index.render());
-	        }
-	        formData fd = form.get();
-	        
-	        
-	        searchQuery(fd.searchInput, request);
-		  //List<Repository> repoList = Repository.getRepos();
-		  //return redirect(routes.ApiController.searchQuery(fd.searchInput, request));
-	        return redirect(routes.ApiController.home());
-	        
-	  }*/
-	  
-
-	/*  public CompletionStage<Result> searchQuery(String searchKey, Request request) {
-	    return ws.url(baseUrl + "/search/repositories?q="+ searchKey + "&per_page=5")
-	        .get()
-	        .thenApply(result -> {
-	        	
-	        	List<Repository> list = StreamSupport.stream( result.asJson().get("items").spliterator(), true)
-	                    .map(sObj -> convertToRepo(sObj))
-	                    .collect(Collectors.toList());
-	        	
-	        	Repository.addAllRepo(list);
-
-	  		    List<Repository> repoList = Repository.getRepos();
-
-	  		    //return redirect(routes.ApiController.home());
-	  		    //return redirect("/home");
-	  		    //return redirect(routes.ApiController.home());
-	        	return ok(views.html.home.render(formFactory.form(formData.class), repoList, messagesApi.preferred(request)));
-	        		
-	        	
-	    
-	        	});
-	    
-
-	        	
-	    } */
 	  
 	  public Repository convertToRepo(JsonNode str) {
 		  return Json.fromJson(str, Repository.class);
+	  }
+	  
+	  public CompletionStage<Result> getOwner(String searchKey) {
+		  return ws.url(baseUrl + "/users/"+ searchKey)
+			        .get()
+			        .thenApplyAsync(result -> {	
+			        	JsonNode jd =  result.asJson();
+			        	PublicOwnerInfo p = Json.fromJson(jd, PublicOwnerInfo.class);
+			        	return ok(views.html.owner.render(p));
+			        });
+		  
 	  }
 	  
 

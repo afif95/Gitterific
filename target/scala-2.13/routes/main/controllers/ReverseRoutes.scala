@@ -17,7 +17,7 @@ package controllers {
     }
 
   
-    // @LINE:18
+    // @LINE:19
     def time: Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "time")
@@ -29,13 +29,13 @@ package controllers {
       Call("GET", _prefix)
     }
   
-    // @LINE:17
+    // @LINE:18
     def tutorial: Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "tutorial")
     }
   
-    // @LINE:16
+    // @LINE:17
     def explore: Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "explore")
@@ -43,14 +43,14 @@ package controllers {
   
   }
 
-  // @LINE:22
+  // @LINE:23
   class ReverseAssets(_prefix: => String) {
     def _defaultPrefix: String = {
       if (_prefix.endsWith("/")) "" else "/"
     }
 
   
-    // @LINE:22
+    // @LINE:23
     def versioned(file:Asset): Call = {
       implicit lazy val _rrc = new play.core.routing.ReverseRouteContext(Map(("path", "/public"))); _rrc
       Call("GET", _prefix + { _defaultPrefix } + "assets/" + implicitly[play.api.mvc.PathBindable[Asset]].unbind("file", file))
@@ -65,16 +65,22 @@ package controllers {
     }
 
   
-    // @LINE:14
+    // @LINE:15
     def fetchRepos(): Call = {
       
       Call("POST", _prefix + { _defaultPrefix } + "home")
     }
   
-    // @LINE:12
+    // @LINE:13
     def showRepos(): Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "home")
+    }
+  
+    // @LINE:9
+    def getOwner(key:String): Call = {
+      
+      Call("GET", _prefix + { _defaultPrefix } + "owner/" + play.core.routing.dynamicString(implicitly[play.api.mvc.PathBindable[String]].unbind("key", key)))
     }
   
     // @LINE:8

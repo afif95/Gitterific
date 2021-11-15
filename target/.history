@@ -24,3 +24,6 @@ sbt
 update
 compile
 run
+sbt 
+compile
+run
