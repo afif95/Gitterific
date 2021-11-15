@@ -4,6 +4,7 @@
 @import dto.formData
 @import dto.Repository
 
+
 @(newUserForm: play.data.Form[formData], repoList: List[Repository])(implicit request: Request, messages: play.i18n.Messages)
 <!-- HTML Head -->
 
@@ -26,7 +27,7 @@
          border: 1px solid black;
         }
         </style>
-    @if(!repoList.isEmpty)    {
+    @if(!repoList.isEmpty & repoList != null)    {
     <table>
         <thead>
           
@@ -38,7 +39,12 @@
         @for(repo <- repoList) {
             
            <tr>
+            <td>@repo.getFull_name()</td>
             <td>@repo.getName()</td>
+            <td><a class="btn btn-link" href="@routes.ApiController.getOwner(repo.getOwner().getLogin())">@repo.getOwner().getLogin()</td>
+            
+            
+           
             
            </tr>
        

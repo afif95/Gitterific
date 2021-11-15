@@ -6,8 +6,9 @@
 GET     /                           controllers.HomeController.index
 
 GET     /index                           controllers.ApiController.index1
+GET 	/owner/:key						controllers.ApiController.getOwner(key: String)
 
-#GET	   /searchQuery/:key               controllers.ApiController.searchQuery(key: String, request: Request)
+
 
 GET 	/home						controllers.ApiController.showRepos(request: Request)
 +nocsrf

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Repository {
 	
-	private String full_name;
+	public String full_name;
 	private String name;
 	private OwnerInfo Owner;
 	private List<String> topics;
