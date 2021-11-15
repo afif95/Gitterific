@@ -1,7 +1,7 @@
-[0m[[0m[31merror[0m] [0m[0m/Users/roxanetissier/git/NAgr3/app/views/home.scala.html:41:111: illegal start of simple expression[0m
-[0m[[0m[31merror[0m] [0m[0m            <td><a class="btn btn-link" href="@routes.ApiController.getRepository(repo.getOwner().getLogin(), @repo.getName())">@repo.getFull_name()</td>[0m
-[0m[[0m[31merror[0m] [0m[0m                                                                                                              ^[0m
-[0m[[0m[31merror[0m] [0m[0m/Users/roxanetissier/git/NAgr3/app/views/home.scala.html:51:9: ')' expected but '}' found.[0m
-[0m[[0m[31merror[0m] [0m[0m        [0m
-[0m[[0m[31merror[0m] [0m[0m        ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/roxanetissier/git/NAgr3/app/views/repository.scala.html:25:3: illegal start of simple expression[0m
+[0m[[0m[31merror[0m] [0m[0m	@val result = null[0m
+[0m[[0m[31merror[0m] [0m[0m	 ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/roxanetissier/git/NAgr3/app/views/repository.scala.html:115:8: ')' expected but '}' found.[0m
+[0m[[0m[31merror[0m] [0m[0m</body>[0m
+[0m[[0m[31merror[0m] [0m[0m       ^[0m
 [0m[[0m[31merror[0m] [0m[0mtwo errors found[0m

@@ -199,6 +199,7 @@ public class ApiController extends Controller {
 			        	JsonNode owner = jd.get("owner");
 			        	PublicRepositoryInfo repo = Json.fromJson(jd, PublicRepositoryInfo.class);
 			        	PublicOwnerInfo p = Json.fromJson(owner, PublicOwnerInfo.class);
+			        	//return ok(result.asJson());
 			        	return ok(views.html.repository.render(repo, p));
 			        });
 		  

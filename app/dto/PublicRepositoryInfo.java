@@ -71,10 +71,10 @@ public class PublicRepositoryInfo {
 	 public boolean archived;
 	 public boolean disabled;
 	 public float open_issues_count;
-	 public String license = null;
+	 public Object LicenseObject;	 
 	 public boolean allow_forking;
 	 public boolean is_template;
-	 ArrayList < Object > topics = new ArrayList < Object > ();
+	 public ArrayList < Object > topics = new ArrayList < Object > ();
 	 public String visibility;
 	 public float forks;
 	 public float open_issues;
