@@ -1,5 +1,7 @@
-[0m[[0m[31merror[0m] [0m[0mC:\Users\rimsh\Desktop\Project_app\NAgr3\app\views\home.scala.html:43:23: value full_Name is not a member of dto.Repository[0m
-[0m[[0m[31merror[0m] [0m[0mdid you mean full_name?[0m
-[0m[[0m[31merror[0m] [0m[0m            <td>@repo.full_Name</td>[0m
-[0m[[0m[31merror[0m] [0m[0m                      ^[0m
-[0m[[0m[31merror[0m] [0m[0mone error found[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/roxanetissier/git/NAgr3/app/views/home.scala.html:41:111: illegal start of simple expression[0m
+[0m[[0m[31merror[0m] [0m[0m            <td><a class="btn btn-link" href="@routes.ApiController.getRepository(repo.getOwner().getLogin(), @repo.getName())">@repo.getFull_name()</td>[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                                                              ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/roxanetissier/git/NAgr3/app/views/home.scala.html:51:9: ')' expected but '}' found.[0m
+[0m[[0m[31merror[0m] [0m[0m        [0m
+[0m[[0m[31merror[0m] [0m[0m        ^[0m
+[0m[[0m[31merror[0m] [0m[0mtwo errors found[0m

@@ -12,6 +12,7 @@ import com.typesafe.config.ConfigFactory;
 import dto.Repository;
 import dto.formData;
 import dto.PublicOwnerInfo;
+import dto.PublicRepositoryInfo;
 import play.libs.ws.*;
 import views.html.*;
 
@@ -190,6 +191,18 @@ public class ApiController extends Controller {
 		  
 	  }
 	  
+	  public CompletionStage<Result> getRepository(String searchKey, String SearchRepo) {
+		  return ws.url(baseUrl + "/repos/"+ searchKey + "/" + SearchRepo)
+			        .get()
+			        .thenApplyAsync(result -> {	
+			        	JsonNode jd =  result.asJson();
+			        	JsonNode owner = jd.get("owner");
+			        	PublicRepositoryInfo repo = Json.fromJson(jd, PublicRepositoryInfo.class);
+			        	PublicOwnerInfo p = Json.fromJson(owner, PublicOwnerInfo.class);
+			        	return ok(views.html.repository.render(repo, p));
+			        });
+		  
+	  }
 
 	  
 	/*   public CompletionStage<Repository> getRepos(final String keywords) {

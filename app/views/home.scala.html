@@ -1,4 +1,3 @@
-
 @import helper._
 @import play.mvc.Http.Request
 @import dto.formData
@@ -39,7 +38,7 @@
         @for(repo <- repoList) {
             
            <tr>
-            <td>@repo.getFull_name()</td>
+            <td><a class="btn btn-link" href="@routes.ApiController.getRepository(repo.getOwner().getLogin(), repo.getName())">@repo.getFull_name()</td>
             <td>@repo.getName()</td>
             <td><a class="btn btn-link" href="@routes.ApiController.getOwner(repo.getOwner().getLogin())">@repo.getOwner().getLogin()</td>
             

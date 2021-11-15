@@ -18,7 +18,7 @@ package controllers.javascript {
     }
 
   
-    // @LINE:19
+    // @LINE:20
     def time: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.HomeController.time",
       """
@@ -38,7 +38,7 @@ package controllers.javascript {
       """
     )
   
-    // @LINE:18
+    // @LINE:19
     def tutorial: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.HomeController.tutorial",
       """
@@ -48,7 +48,7 @@ package controllers.javascript {
       """
     )
   
-    // @LINE:17
+    // @LINE:18
     def explore: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.HomeController.explore",
       """
@@ -60,7 +60,7 @@ package controllers.javascript {
   
   }
 
-  // @LINE:23
+  // @LINE:24
   class ReverseAssets(_prefix: => String) {
 
     def _defaultPrefix: String = {
@@ -68,7 +68,7 @@ package controllers.javascript {
     }
 
   
-    // @LINE:23
+    // @LINE:24
     def versioned: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.Assets.versioned",
       """
@@ -88,7 +88,17 @@ package controllers.javascript {
     }
 
   
-    // @LINE:15
+    // @LINE:10
+    def getRepository: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.ApiController.getRepository",
+      """
+        function(key0,repo1) {
+          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "repository/" + encodeURIComponent((""" + implicitly[play.api.mvc.PathBindable[String]].javascriptUnbind + """)("key", key0)) + "/" + encodeURIComponent((""" + implicitly[play.api.mvc.PathBindable[String]].javascriptUnbind + """)("repo", repo1))})
+        }
+      """
+    )
+  
+    // @LINE:16
     def fetchRepos: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.ApiController.fetchRepos",
       """
@@ -98,7 +108,17 @@ package controllers.javascript {
       """
     )
   
-    // @LINE:13
+    // @LINE:8
+    def index1: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.ApiController.index1",
+      """
+        function() {
+          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "index"})
+        }
+      """
+    )
+  
+    // @LINE:14
     def showRepos: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.ApiController.showRepos",
       """
@@ -114,16 +134,6 @@ package controllers.javascript {
       """
         function(key0) {
           return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "owner/" + encodeURIComponent((""" + implicitly[play.api.mvc.PathBindable[String]].javascriptUnbind + """)("key", key0))})
-        }
-      """
-    )
-  
-    // @LINE:8
-    def index1: JavaScriptReverseRoute = JavaScriptReverseRoute(
-      "controllers.ApiController.index1",
-      """
-        function() {
-          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "index"})
         }
       """
     )

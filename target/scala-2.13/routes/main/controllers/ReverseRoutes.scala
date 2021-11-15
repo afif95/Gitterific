@@ -17,7 +17,7 @@ package controllers {
     }
 
   
-    // @LINE:19
+    // @LINE:20
     def time: Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "time")
@@ -29,13 +29,13 @@ package controllers {
       Call("GET", _prefix)
     }
   
-    // @LINE:18
+    // @LINE:19
     def tutorial: Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "tutorial")
     }
   
-    // @LINE:17
+    // @LINE:18
     def explore: Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "explore")
@@ -43,14 +43,14 @@ package controllers {
   
   }
 
-  // @LINE:23
+  // @LINE:24
   class ReverseAssets(_prefix: => String) {
     def _defaultPrefix: String = {
       if (_prefix.endsWith("/")) "" else "/"
     }
 
   
-    // @LINE:23
+    // @LINE:24
     def versioned(file:Asset): Call = {
       implicit lazy val _rrc = new play.core.routing.ReverseRouteContext(Map(("path", "/public"))); _rrc
       Call("GET", _prefix + { _defaultPrefix } + "assets/" + implicitly[play.api.mvc.PathBindable[Asset]].unbind("file", file))
@@ -65,13 +65,25 @@ package controllers {
     }
 
   
-    // @LINE:15
+    // @LINE:10
+    def getRepository(key:String, repo:String): Call = {
+      
+      Call("GET", _prefix + { _defaultPrefix } + "repository/" + play.core.routing.dynamicString(implicitly[play.api.mvc.PathBindable[String]].unbind("key", key)) + "/" + play.core.routing.dynamicString(implicitly[play.api.mvc.PathBindable[String]].unbind("repo", repo)))
+    }
+  
+    // @LINE:16
     def fetchRepos(): Call = {
       
       Call("POST", _prefix + { _defaultPrefix } + "home")
     }
   
-    // @LINE:13
+    // @LINE:8
+    def index1: Call = {
+      
+      Call("GET", _prefix + { _defaultPrefix } + "index")
+    }
+  
+    // @LINE:14
     def showRepos(): Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "home")
@@ -81,12 +93,6 @@ package controllers {
     def getOwner(key:String): Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "owner/" + play.core.routing.dynamicString(implicitly[play.api.mvc.PathBindable[String]].unbind("key", key)))
-    }
-  
-    // @LINE:8
-    def index1: Call = {
-      
-      Call("GET", _prefix + { _defaultPrefix } + "index")
     }
   
   }

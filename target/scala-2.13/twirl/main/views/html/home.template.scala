@@ -20,43 +20,42 @@ import play.api.data.Field
 import play.data._
 import play.core.j.PlayFormsMagicForJava._
 import scala.jdk.CollectionConverters._
-/*2.2*/import helper._
-/*3.2*/import play.mvc.Http.Request
-/*4.2*/import dto.formData
-/*5.2*/import dto.Repository
+/*1.2*/import helper._
+/*2.2*/import play.mvc.Http.Request
+/*3.2*/import dto.formData
+/*4.2*/import dto.Repository
 
 object home extends _root_.play.twirl.api.BaseScalaTemplate[play.twirl.api.HtmlFormat.Appendable,_root_.play.twirl.api.Format[play.twirl.api.HtmlFormat.Appendable]](play.twirl.api.HtmlFormat) with _root_.play.twirl.api.Template4[play.data.Form[formData],List[Repository],Request,play.i18n.Messages,play.twirl.api.HtmlFormat.Appendable] {
 
   /**/
-  def apply/*8.2*/(newUserForm: play.data.Form[formData], repoList: List[Repository])(implicit request: Request, messages: play.i18n.Messages):play.twirl.api.HtmlFormat.Appendable = {
+  def apply/*7.2*/(newUserForm: play.data.Form[formData], repoList: List[Repository])(implicit request: Request, messages: play.i18n.Messages):play.twirl.api.HtmlFormat.Appendable = {
     _display_ {
       {
 
 
-Seq[Any](format.raw/*8.126*/("""
-"""),format.raw/*9.1*/("""<!-- HTML Head -->
+Seq[Any](format.raw/*8.1*/("""<!-- HTML Head -->
 
 
 
 <body>
    		<h1> Welcome to Gitterific! </h1>
-   		"""),_display_(/*15.7*/helper/*15.13*/.form(action = routes.ApiController.fetchRepos())/*15.62*/ {_display_(Seq[Any](format.raw/*15.64*/("""
-        """),_display_(/*16.10*/helper/*16.16*/.inputText(newUserForm("searchInput"))),format.raw/*16.54*/("""
-        """),format.raw/*17.9*/("""<button type="submit" class="btn btn-primary btn-block">Search</button>
+   		"""),_display_(/*14.7*/helper/*14.13*/.form(action = routes.ApiController.fetchRepos())/*14.62*/ {_display_(Seq[Any](format.raw/*14.64*/("""
+        """),_display_(/*15.10*/helper/*15.16*/.inputText(newUserForm("searchInput"))),format.raw/*15.54*/("""
+        """),format.raw/*16.9*/("""<button type="submit" class="btn btn-primary btn-block">Search</button>
 
        
         
-    """)))}),format.raw/*21.6*/("""
+    """)))}),format.raw/*20.6*/("""
 
 
 
-    """),format.raw/*25.5*/("""<style>
-        table, th, td """),format.raw/*26.23*/("""{"""),format.raw/*26.24*/("""
-         """),format.raw/*27.10*/("""border: 1px solid black;
-        """),format.raw/*28.9*/("""}"""),format.raw/*28.10*/("""
-        """),format.raw/*29.9*/("""</style>
-    """),_display_(/*30.6*/if(!repoList.isEmpty & repoList != null)/*30.46*/    {_display_(Seq[Any](format.raw/*30.51*/("""
-    """),format.raw/*31.5*/("""<table>
+    """),format.raw/*24.5*/("""<style>
+        table, th, td """),format.raw/*25.23*/("""{"""),format.raw/*25.24*/("""
+         """),format.raw/*26.10*/("""border: 1px solid black;
+        """),format.raw/*27.9*/("""}"""),format.raw/*27.10*/("""
+        """),format.raw/*28.9*/("""</style>
+    """),_display_(/*29.6*/if(!repoList.isEmpty & repoList != null)/*29.46*/    {_display_(Seq[Any](format.raw/*29.51*/("""
+    """),format.raw/*30.5*/("""<table>
         <thead>
           
         </thead>
@@ -64,26 +63,26 @@ Seq[Any](format.raw/*8.126*/("""
 
         
         
-        """),_display_(/*39.10*/for(repo <- repoList) yield /*39.31*/ {_display_(Seq[Any](format.raw/*39.33*/("""
+        """),_display_(/*38.10*/for(repo <- repoList) yield /*38.31*/ {_display_(Seq[Any](format.raw/*38.33*/("""
             
-           """),format.raw/*41.12*/("""<tr>
-            <td>"""),_display_(/*42.18*/repo/*42.22*/.getFull_name()),format.raw/*42.37*/("""</td>
-            <td>"""),_display_(/*43.18*/repo/*43.22*/.getName()),format.raw/*43.32*/("""</td>
-            <td><a class="btn btn-link" href=""""),_display_(/*44.48*/routes/*44.54*/.ApiController.getOwner(repo.getOwner().getLogin())),format.raw/*44.105*/("""">"""),_display_(/*44.108*/repo/*44.112*/.getOwner().getLogin()),format.raw/*44.134*/("""</td>
+           """),format.raw/*40.12*/("""<tr>
+            <td><a class="btn btn-link" href=""""),_display_(/*41.48*/routes/*41.54*/.ApiController.getRepository(repo.getOwner().getLogin(), repo.getName())),format.raw/*41.126*/("""">"""),_display_(/*41.129*/repo/*41.133*/.getFull_name()),format.raw/*41.148*/("""</td>
+            <td>"""),_display_(/*42.18*/repo/*42.22*/.getName()),format.raw/*42.32*/("""</td>
+            <td><a class="btn btn-link" href=""""),_display_(/*43.48*/routes/*43.54*/.ApiController.getOwner(repo.getOwner().getLogin())),format.raw/*43.105*/("""">"""),_display_(/*43.108*/repo/*43.112*/.getOwner().getLogin()),format.raw/*43.134*/("""</td>
             
             
            
             
            </tr>
        
-        """)))}),format.raw/*51.10*/("""
+        """)))}),format.raw/*50.10*/("""
         
-        """),format.raw/*53.9*/("""</tbody>
+        """),format.raw/*52.9*/("""</tbody>
        
     </table>
-""")))}),format.raw/*56.2*/("""
+""")))}),format.raw/*55.2*/("""
 
-"""),format.raw/*58.1*/("""</body>
+"""),format.raw/*57.1*/("""</body>
 
 """))
       }
@@ -102,9 +101,9 @@ Seq[Any](format.raw/*8.126*/("""
               /*
                   -- GENERATED --
                   SOURCE: app/views/home.scala.html
-                  HASH: 7a790660f9881ba18f9e44a47807158b411d63b7
-                  MATRIX: 610->3|633->21|669->52|696->74|1083->102|1303->226|1331->228|1437->308|1452->314|1510->363|1550->365|1588->376|1603->382|1662->420|1699->430|1828->529|1867->541|1926->572|1955->573|1994->584|2055->618|2084->619|2121->629|2162->644|2211->684|2254->689|2287->695|2418->799|2455->820|2495->822|2550->849|2600->872|2613->876|2649->891|2700->915|2713->919|2744->929|2825->983|2840->989|2913->1040|2944->1043|2958->1047|3002->1069|3131->1167|3178->1187|3242->1221|3273->1225
-                  LINES: 23->2|24->3|25->4|26->5|31->8|36->8|37->9|43->15|43->15|43->15|43->15|44->16|44->16|44->16|45->17|49->21|53->25|54->26|54->26|55->27|56->28|56->28|57->29|58->30|58->30|58->30|59->31|67->39|67->39|67->39|69->41|70->42|70->42|70->42|71->43|71->43|71->43|72->44|72->44|72->44|72->44|72->44|72->44|79->51|81->53|84->56|86->58
+                  HASH: 112a89ae8e25b82c283e7f3d7448cf409cbb9d63
+                  MATRIX: 610->1|633->18|669->48|696->69|1083->94|1301->219|1401->293|1416->299|1474->348|1514->350|1551->360|1566->366|1625->404|1661->413|1786->508|1821->516|1879->546|1908->547|1946->557|2006->590|2035->591|2071->600|2111->614|2160->654|2203->659|2235->664|2358->760|2395->781|2435->783|2488->808|2567->860|2582->866|2676->938|2707->941|2721->945|2758->960|2808->983|2821->987|2852->997|2932->1050|2947->1056|3020->1107|3051->1110|3065->1114|3109->1136|3231->1227|3276->1245|3337->1276|3366->1278
+                  LINES: 23->1|24->2|25->3|26->4|31->7|36->8|42->14|42->14|42->14|42->14|43->15|43->15|43->15|44->16|48->20|52->24|53->25|53->25|54->26|55->27|55->27|56->28|57->29|57->29|57->29|58->30|66->38|66->38|66->38|68->40|69->41|69->41|69->41|69->41|69->41|69->41|70->42|70->42|70->42|71->43|71->43|71->43|71->43|71->43|71->43|78->50|80->52|83->55|85->57
                   -- GENERATED --
               */
           
