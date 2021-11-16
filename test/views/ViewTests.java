@@ -1,14 +1,17 @@
 package views;
-import pages.HomePage;
-
+import play.test.WithApplication;
+import play.twirl.api.Content;
+import views.html.*;
 import static org.junit.Assert.assertEquals;
 
 import static play.test.Helpers.*;
 import org.junit.Test;
 
-class ViewTests {
+import controllers.routes;
 
-	@Test
+class ViewTests extends WithApplication{
+
+	/*@Test
 	void testHome() {
 		running(testServer(9002, fakeApplication(inMemoryDatabase())), HTMLUNIT, new Callback<TestBrowser>() {
 			public void invoke(TestBrowser browser) {
@@ -19,5 +22,12 @@ class ViewTests {
 		});
 		
 	}
+	
+	@Test
+	public void renderTemplate() {
+	   Content html = views.html.;//views.html.home.render();
+	  assertEquals("text/html", html.contentType());
+	  //assertTrue(contentAsString(html).contains("Welcome to Play!"));
+	}*/
 
 }

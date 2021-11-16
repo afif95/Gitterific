@@ -178,7 +178,7 @@ public class ApiController extends Controller {
 	  
 	  
 	  
-	  public Repository convertToRepo(JsonNode str) {
+	  public static Repository convertToRepo(JsonNode str) {
 		  return Json.fromJson(str, Repository.class);
 	  }
 	  

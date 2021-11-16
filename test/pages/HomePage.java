@@ -1,5 +1,5 @@
 package pages;
-import org.openqa.selenium.WebDriver;
+/*import org.openqa.selenium.WebDriver;
 import org.fluentlenium.core.FluentPage;
 
 public class HomePage extends FluentPage {
@@ -14,9 +14,10 @@ public class HomePage extends FluentPage {
 		return this.url;
 	}
 
-	/*public void isAt() {
+	public void isAt() {
 		assert(h1().equals("Welcome to Gitterific!"));
-	}*/
+	}
 	
 	
 }
+*/
