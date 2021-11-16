@@ -1,4 +1,4 @@
-[0m[[0m[31merror[0m] [0m[0mC:\Users\rimsh\Desktop\Project_app3\NAgr3\app\controllers\ApiController.java:16:1: cannot find symbol[0m
-[0m[[0m[31merror[0m] [0m[0m  symbol:   class RepoProfile[0m
-[0m[[0m[31merror[0m] [0m[0m  location: package dto[0m
-[0m[[0m[31merror[0m] [0m[0mdto.RepoProfile[0m
+[0m[[0m[31merror[0m] [0m[0mC:\Users\rimsh\Desktop\Project_app4\NAgr3\app\controllers\ApiController.java:261:1: cannot find symbol[0m
+[0m[[0m[31merror[0m] [0m[0m  symbol:   variable s1[0m
+[0m[[0m[31merror[0m] [0m[0m  location: class controllers.ApiController[0m
+[0m[[0m[31merror[0m] [0m[0ms1[0m
