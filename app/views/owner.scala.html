@@ -4,7 +4,7 @@
 @import dto.PublicOwnerInfo
 
 
-@(owner: PublicOwnerInfo)
+@(owner: PublicOwnerInfo, repos: List[String])
 <!-- HTML Head -->
 
 
@@ -55,6 +55,16 @@
     <p>following: @owner.following;
     <p>created_at: @owner.created_at;
     <p>updated_at: @owner.updated_at;
+    
+    <h1>Public Repos </h1>
+    
+    @if(!repos.isEmpty | repos != null)    {
+    	@for(repo <- repos) {
+    		<p> @repo </p>
+    	}
+    
+    
+    }
     
     
 </body>
