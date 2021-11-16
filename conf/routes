@@ -10,6 +10,8 @@ GET     /index                           controllers.ApiController.index1
 GET 	/owner/:key						controllers.ApiController.getOwner(key: String)
 GET 	/rep/:key						controllers.ApiController.getOwnerRepos(key: String)
 
+GET 	/topics/:key						controllers.ApiController.getReposByTopic(key: String)
+
 
 GET 	/repository/:key/:repo				controllers.ApiController.getRepository(key: String, repo: String)
 

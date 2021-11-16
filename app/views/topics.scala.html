@@ -4,20 +4,14 @@
 @import dto.Repository
 
 
-@(newUserForm: play.data.Form[formData], repoList: List[Repository])(implicit request: Request, messages: play.i18n.Messages)
+@(repoList: List[Repository])
 <!-- HTML Head -->
 
 
 
 <body>
-   		<h1> Welcome to Gitterific! </h1>
-   		@helper.form(action = routes.ApiController.fetchRepos()) {
-        @helper.inputText(newUserForm("searchInput"))
-        <button type="submit" class="btn btn-primary btn-block">Search</button>
+   		<h1>Search by Topics</h1>
 
-       
-        
-    }
 
 
 
@@ -26,8 +20,8 @@
          border: 1px solid black;
         }
         </style>
-    @if(!repoList.isEmpty | repoList != null)    {
-    <table style="width: 100%">
+    @if(repoList != null && !repoList.isEmpty)    {
+    <table  style="width: 100%">
 
         <colgroup>
             <col span="1" style="width: 25%;">
@@ -35,11 +29,14 @@
             <col span="1" style="width: 50%;">
          </colgroup>
 
-         
+
         <thead>
-            <th>User</th>
-            <th>Repository</th>
-            <th>Topics</th>
+            <tr>
+                <th>User</th>
+                <th>Repository</th>
+                <th>Topics</th>
+
+              </tr>
         </thead>
         <tbody>
 
@@ -58,6 +55,7 @@
 
 
             </td>
+            
             
             
             
