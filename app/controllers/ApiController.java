@@ -68,14 +68,7 @@ public class ApiController extends Controller {
 	private HashMap <String, PublicOwnerInfo> ownerMap;
 	String baseUrl = "https://api.github.com";
 
-		
 
-	  /**
-	   * Class constructor
-	   * @param ws an object of WSClient
-	   * @param formFactory an object of FormFactory
-	   * @param messagesApi an object of MessagesApi
-	   */
 
     
 	  @Inject
@@ -96,53 +89,30 @@ public class ApiController extends Controller {
 	        return ok(views.html.index.render());
 	    }
 	  
-
-	  
-	  /**
-	   * An action that renders an HTML page with search bar and search results for GitHub.
-	   * The configuration in the <code>routes</code> file means that
-	   * this method will be called when the application receives a
-	   * <code>GET</code> request with a path of <code>/home</code>. 
-	   * The method adds a key value pair to the request to identify 
-	   * different sessions if one doesn't exists before.
-	   * Finally, <code>CompletionStage<Result><code> is returned.
-	   * 
-	   * @author Amrit/Rimsha
-	   * @param request
-	   * @return CompletionStage<Result>
-	   */
+	/*  public Result home(Request request) {
+		  List<Repository> repoList = Repository.getRepos();
+	        return ok(views.html.home.render(formFactory.form(formData.class), repoList, messagesApi.preferred(request)));
+	   }*/
 	  
 	  public CompletionStage<Result> showRepos(Request request) {
 		  	String uid;
 		  	 if((request.session().get("id")).isPresent()) {
-		  		 return CompletableFuture.completedFuture(ok(views.html.home.render(form, user_searches.get(request.session().get("id").get()), request, messagesApi.preferred(request))));
+		  		List<Repository> tmp = user_searches.get(request.session().get("id").get());
+		  		if(tmp == null) {
+		  			tmp = new ArrayList<>();
+		  		}
+		  		 return CompletableFuture.completedFuture(ok(views.html.home.render(form, tmp, request, messagesApi.preferred(request))));
 		  	 }
 		  	 else {
 		  		id=id+1;
 		    	uid = id.toString();
 		    	List<Repository> repo = new ArrayList<>();
-		    	
+		    	//Optional<List<Repository>> opt_list = Optional.ofNullable(repo); 
 		    	user_searches.put(uid, repo);
 		        return CompletableFuture.completedFuture(ok(views.html.home.render(form, repo, request, messagesApi.preferred(request))).addingToSession(request, "id",uid));
+		    	//return CompletableFuture.completedFuture(ok(Json.toJson(uid)).addingToSession(request, "id",uid));
 		  	 }
 		}
-	  
-	  
-	  
-	  /**
-	   * An action that renders an HTML page with search bar and search results for GitHub.
-	   * The configuration in the <code>views.home.scala</code> file means that
-	   * this method will be called when the application receives a
-	   * search request for GitHub repositories. 
-	   * The method hits the GitHub api and processes the results asynchronously.
-	   * The <code>json<code> from the api is converted into a java object using streams.
-	   * Finally, <code>CompletionStage<Result><code> is returned.
-	   * 
-	   * @author Amrit/Rimsha
-	   * @param request a request that has search parameter
-	   * @return CompletionStage<Result>
-	   */
-	  
 	  
 		public CompletionStage<Result> fetchRepos(Request request) {
 			final Form<formData> bindedForm = form.bindFromRequest(request);
@@ -150,35 +120,29 @@ public class ApiController extends Controller {
 			if (bindedForm.hasErrors()) {
 				return CompletableFuture.completedFuture(badRequest(views.html.home.render(bindedForm, repos, request, messagesApi.preferred(request))));
 			} else {
-				
+				//return CompletableFuture.supplyAsync(() -> {
 				formData data = bindedForm.get();
 				
+				//IMPLEMENT IF CACH
+				/*if(all_searches.get(data.searchInput) != null) {
+					user_searches.put(data.searchInput, all_searches.get(data.searchInput));
+					
+				}*/
 
 				try {
 					
 					String searchVal = data.searchInput;
 					
 					
-					return ws.url(baseUrl + "/search/repositories?q="+ searchVal  + "&per_page=5")
+					return ws.url(baseUrl + "/search/repositories?q="+ searchVal  + "&per_page=5&sort=updated")
 			        .get()
 			        
 			        .thenApply(r -> {
 			        				        	
 			        	List<Repository> list = StreamSupport.stream( r.asJson().get("items").spliterator(), false)
-			                    .map(sObj -> convertToRepo(sObj))
+			                    .map(sObj -> Json.fromJson(sObj, Repository.class))
 			                    .collect(Collectors.toList());
-			        	
-			        	//repos.addAll(list); 
-			        	
-			        	/*JsonNode jd =  r.asJson().findValue("items");
-			        	List<Repository> repo = new ArrayList<>(); 
-			        	for(JsonNode a : jd) {
-			        		Repository ris = Json.fromJson(a, Repository.class);
-			        		repo.add(ris);
-			        	} 
-
-			        	repos.addAll(repo); */
-			  		    //List<Repository> repoList = Repository.getRepos();
+	
 			        	return list;
 			        }).thenApply(list -> {
 			        	String s = request.session().get("id").get();
@@ -190,6 +154,11 @@ public class ApiController extends Controller {
 			        	}*/
 
 			        	//repos.addAll(list);
+			        	
+			        	List<Repository> tmp = user_searches.get(s);
+			        	if(tmp ==  null) {
+			        		user_searches.put(s, new ArrayList<Repository>());
+			        	}
 			        	user_searches.get(s).addAll(list);
 			        	return user_searches.get(s);
 			        }).thenApply(m -> redirect(routes.ApiController.showRepos()));
@@ -205,28 +174,10 @@ public class ApiController extends Controller {
 	    
 	  
 	  
-		/**
-		   * This method converts JsonNode into an object of <code>Repository class<code>
-		   * @author Amrit
-		   * @param str 
-		   * @return Respository object of Repository that stores respository's information
-		   */
-		
-	  public static Repository convertToRepo(JsonNode str) {
-		  return Json.fromJson(str, Repository.class);
-	  }
 	  
-	  /**
-	   * An action that redirects to <code>getOwnerRepos<code> method.
-	   * This will be called when a user clicks on the owner's name on the
-	   * search results page.
-	   * This method gets all the public information of an owner and binds it
-	   * to an object of <code>PublicOwnerInfo class<code>
-	   * 
-	   * @author Rimsha
-	   * @param searchKey the login of the owner 
-	   * @return CompletionStage<Result>
-	   */
+	/*  public static Repository convertToRepo(JsonNode str) {
+		  return Json.fromJson(str, Repository.class);
+	  } */
 	  
 	  public CompletionStage<Result> getOwner(String searchKey) {
 		  return ws.url(baseUrl + "/users/"+ searchKey)
@@ -242,25 +193,12 @@ public class ApiController extends Controller {
 		  
 	  }
 	  
-	  /**
-	   * An action that returns the Owner's Profile Page.
-	   * This will be called from <code>getOwner<code> method to fetch
-	   * the name of the given owner's public repositories.
-	   * 
-	   * @author Rimsha
-	   * @param searchKey the login of the owner 
-	   * @return CompletionStage<Result>
-	   */
-	  
 	  public CompletionStage<Result> getOwnerRepos(String searchKey) {
 		  return ws.url(baseUrl + "/users/"+ searchKey+ "/repos")
 			        .get()
 			        .thenApplyAsync(result -> {	
-			        	List<String> s1 = result.asJson().findValues("full_name").stream().map(JsonNode::asText).collect(Collectors.toList());
-			        	List<String> s = new ArrayList<>();
- 			        	for(String a: s1) {
-			        		s.add(a.split("/")[1]);
-			        	}
+			        	//JsonNode jd = ;
+			        	List<String> s = result.asJson().findValues("name").stream().map(JsonNode::asText).collect(Collectors.toList());
 			        	
 			        	return ok(views.html.owner.render(ownerMap.get(searchKey),s));
 			        });
@@ -269,18 +207,7 @@ public class ApiController extends Controller {
 	  
 	  
 	  
-	  /**
-	   * An action that returns the Repository's Profile Page.
-	   * This will be called when a user clicks on a repository's name on the
-	   * search results page or Owner Profile page.
-	   * This method gets all the public information of a repositroy and binds it
-	   * to an object of <code>PublicRepositoryInfo class<code>
-	   * 
-	   * @author Roxane
-	   * @param searchKey owner's login
-	   * @param SearchRepo owner's repository
-	   * @return CompletionStage<Result>
-	   */
+	  
 	  
 	  public CompletionStage<Result> getRepository(String searchKey, String SearchRepo) {
 		  return ws.url(baseUrl + "/repos/"+ searchKey + "/" + SearchRepo)
@@ -295,8 +222,30 @@ public class ApiController extends Controller {
 			        });
 		  
 	  }
+	  
+	  public CompletionStage<Result> getReposByTopic(String searchKey) {
+		  return ws.url(baseUrl + "/search/repositories?q=topic:"+ searchKey + "&sort=updated&per_page=10")
+			        .get()
+			        
+			        .thenApplyAsync(result -> {	
+			        	
+			        	List<Repository> list = StreamSupport.stream( result.asJson().get("items").spliterator(), false)
+			                    .map(sObj -> Json.fromJson(sObj, Repository.class))
+			                    .collect(Collectors.toList());
+	
+			        	//return list;
+			        
+			        	return ok(views.html.topics.render(list));
+			        });
+		  
+	  }
 
 	  
-	
+	/*   public CompletionStage<Repository> getRepos(final String keywords) {
+           return ws.url(baseUrl + "/search/repositories?q="+ keywords + "&per_page=5")
+       	        .get()
+                   .thenApplyAsync(WSResponse::asJson)
+                   .thenApplyAsync(this::convertToRepo);
+   } */
 	        
 }
