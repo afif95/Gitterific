@@ -17,7 +17,7 @@ package controllers {
     }
 
   
-    // @LINE:20
+    // @LINE:24
     def time: Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "time")
@@ -29,13 +29,13 @@ package controllers {
       Call("GET", _prefix)
     }
   
-    // @LINE:19
+    // @LINE:23
     def tutorial: Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "tutorial")
     }
   
-    // @LINE:18
+    // @LINE:22
     def explore: Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "explore")
@@ -43,14 +43,14 @@ package controllers {
   
   }
 
-  // @LINE:24
+  // @LINE:28
   class ReverseAssets(_prefix: => String) {
     def _defaultPrefix: String = {
       if (_prefix.endsWith("/")) "" else "/"
     }
 
   
-    // @LINE:24
+    // @LINE:28
     def versioned(file:Asset): Call = {
       implicit lazy val _rrc = new play.core.routing.ReverseRouteContext(Map(("path", "/public"))); _rrc
       Call("GET", _prefix + { _defaultPrefix } + "assets/" + implicitly[play.api.mvc.PathBindable[Asset]].unbind("file", file))
@@ -65,13 +65,19 @@ package controllers {
     }
 
   
-    // @LINE:10
+    // @LINE:14
     def getRepository(key:String, repo:String): Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "repository/" + play.core.routing.dynamicString(implicitly[play.api.mvc.PathBindable[String]].unbind("key", key)) + "/" + play.core.routing.dynamicString(implicitly[play.api.mvc.PathBindable[String]].unbind("repo", repo)))
     }
   
-    // @LINE:16
+    // @LINE:11
+    def getOwnerRepos(key:String): Call = {
+      
+      Call("GET", _prefix + { _defaultPrefix } + "rep/" + play.core.routing.dynamicString(implicitly[play.api.mvc.PathBindable[String]].unbind("key", key)))
+    }
+  
+    // @LINE:20
     def fetchRepos(): Call = {
       
       Call("POST", _prefix + { _defaultPrefix } + "home")
@@ -83,13 +89,13 @@ package controllers {
       Call("GET", _prefix + { _defaultPrefix } + "index")
     }
   
-    // @LINE:14
+    // @LINE:18
     def showRepos(): Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "home")
     }
   
-    // @LINE:9
+    // @LINE:10
     def getOwner(key:String): Call = {
       
       Call("GET", _prefix + { _defaultPrefix } + "owner/" + play.core.routing.dynamicString(implicitly[play.api.mvc.PathBindable[String]].unbind("key", key)))

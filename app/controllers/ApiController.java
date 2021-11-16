@@ -65,6 +65,7 @@ public class ApiController extends Controller {
 	private Integer id = 0;
 	private HashMap <String, List<Repository>> user_searches;
 	private HashMap <String, List<Repository>> all_searches;
+	private HashMap <String, PublicOwnerInfo> ownerMap;
 	String baseUrl = "https://api.github.com";
 
 
@@ -79,6 +80,7 @@ public class ApiController extends Controller {
 	    //this.id = id;
 	    this.user_searches = new HashMap<>();
 	    this.all_searches = new HashMap<>();
+	    this.ownerMap= new HashMap<>();
 	    
 	  }
 	  
@@ -186,10 +188,28 @@ public class ApiController extends Controller {
 			        .thenApplyAsync(result -> {	
 			        	JsonNode jd =  result.asJson();
 			        	PublicOwnerInfo p = Json.fromJson(jd, PublicOwnerInfo.class);
-			        	return ok(views.html.owner.render(p));
+			        	if(!ownerMap.containsKey(searchKey)) {
+			        		ownerMap.put(searchKey, p);
+			        	}
+			        	return redirect(routes.ApiController.getOwnerRepos(searchKey));
 			        });
 		  
 	  }
+	  
+	  public CompletionStage<Result> getOwnerRepos(String searchKey) {
+		  return ws.url(baseUrl + "/users/"+ searchKey+ "/repos")
+			        .get()
+			        .thenApplyAsync(result -> {	
+			        	//JsonNode jd = ;
+			        	List<String> s = result.asJson().findValues("full_name").stream().map(JsonNode::asText).collect(Collectors.toList());
+			        	
+			        	return ok(views.html.owner.render(ownerMap.get(searchKey),s));
+			        });
+		   
+	  }
+	  
+	  
+	  
 	  
 	  public CompletionStage<Result> getRepository(String searchKey, String SearchRepo) {
 		  return ws.url(baseUrl + "/repos/"+ searchKey + "/" + SearchRepo)

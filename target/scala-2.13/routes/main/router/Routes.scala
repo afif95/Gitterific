@@ -17,7 +17,7 @@ class Routes(
   HomeController_2: controllers.HomeController,
   // @LINE:8
   ApiController_0: controllers.ApiController,
-  // @LINE:24
+  // @LINE:28
   Assets_1: controllers.Assets,
   val prefix: String
 ) extends GeneratedRouter {
@@ -28,7 +28,7 @@ class Routes(
     HomeController_2: controllers.HomeController,
     // @LINE:8
     ApiController_0: controllers.ApiController,
-    // @LINE:24
+    // @LINE:28
     Assets_1: controllers.Assets
   ) = this(errorHandler, HomeController_2, ApiController_0, Assets_1, "/")
 
@@ -46,6 +46,7 @@ class Routes(
     ("""GET""", this.prefix, """controllers.HomeController.index"""),
     ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """index""", """controllers.ApiController.index1"""),
     ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """owner/""" + "$" + """key<[^/]+>""", """controllers.ApiController.getOwner(key:String)"""),
+    ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """rep/""" + "$" + """key<[^/]+>""", """controllers.ApiController.getOwnerRepos(key:String)"""),
     ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """repository/""" + "$" + """key<[^/]+>/""" + "$" + """repo<[^/]+>""", """controllers.ApiController.getRepository(key:String, repo:String)"""),
     ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """home""", """controllers.ApiController.showRepos(request:Request)"""),
     ("""POST""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """home""", """controllers.ApiController.fetchRepos(request:Request)"""),
@@ -96,7 +97,7 @@ class Routes(
     )
   )
 
-  // @LINE:9
+  // @LINE:10
   private[this] lazy val controllers_ApiController_getOwner2_route = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("owner/"), DynamicPart("key", """[^/]+""",true)))
   )
@@ -114,11 +115,29 @@ class Routes(
     )
   )
 
-  // @LINE:10
-  private[this] lazy val controllers_ApiController_getRepository3_route = Route("GET",
+  // @LINE:11
+  private[this] lazy val controllers_ApiController_getOwnerRepos3_route = Route("GET",
+    PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("rep/"), DynamicPart("key", """[^/]+""",true)))
+  )
+  private[this] lazy val controllers_ApiController_getOwnerRepos3_invoker = createInvoker(
+    ApiController_0.getOwnerRepos(fakeValue[String]),
+    play.api.routing.HandlerDef(this.getClass.getClassLoader,
+      "router",
+      "controllers.ApiController",
+      "getOwnerRepos",
+      Seq(classOf[String]),
+      "GET",
+      this.prefix + """rep/""" + "$" + """key<[^/]+>""",
+      """""",
+      Seq()
+    )
+  )
+
+  // @LINE:14
+  private[this] lazy val controllers_ApiController_getRepository4_route = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("repository/"), DynamicPart("key", """[^/]+""",true), StaticPart("/"), DynamicPart("repo", """[^/]+""",true)))
   )
-  private[this] lazy val controllers_ApiController_getRepository3_invoker = createInvoker(
+  private[this] lazy val controllers_ApiController_getRepository4_invoker = createInvoker(
     ApiController_0.getRepository(fakeValue[String], fakeValue[String]),
     play.api.routing.HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -132,11 +151,11 @@ class Routes(
     )
   )
 
-  // @LINE:14
-  private[this] lazy val controllers_ApiController_showRepos4_route = Route("GET",
+  // @LINE:18
+  private[this] lazy val controllers_ApiController_showRepos5_route = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("home")))
   )
-  private[this] lazy val controllers_ApiController_showRepos4_invoker = createInvoker(
+  private[this] lazy val controllers_ApiController_showRepos5_invoker = createInvoker(
     
     (req:play.mvc.Http.Request) =>
       ApiController_0.showRepos(fakeValue[play.mvc.Http.Request]),
@@ -152,11 +171,11 @@ class Routes(
     )
   )
 
-  // @LINE:16
-  private[this] lazy val controllers_ApiController_fetchRepos5_route = Route("POST",
+  // @LINE:20
+  private[this] lazy val controllers_ApiController_fetchRepos6_route = Route("POST",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("home")))
   )
-  private[this] lazy val controllers_ApiController_fetchRepos5_invoker = createInvoker(
+  private[this] lazy val controllers_ApiController_fetchRepos6_invoker = createInvoker(
     
     (req:play.mvc.Http.Request) =>
       ApiController_0.fetchRepos(fakeValue[play.mvc.Http.Request]),
@@ -172,11 +191,11 @@ class Routes(
     )
   )
 
-  // @LINE:18
-  private[this] lazy val controllers_HomeController_explore6_route = Route("GET",
+  // @LINE:22
+  private[this] lazy val controllers_HomeController_explore7_route = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("explore")))
   )
-  private[this] lazy val controllers_HomeController_explore6_invoker = createInvoker(
+  private[this] lazy val controllers_HomeController_explore7_invoker = createInvoker(
     HomeController_2.explore,
     play.api.routing.HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -190,11 +209,11 @@ class Routes(
     )
   )
 
-  // @LINE:19
-  private[this] lazy val controllers_HomeController_tutorial7_route = Route("GET",
+  // @LINE:23
+  private[this] lazy val controllers_HomeController_tutorial8_route = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("tutorial")))
   )
-  private[this] lazy val controllers_HomeController_tutorial7_invoker = createInvoker(
+  private[this] lazy val controllers_HomeController_tutorial8_invoker = createInvoker(
     HomeController_2.tutorial,
     play.api.routing.HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -208,11 +227,11 @@ class Routes(
     )
   )
 
-  // @LINE:20
-  private[this] lazy val controllers_HomeController_time8_route = Route("GET",
+  // @LINE:24
+  private[this] lazy val controllers_HomeController_time9_route = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("time")))
   )
-  private[this] lazy val controllers_HomeController_time8_invoker = createInvoker(
+  private[this] lazy val controllers_HomeController_time9_invoker = createInvoker(
     HomeController_2.time,
     play.api.routing.HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -226,11 +245,11 @@ class Routes(
     )
   )
 
-  // @LINE:24
-  private[this] lazy val controllers_Assets_versioned9_route = Route("GET",
+  // @LINE:28
+  private[this] lazy val controllers_Assets_versioned10_route = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("assets/"), DynamicPart("file", """.+""",false)))
   )
-  private[this] lazy val controllers_Assets_versioned9_invoker = createInvoker(
+  private[this] lazy val controllers_Assets_versioned10_invoker = createInvoker(
     Assets_1.versioned(fakeValue[String], fakeValue[Asset]),
     play.api.routing.HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -259,54 +278,60 @@ class Routes(
         controllers_ApiController_index11_invoker.call(ApiController_0.index1)
       }
   
-    // @LINE:9
+    // @LINE:10
     case controllers_ApiController_getOwner2_route(params@_) =>
       call(params.fromPath[String]("key", None)) { (key) =>
         controllers_ApiController_getOwner2_invoker.call(ApiController_0.getOwner(key))
       }
   
-    // @LINE:10
-    case controllers_ApiController_getRepository3_route(params@_) =>
-      call(params.fromPath[String]("key", None), params.fromPath[String]("repo", None)) { (key, repo) =>
-        controllers_ApiController_getRepository3_invoker.call(ApiController_0.getRepository(key, repo))
+    // @LINE:11
+    case controllers_ApiController_getOwnerRepos3_route(params@_) =>
+      call(params.fromPath[String]("key", None)) { (key) =>
+        controllers_ApiController_getOwnerRepos3_invoker.call(ApiController_0.getOwnerRepos(key))
       }
   
     // @LINE:14
-    case controllers_ApiController_showRepos4_route(params@_) =>
-      call { 
-        controllers_ApiController_showRepos4_invoker.call(
-          req => ApiController_0.showRepos(req))
-      }
-  
-    // @LINE:16
-    case controllers_ApiController_fetchRepos5_route(params@_) =>
-      call { 
-        controllers_ApiController_fetchRepos5_invoker.call(
-          req => ApiController_0.fetchRepos(req))
+    case controllers_ApiController_getRepository4_route(params@_) =>
+      call(params.fromPath[String]("key", None), params.fromPath[String]("repo", None)) { (key, repo) =>
+        controllers_ApiController_getRepository4_invoker.call(ApiController_0.getRepository(key, repo))
       }
   
     // @LINE:18
-    case controllers_HomeController_explore6_route(params@_) =>
+    case controllers_ApiController_showRepos5_route(params@_) =>
       call { 
-        controllers_HomeController_explore6_invoker.call(HomeController_2.explore)
-      }
-  
-    // @LINE:19
-    case controllers_HomeController_tutorial7_route(params@_) =>
-      call { 
-        controllers_HomeController_tutorial7_invoker.call(HomeController_2.tutorial)
+        controllers_ApiController_showRepos5_invoker.call(
+          req => ApiController_0.showRepos(req))
       }
   
     // @LINE:20
-    case controllers_HomeController_time8_route(params@_) =>
+    case controllers_ApiController_fetchRepos6_route(params@_) =>
       call { 
-        controllers_HomeController_time8_invoker.call(HomeController_2.time)
+        controllers_ApiController_fetchRepos6_invoker.call(
+          req => ApiController_0.fetchRepos(req))
+      }
+  
+    // @LINE:22
+    case controllers_HomeController_explore7_route(params@_) =>
+      call { 
+        controllers_HomeController_explore7_invoker.call(HomeController_2.explore)
+      }
+  
+    // @LINE:23
+    case controllers_HomeController_tutorial8_route(params@_) =>
+      call { 
+        controllers_HomeController_tutorial8_invoker.call(HomeController_2.tutorial)
       }
   
     // @LINE:24
-    case controllers_Assets_versioned9_route(params@_) =>
+    case controllers_HomeController_time9_route(params@_) =>
+      call { 
+        controllers_HomeController_time9_invoker.call(HomeController_2.time)
+      }
+  
+    // @LINE:28
+    case controllers_Assets_versioned10_route(params@_) =>
       call(Param[String]("path", Right("/public")), params.fromPath[Asset]("file", None)) { (path, file) =>
-        controllers_Assets_versioned9_invoker.call(Assets_1.versioned(path, file))
+        controllers_Assets_versioned10_invoker.call(Assets_1.versioned(path, file))
       }
   }
 }
