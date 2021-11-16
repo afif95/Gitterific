@@ -201,12 +201,13 @@ public class ApiController extends Controller {
 			        .get()
 			        .thenApplyAsync(result -> {	
 			        	//JsonNode jd = ;
-			        	List<String> s = result.asJson().findValues("full_name").stream().map(JsonNode::asText).collect(Collectors.toList());
+			        	List<String> s = result.asJson().findValues("name").stream().map(JsonNode::asText).collect(Collectors.toList());
 			        	
 			        	return ok(views.html.owner.render(ownerMap.get(searchKey),s));
 			        });
 		   
 	  }
+	  
 	  
 	  
 	  

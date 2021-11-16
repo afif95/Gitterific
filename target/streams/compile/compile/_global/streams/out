@@ -1,7 +1,4 @@
-[0m[[0m[31merror[0m] [0m[0m/Users/roxanetissier/git/NAgr3/app/views/repository.scala.html:25:3: illegal start of simple expression[0m
-[0m[[0m[31merror[0m] [0m[0m	@val result = null[0m
-[0m[[0m[31merror[0m] [0m[0m	 ^[0m
-[0m[[0m[31merror[0m] [0m[0m/Users/roxanetissier/git/NAgr3/app/views/repository.scala.html:115:8: ')' expected but '}' found.[0m
-[0m[[0m[31merror[0m] [0m[0m</body>[0m
-[0m[[0m[31merror[0m] [0m[0m       ^[0m
-[0m[[0m[31merror[0m] [0m[0mtwo errors found[0m
+[0m[[0m[31merror[0m] [0m[0mC:\Users\rimsh\Desktop\Project_app3\NAgr3\app\controllers\ApiController.java:16:1: cannot find symbol[0m
+[0m[[0m[31merror[0m] [0m[0m  symbol:   class RepoProfile[0m
+[0m[[0m[31merror[0m] [0m[0m  location: package dto[0m
+[0m[[0m[31merror[0m] [0m[0mdto.RepoProfile[0m
