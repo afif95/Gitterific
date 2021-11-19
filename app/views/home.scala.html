@@ -1,0 +1,76 @@
+@import helper._
+@import play.mvc.Http.Request
+@import dto.formData
+@import dto.Repository
+
+
+@(newUserForm: play.data.Form[formData], repoList: List[Repository])(implicit request: Request, messages: play.i18n.Messages)
+<!-- HTML Head -->
+
+
+
+<body>
+   		<h1> Welcome to Gitterific! </h1>
+   		@helper.form(action = routes.ApiController.fetchRepos()) {
+        @helper.inputText(newUserForm("searchInput"))
+        <button type="submit" class="btn btn-primary btn-block">Search</button>
+
+       
+        
+    }
+
+
+
+    <style>
+        table, th, td {
+         border: 1px solid black;
+        }
+        </style>
+    @if(!repoList.isEmpty | repoList != null)    {
+    <table style="width: 100%">
+
+        <colgroup>
+            <col span="1" style="width: 25%;">
+            <col span="1" style="width: 25%;">
+            <col span="1" style="width: 50%;">
+         </colgroup>
+
+         
+        <thead>
+            <th>User</th>
+            <th>Repository</th>
+            <th>Topics</th>
+        </thead>
+        <tbody>
+
+        
+        
+        @for(repo <- repoList) {
+            
+           <tr>
+            <td><a class="btn btn-link" href="@routes.ApiController.getOwner(repo.getOwner().getLogin())">@repo.getOwner().getLogin()</td>
+            <td><a class="btn btn-link" href="@routes.ApiController.getRepository(repo.getOwner().getLogin(), repo.getName())">@repo.getFull_name()</td>
+            <td>Topics : 
+                
+                @for(topic <- repo.getTopics()) {
+                    <a class="btn btn-link" href="@routes.ApiController.getReposByTopic(topic)">@topic</a>    
+                }
+
+
+            </td>
+            
+            
+            
+           
+            
+           </tr>
+       
+        }
+        
+        </tbody>
+       
+    </table>
+}
+
+</body>
+

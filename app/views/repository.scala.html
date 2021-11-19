@@ -1,0 +1,116 @@
+@import helper._
+@import play.mvc.Http.Request
+@import dto.PublicRepositoryInfo
+@import dto.PublicOwnerInfo
+
+
+@(repo: PublicRepositoryInfo, owner: PublicOwnerInfo)
+<!-- HTML Head -->
+
+
+
+<body>
+	<h1>Repository @repo.name by <a class="btn btn-link" href="@routes.ApiController.getOwner(owner.login)">@owner.login</a></h1>
+	
+	<p>Full name: @repo.full_name</p>
+	<p>Description: @repo.description</p>
+	<p>Id: @repo.id</p>
+	<p>Node id: @repo.node_id</p>
+	<p>Private repository: @repo._private</p>
+	<p>contributors url: @repo.contributors_url</p>
+	
+	
+	<p>html_url: @repo.html_url</p>
+	<p>fork: @repo.fork</p>
+	<p>url: @repo.url</p>
+	<p>forks url: @repo.forks_url</p>
+	<p>keys url: @repo.keys_url</p>
+	<p>collaborators url: @repo.collaborators_url</p>
+	<p>teams url: @repo.teams_url</p>
+	<p>hooks url: @repo.hooks_url</p>
+	<p>issue events url: @repo.issue_events_url</p>
+	<p>events url: @repo.events_url</p>
+	<p>assignees url: @repo.assignees_url</p>
+	<p>branches url: @repo.branches_url</p>
+	<p>tags url: @repo.tags_url</p>
+	<p>blobs url: @repo.blobs_url</p>
+	<p>tags url: @repo.git_tags_url</p>
+	<p>git refs url: @repo.git_refs_url</p>
+	<p>trees url: @repo.trees_url</p>
+	<p>statuses url: @repo.statuses_url</p>
+	<p>languages url: @repo.languages_url</p>
+	<p>stargazers url: @repo.stargazers_url</p>
+	
+	<p>subscribers url: @repo.subscribers_url</p>
+	<p>subscription url: @repo.subscription_url</p>
+	<p>commits url: @repo.commits_url</p>
+	<p>git commuts url: @repo.git_commits_url</p>
+	<p>comments url: @repo.comments_url</p>
+	<p>issue comments url: @repo.issue_comment_url</p>
+	<p>contents url: @repo.contents_url</p>
+	<p>compare url: @repo.compare_url</p>
+	<p>merges url: @repo.merges_url</p>
+	<p>archive url: @repo.archive_url</p>
+	<p>downloads url: @repo.downloads_url</p>
+	
+	
+	<p>issues url: @repo.issues_url</p>
+	<p>pulls url: @repo.pulls_url</p>
+	<p>milestones url: @repo.milestones_url</p>
+	<p>notifications url: @repo.notifications_url</p>
+	<p>labels url: @repo.labels_url</p>
+	<p>releases url: @repo.releases_url</p>
+	<p>deployments url: @repo.deployments_url</p>
+	<p>created at: @repo.created_at</p>
+	<p>updated at: @repo.updated_at</p>
+	<p>pushed at: @repo.pushed_at</p>
+	<p>git url: @repo.git_url</p>
+	<p>ssh url: @repo.ssh_url</p>
+	<p>clone url: @repo.clone_url</p>
+	<p>svn url: @repo.svn_url</p>
+	<p>homepage: @repo.homepage</p>
+	<p>size: @repo.size</p>
+	<p>stargazers count: @repo.stargazers_count</p>
+	<p>watchers count: @repo.watchers_count</p>
+	<p>language: @repo.language</p>
+	
+	<p>has issues: @repo.has_issues</p>
+	<p>has projects: @repo.has_projects</p>
+	<p>downloads: @repo.has_downloads</p>
+	<p>has wiki: @repo.has_wiki</p>
+	<p>has pages: @repo.has_pages</p>
+	<p>forks count: @repo.forks_count</p>
+	<p>mirror url: @repo.mirror_url</p>
+	<p>archived: @repo.archived</p>
+	<p>disabled: @repo.disabled</p>
+	<p>open issues count: @repo.open_issues_count</p>
+	<p>licenseObject @repo.LicenseObject</p>
+	<p>allow forking: @repo.allow_forking</p>
+	<p>is template: @repo.is_template</p>
+	@if(!repo.topics.isEmpty | repo.topics != null){
+		<p>topics: 
+		@for(topic <- repo.topics){
+			@topic,
+		}
+		</p>
+	}
+	
+	
+	<p>visibility: @repo.visibility</p>
+	<p>forks: @repo.forks</p>
+	<p>open issues: @repo.open_issues</p>
+	<p>watchers: @repo.watchers</p>
+	<p>default branch: @repo.default_branch</p>
+	<p>temp clone token: @repo.temp_clone_token</p>
+	<p>network count: @repo.network_count</p>
+	<p>subscribers count: @repo.subscribers_count</p>
+	
+	
+    
+    <form action="@routes.ApiController.getIssues(repo.name, owner.login, repo.issues_url)">
+    	<input type="submit" value="Show Issue Statistics" />
+	</form>
+    
+	
+	
+</body>
