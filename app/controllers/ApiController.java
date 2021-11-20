@@ -19,6 +19,7 @@ import views.html.*;
 import javax.inject.Inject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -199,14 +200,29 @@ public class ApiController extends Controller {
 				  .thenApplyAsync(result -> {	
 					  
 			        	List<String> s = result.asJson().findValues("title").stream().map(JsonNode::asText).collect(Collectors.toList());
-
+			        	Map<String, Integer> freq = s.parallelStream().flatMap(sob -> Arrays.asList(sob.split(" ")).stream()).collect(Collectors.toConcurrentMap(sob1->sob1, sob1 ->1, Integer::sum));
 			        	
-			        	return ok(views.html.issuestatistics.render(s));
+			        	return ok(views.html.issuestatistics.render(freq));
 			        });
 
 	        //return ok(views.html.issuestatistics.render(trimmed,reponame, owner));
 	        
 	   }
+	  
+ /*public CompletionStage<Void> frequency(String issuesingle){
+      issueresult = Arrays.stream(issuesingle.split(" "))
+    		  .map(String::trim)
+    		  .toArray(String[]::new);
+	 
+ }*/
+ 
+ 
+	/*   public CompletionStage<Repository> getRepos(final String keywords) {
+           return ws.url(baseUrl + "/search/repositories?q="+ keywords + "&per_page=5")
+       	        .get()
+                   .thenApplyAsync(WSResponse::asJson)
+                   .thenApplyAsync(this::convertToRepo);
+   } */
 	 
 	        
 }
