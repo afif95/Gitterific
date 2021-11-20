@@ -3,29 +3,25 @@
 # ~~~~
 
 # An example controller showing a sample home page#
-GET     /                           controllers.HomeController.index
+GET     /                          				controllers.ApiController.index(request: Request)
 
-GET     /index                           controllers.ApiController.index1
+GET 	/owner/:key								controllers.ApiController.getOwner(key: String)
 
-GET 	/owner/:key						controllers.ApiController.getOwner(key: String)
-GET 	/rep/:key						controllers.ApiController.getOwnerRepos(key: String)
+GET 	/rep/:key								controllers.ApiController.getOwnerRepos(key: String)
 
-GET 	/topics/:key						controllers.ApiController.getReposByTopic(key: String)
+GET 	/topics/:key							controllers.ApiController.getReposByTopic(key: String)
 
+GET 	/repository/:key/:repo					controllers.ApiController.getRepository(key: String, repo: String)
 
-GET 	/repository/:key/:repo				controllers.ApiController.getRepository(key: String, repo: String)
+GET 	/issues/:reponame/:owner/:issueurl		controllers.ApiController.getIssues(reponame: String, owner: String, issueurl: String)
 
-GET 	/issues/:reponame/:owner/:issueurl				controllers.ApiController.getIssues(reponame: String, owner: String, issueurl: String)
+GET 	/issues/:reponame/:owner/:issueurl		controllers.ApiController.getIssues(reponame: String, owner: String, issueurl: String)
 
-GET 	/issues/:reponame/:owner/:issueurl				controllers.ApiController.getIssues(reponame: String, owner: String, issueurl: String)
-
-GET 	/home						controllers.ApiController.showRepos(request: Request)
+GET 	/home									controllers.ApiController.showRepos(request: Request)
 +nocsrf
-POST 	/home						controllers.ApiController.fetchRepos(request: Request)
+POST 	/home									controllers.ApiController.fetchRepos(request: Request)
 
-GET    /explore                     controllers.HomeController.explore
-GET    /tutorial                    controllers.HomeController.tutorial
-GET    /time                    	controllers.HomeController.time
+
 
 
 # Map static resources from the /public folder to the /assets URL path
