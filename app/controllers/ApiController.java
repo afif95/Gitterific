@@ -63,7 +63,7 @@ public class ApiController extends Controller {
 	private HashMap <String, List<Repository>> user_searches;
 	private HashMap <String, List<Repository>> all_searches;
 	private HashMap <String, PublicOwnerInfo> ownerMap;
-	private List<String> issues;//= new ArrayList<>();
+	private List<String> issues;// = new ArrayList<>();
 	String baseUrl = "https://api.github.com";
 	UtilClass util = new UtilClass();
 
@@ -224,21 +224,33 @@ public class ApiController extends Controller {
 			        	return ok(views.html.owner.render(ownerMap.get(searchKey),util.getOwnerRepos(result.asJson())));
 			        });   
 		}
+		
+		/**
+		 * A function to fetch the issues on a given repository.
+		 * This will be called when a user clicks on a repository's name on the
+		 * search results page or Owner Profile page.
+		 * Then the function will redirect to the get Repository page.
+		 * This method gets all the titles of the issues of that repository thanks to 
+		 * the <code> getIssuesRepo </code> in <code>UtilClass class </code>.
+		 * 
+		 * @author Roxane Tissier
+		 * @param searchKey
+		 * @param SearchRepo
+		 * @return CompletionStage<Result>
+		 */
 	  
 	  
-	 public CompletionStage<Result> getRepositoryIssues(String searchKey, String SearchRepo){
+		public CompletionStage<Result> getRepositoryIssues(String searchKey, String SearchRepo){
 		  return ws.url(baseUrl + "/repos/" + searchKey+"/"+SearchRepo+"/issues")
       			.get()
       			.thenApplyAsync(result -> {	
-      				issues = util.getIssuesRepo(result.asJson());
+      				this.issues = util.getIssuesRepo(result.asJson());
       				return redirect(routes.ApiController.getRepository(searchKey, SearchRepo));
       			});
-	  }
+		}
 	  
 		/**
 		   * An action that returns the Repository's Profile Page.
-		   * This will be called when a user clicks on a repository's name on the
-		   * search results page or Owner Profile page.
 		   * This method gets all the public information of a repositroy and binds it
 		   * to an object of <code>PublicRepositoryInfo class<code> by calling a
 		   * method <code> getPublicRepositoryInfo </code> in <code>UtilClass class </code>.
@@ -254,7 +266,7 @@ public class ApiController extends Controller {
 			        .get()
 			        .thenApplyAsync(result -> {	
 			        	return  ok(views.html.repository.render(util.getPublicRepositoryInfo(result.asJson()), 
-			        						util.getPublicOwnerInfo(result.asJson()), issues));		
+			        						util.getPublicOwnerInfo(result.asJson()), this.issues));		
 			        });
 		}
 	  

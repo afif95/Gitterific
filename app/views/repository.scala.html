@@ -13,13 +13,17 @@
 	<h1>Repository @repo.name by <a class="btn btn-link" href="@routes.ApiController.getOwner(owner.login)">@owner.login</a></h1>
 	
 	@if(!issues.isEmpty | issues != null){
-		<p>Issues: 
+		<p>Issues: @issues
 		</br>
 		@for(issue <- issues){
 			@issue, </br>
 		}
 		</p>
 	}
+	
+	<form action="@routes.ApiController.getIssues(repo.name, owner.login, repo.issues_url)">
+    	<input type="submit" value="Show Issue Statistics" />
+	</form>
 	<p>Full name: @repo.full_name</p>
 	<p>Description: @repo.description</p>
 	<p>Id: @repo.id</p>
@@ -110,7 +114,5 @@
 	<p>network count: @repo.network_count</p>
 	<p>subscribers count: @repo.subscribers_count</p>
 	
-	<form action="@routes.ApiController.getIssues(repo.name, owner.login, repo.issues_url)">
-    	<input type="submit" value="Show Issue Statistics" />
-	</form>
+	
 </body>

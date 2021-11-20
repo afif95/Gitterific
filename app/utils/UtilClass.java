@@ -71,7 +71,7 @@ public class UtilClass {
 	 * It converts the <code>JsonNode</code> data into a 
 	 * list of issues of the repository.
 	 * 
-	 * @author Afif Bin Kamrul
+	 * @author Roxane Tissier
 	 * @param node JsonNode extracted from an HTTP request 
 	 * @return a list of issues
 	 */

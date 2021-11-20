@@ -157,11 +157,10 @@ public class UtilsTest {
 	@Test
 	public void testOwnerRepo() {
 		List<String> listOfRepos = new ArrayList<>();
-		listOfRepos.add("Repo 1");
+		listOfRepos.add("abc");
 		//pri.name = "Repo 1";
 		//pri.description = "Desc 1";
-		
-		String jsonStr = "{\"name\" : \"Repo 1\", \"description\" : \"Desc 1\"}";
+		String jsonStr = "{\"full_name\" : \"Repo 1/abc\", \"description\" : \"Desc 1\"}";
 		
 		ObjectMapper objM = new ObjectMapper();
 		
@@ -169,6 +168,7 @@ public class UtilsTest {
 		try {
 			node = objM.readTree(jsonStr);
 			List<String> repos = util.getOwnerRepos(node);
+			//System.out.println(repos);
 			assertEquals(listOfRepos, repos);
 		} catch (JsonMappingException e) {
 			// TODO Auto-generated catch block
@@ -270,6 +270,32 @@ public class UtilsTest {
 		
 		assertTrue(freq.containsKey("issue2"));
 		assertTrue(freq.get("issue2") == 2);
+	}
+	
+	
+	/**
+	 * This is used to test <code>getIssuesRepo</> method
+	 * int <code>Utils</> class.
+	 * @author Roxane Tissier
+	 */
+	@Test
+	public void testGetIssuesRepo() {
+		String jsonStr = "{\"title\" : \"issue1\"}";
+		ObjectMapper objM = new ObjectMapper();
+		
+		JsonNode node;
+		try {
+			node = objM.readTree(jsonStr);
+			List<String> issues = util.getIssuesRepo(node);
+			System.out.println(issues);
+		//assertTrue(issues.contains("issue1"));
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }
