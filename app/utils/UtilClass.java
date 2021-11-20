@@ -1,8 +1,11 @@
 package utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
@@ -15,6 +18,7 @@ import dto.*;
 import play.libs.Json;
 import play.libs.ws.WSClient;
 import play.libs.ws.WSResponse;
+
 
 public class UtilClass {
 	
@@ -31,6 +35,11 @@ public class UtilClass {
 	
 	public PublicRepositoryInfo getPublicRepositoryInfo(JsonNode node) {
     	return  Json.fromJson(node, PublicRepositoryInfo.class);    
+	}
+	
+	public List<String> getIssuesRepo(JsonNode node) {
+		return node.findValues("title").stream().map(JsonNode::asText)
+		.collect(Collectors.toList());
 	}
 	
 	public List<String> getOwnerRepos(JsonNode node) {
@@ -70,6 +79,10 @@ public class UtilClass {
     
 	}
 	
+	public Map<String, Integer> getIssues(List<String> s){
+		Map<String, Integer> freq = s.parallelStream().flatMap(sob -> Arrays.asList(sob.split(" ")).stream()).collect(Collectors.toConcurrentMap(sob1->sob1, sob1 ->1, Integer::sum));
+		return freq;
+	}
 	
 	
 

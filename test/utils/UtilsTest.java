@@ -3,7 +3,10 @@ package utils;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 import utils.*;
 
@@ -18,6 +21,9 @@ import dto.PublicOwnerInfo;
 import dto.PublicRepositoryInfo;
 import dto.Repository;
 import play.api.libs.ws.WSResponse;
+import play.libs.Json;
+
+import static java.util.stream.Collectors.toList;
 
 public class UtilsTest {
 	
@@ -61,7 +67,7 @@ public class UtilsTest {
 		
 	}
 	
-	/*@Test
+	@Test
 	public void testGetPublicOwnerInfo() {
 		
 		PublicOwnerInfo poi = new PublicOwnerInfo();
@@ -103,7 +109,8 @@ public class UtilsTest {
 		try {
 			node = objM.readTree(jsonStr);
 			PublicRepositoryInfo list = util.getPublicRepositoryInfo(node);
-			assertEquals(list, pri);
+			assertEquals(list.name, pri.name);
+			assertEquals(list.description, list.description);
 			
 		} catch (JsonMappingException e) {
 			// TODO Auto-generated catch block
@@ -113,6 +120,97 @@ public class UtilsTest {
 			e.printStackTrace();
 		}
 		
-	}*/
-
+	}
+	
+	
+	@Test
+	public void testOwnerRepo() {
+		List<String> listOfRepos = new ArrayList<>();
+		listOfRepos.add("Repo 1");
+		//pri.name = "Repo 1";
+		//pri.description = "Desc 1";
+		
+		String jsonStr = "{\"name\" : \"Repo 1\", \"description\" : \"Desc 1\"}";
+		
+		ObjectMapper objM = new ObjectMapper();
+		
+		JsonNode node;
+		try {
+			node = objM.readTree(jsonStr);
+			List<String> repos = util.getOwnerRepos(node);
+			assertEquals(listOfRepos, repos);
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Test
+	public void testInsertKeyInOwnerMap() {
+		HashMap <String, PublicOwnerInfo> map = new HashMap();
+		
+		String jsonStr = "{\"owner\" : \"{\"login\" : \"User 1\", \"id\" : 1}}";
+		ObjectMapper objM = new ObjectMapper();
+		JsonNode node;
+		try {
+			node = objM.readTree(jsonStr);
+			String searchKey = "User 1";
+			map = util.insertKeyInOwnerMap(node, map, searchKey);
+			assertTrue(map.containsKey(searchKey));
+			assertTrue(map.containsValue(Json.fromJson(node, PublicOwnerInfo.class)));
+		}
+		catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testAddRepoToUserMap() {
+		HashMap <String, List<Repository>> map = new HashMap();
+		
+		String s = "tetris";
+		List<Repository> list = new ArrayList<>();
+		List<Repository> list101 = Stream
+				.generate(() -> (new Repository("temp", "temp/temp")))
+				.limit(101)
+				.collect(toList());
+		
+		map = util.addRepoToUserMap(s, map, list);
+		assertTrue(map.containsKey(s));
+		assertTrue(map.containsValue(list));
+		
+		map = util.addRepoToUserMap(s, map, list);
+		assertTrue(map.containsKey(s));
+		assertTrue(map.containsValue(list));
+		
+		map = util.addRepoToUserMap(s, map, list101);
+		map = util.addRepoToUserMap(s, map, list);
+		assertTrue(map.containsKey(s));
+		
+	}
+	
+	@Test
+	public void testGetIssues() {
+		List<String> list = new ArrayList<>();
+		list.add("issue1");
+		list.add("issue2");
+		list.add("issue2");
+		
+		Map<String, Integer> freq = util.getIssues(list);
+		
+		assertTrue(freq.containsKey("issue1"));
+		assertTrue(freq.get("issue1") == 1);
+		
+		assertTrue(freq.containsKey("issue2"));
+		assertTrue(freq.get("issue2") == 2);
+	}
+	
 }

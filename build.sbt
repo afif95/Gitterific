@@ -12,3 +12,5 @@ libraryDependencies += guice
 libraryDependencies ++= Seq(
   javaWs
 )
+
+libraryDependencies += "org.mockito" % "mockito-core" % "2.22.0" % "test"

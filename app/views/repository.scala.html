@@ -4,7 +4,7 @@
 @import dto.PublicOwnerInfo
 
 
-@(repo: PublicRepositoryInfo, owner: PublicOwnerInfo)
+@(repo: PublicRepositoryInfo, owner: PublicOwnerInfo, issues: List[String])
 <!-- HTML Head -->
 
 
@@ -12,6 +12,14 @@
 <body>
 	<h1>Repository @repo.name by <a class="btn btn-link" href="@routes.ApiController.getOwner(owner.login)">@owner.login</a></h1>
 	
+	@if(!issues.isEmpty | issues != null){
+		<p>Issues: 
+		</br>
+		@for(issue <- issues){
+			@issue, </br>
+		}
+		</p>
+	}
 	<p>Full name: @repo.full_name</p>
 	<p>Description: @repo.description</p>
 	<p>Id: @repo.id</p>

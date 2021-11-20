@@ -13,7 +13,8 @@ GET 	/rep/:key						controllers.ApiController.getOwnerRepos(key: String)
 GET 	/topics/:key						controllers.ApiController.getReposByTopic(key: String)
 
 
-GET 	/repository/:key/:repo				controllers.ApiController.getRepository(key: String, repo: String)
+GET 	/repository/:key/:repo				controllers.ApiController.getRepositoryIssues(key: String, repo: String)
+GET 	/rep/:key/:repo			controllers.ApiController.getRepository(key: String, repo: String)
 
 GET 	/issues/:reponame/:owner/:issueurl				controllers.ApiController.getIssues(reponame: String, owner: String, issueurl: String)
 

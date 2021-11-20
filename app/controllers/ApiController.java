@@ -68,6 +68,7 @@ public class ApiController extends Controller {
 	private HashMap <String, List<Repository>> user_searches;
 	private HashMap <String, List<Repository>> all_searches;
 	private HashMap <String, PublicOwnerInfo> ownerMap;
+	private List<String> issues;
 	String baseUrl = "https://api.github.com";
 	UtilClass util = new UtilClass();
 
@@ -166,18 +167,30 @@ public class ApiController extends Controller {
 	  }
 	  
 	  
-	  
-	  
+	 public CompletionStage<Result> getRepositoryIssues(String searchKey, String SearchRepo){
+		  return ws.url(baseUrl + "/repos/" + searchKey+"/"+SearchRepo+"/issues")
+      			.get()
+      			.thenApplyAsync(result -> {	
+      				issues = util.getIssuesRepo(result.asJson());
+      				return redirect(routes.ApiController.getRepository(searchKey, SearchRepo));
+      			});
+	  }
 	  
 	  public CompletionStage<Result> getRepository(String searchKey, String SearchRepo) {
 		  return ws.url(baseUrl + "/repos/"+ searchKey + "/" + SearchRepo)
 			        .get()
 			        .thenApplyAsync(result -> {	
-			        	return ok(views.html.repository.render(util.getPublicRepositoryInfo(result.asJson()), 
-			        			util.getPublicOwnerInfo(result.asJson())));
+			        	
+			        	return  ok(views.html.repository.render(util.getPublicRepositoryInfo(result.asJson()), 
+			        						util.getPublicOwnerInfo(result.asJson()), issues));
+			        
+			        			
+			        			
 			        });
 		  
 	  }
+	  
+	  
 	  
 	  public CompletionStage<Result> getReposByTopic(String searchKey) {
 		  return ws.url(baseUrl + "/search/repositories?q=topic:"+ searchKey + "&sort=updated&per_page=10")
@@ -199,10 +212,10 @@ public class ApiController extends Controller {
 		  return ws.url(baseUrl + "/repos/" + owner+"/"+reponame+"/issues").get()
 				  .thenApplyAsync(result -> {	
 					  
-			        	List<String> s = result.asJson().findValues("title").stream().map(JsonNode::asText).collect(Collectors.toList());
-			        	Map<String, Integer> freq = s.parallelStream().flatMap(sob -> Arrays.asList(sob.split(" ")).stream()).collect(Collectors.toConcurrentMap(sob1->sob1, sob1 ->1, Integer::sum));
-			        	
-			        	return ok(views.html.issuestatistics.render(freq));
+			        	//List<String> s = result.asJson().findValues("title").stream().map(JsonNode::asText).collect(Collectors.toList());
+			        	//Map<String, Integer> freq = s.parallelStream().flatMap(sob -> Arrays.asList(sob.split(" ")).stream()).collect(Collectors.toConcurrentMap(sob1->sob1, sob1 ->1, Integer::sum));
+			        	//return ok(views.html.issuestatistics.render(freq));
+			        	return ok(views.html.issuestatistics.render(util.getIssues(result.asJson().findValues("title").stream().map(JsonNode::asText).collect(Collectors.toList()))));
 			        });
 
 	        //return ok(views.html.issuestatistics.render(trimmed,reponame, owner));
