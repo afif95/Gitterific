@@ -43,7 +43,7 @@ public class ApiControllerTest extends WithApplication{
     }
     
     //must create a request?
-    /*@Test
+   /* @Test
     public void testFetchRepos() {
     	RequestBuilder request = Helpers.fakeRequest(routes.ApiController.fetchRepos());
 		Result result = route(app, request);
@@ -84,12 +84,31 @@ public class ApiControllerTest extends WithApplication{
     
     
     @Test
-    public void testGetRpository() {
+    public void testGetRepository() {
     	String searchKey= "chvin";
     	String searchRepo = "react-tetris";
 		RequestBuilder request = Helpers.fakeRequest(routes.ApiController.getRepository(searchKey, searchRepo));
 		Result result = route(app, request);
 		assertEquals(Http.Status.OK, result.status());
+    }
+    
+    @Test
+    public void  testGetReposByTopic() {
+    	String searchKey= "topic";
+    	RequestBuilder request = Helpers.fakeRequest(routes.ApiController.getReposByTopic(searchKey));
+		Result result = route(app, request);
+		assertEquals(Http.Status.OK, result.status());
+    }
+    
+    @Test
+    public void testGetIssues() {
+    	String url = "someUrl";
+    	String owner = "chvin";
+    	String reponame = "react-tetris";
+		RequestBuilder request = Helpers.fakeRequest(routes.ApiController.getIssues(owner, reponame, url));
+		Result result = route(app, request);
+		assertEquals(Http.Status.OK, result.status());
+
     }
     
 }
