@@ -23,7 +23,7 @@ import play.libs.ws.WSResponse;
 public class UtilClass {
 	
 	/**This method is used for deserialization. 
-	 * It converts the JsonNode data into a list of 
+	 * It converts the <code>JsonNode</code> data into a list of 
 	 * objects of <code> Repository</code>.
 	 * 
 	 * 
@@ -39,11 +39,11 @@ public class UtilClass {
 	
 	
 	/**This method is used for deserialization. 
-	 * It converts the JsonNode data into an objects 
+	 * It converts the <code>JsonNode</code> data into an objects 
 	 * of <code> PublicOwnerInfo</code>.
 	 * 
 	 * 
-	 * @author Amrit Singh/Rimsha Afzal
+	 * @author Rimsha Afzal
 	 * @param node JsonNode extracted from an HTTP request 
 	 * @return an object of PublicOwnerInfo
 	 */
@@ -54,11 +54,11 @@ public class UtilClass {
 	
 	
 	/**This method is used for deserialization. 
-	 * It converts the JsonNode data into an object
+	 * It converts the <code>JsonNode</code> data into an object
 	 * of <code> PublicRepositoryInfo</code>.
 	 * 
 	 * 
-	 * @author Amrit Singh/Roxane Tissier
+	 * @author Roxane Tissier
 	 * @param node JsonNode extracted from an HTTP request 
 	 * @return an object of PublicRepositoryInfo
 	 */
@@ -67,6 +67,15 @@ public class UtilClass {
     	return  Json.fromJson(node, PublicRepositoryInfo.class);    
 	}
 	
+	/**This method is used for deserialization. 
+	 * It converts the <code>JsonNode</code> data into a 
+	 * list of issues of the repository.
+	 * 
+	 * @author Afif Bin Kamrul
+	 * @param node JsonNode extracted from an HTTP request 
+	 * @return a list of issues
+	 */
+	
 	public List<String> getIssuesRepo(JsonNode node) {
 		return node.findValues("title").stream().map(JsonNode::asText)
 		.collect(Collectors.toList());
@@ -74,10 +83,10 @@ public class UtilClass {
 	
 	
 	/**This method is used for deserialization. 
-	 * It converts the JsonNode data into a list of names of
+	 * It converts the <code>JsonNode</code> data into a list of names of
 	 * the repositories.
 	 * 
-	 * @author Amrit Singh/Rimsha Afzal
+	 * @author Rimsha Afzal
 	 * @param node JsonNode extracted from an HTTP request 
 	 * @return a list of repositories' name
 	 */
@@ -90,12 +99,12 @@ public class UtilClass {
 	}
 	
 	/**This method is used for deserialization and storing users. 
-	 * It converts the JsonNode data into an object
+	 * It converts the <code>JsonNode</code> data into an object
 	 * of <code> PublicOwnerInfo</code> and maintains a record of the users
 	 * that have made a search.
 	 * 
 	 * 
-	 * @author Amrit Singh/Rimsha Afzal
+	 * @author Rimsha Afzal
 	 * @param node JsonNode extracted from an HTTP request
 	 * @ownerMap the map of user login and his object
 	 * @searchKey owner's login
@@ -115,16 +124,15 @@ public class UtilClass {
 	}
 	
 	/**This method is used for deserialization and storing searches. 
-	 * It converts the JsonNode data into an object
-	 * of <code> PublicOwnerInfo</code> and maintains a record of the searches
-	 * that a user has made.
+	 * This is used to maintain user search history and results
+	 * that were fetched for his request.
 	 * 
 	 * 
 	 * @author Amrit Singh/Rimsha Afzal
 	 * @param node JsonNode extracted from an HTTP request
 	 * @ownerMap the map of users and his search results
 	 * @searchKey the search the user made 
-	 * @return HashMap <String, PublicOwnerInfo> a data structure storing user and his searches
+	 * @return user_searches a data structure storing user and his searches
 	 */
 	
 	
@@ -149,6 +157,17 @@ public class UtilClass {
     
 	}
 	
+	
+	/**This method is used to return the frequency of words.
+	 * It takes a list as an arguments and computes the frequency
+	 * for all the words in the list and stores them in a <code>HashMap</code> 
+	 * 
+	 * @author Afif Bin Kamrul
+	 * @param node JsonNode extracted from an HTTP request
+	 * @ownerMap the map of users and his search results
+	 * @searchKey the search the user made 
+	 * @return HashMap <String, PublicOwnerInfo> a data structure storing user and his searches
+	 */
 	public Map<String, Integer> getIssues(List<String> s){
 		Map<String, Integer> freq = s.parallelStream().flatMap(sob -> Arrays.asList(sob.split(" ")).stream()).collect(Collectors.toConcurrentMap(sob1->sob1, sob1 ->1, Integer::sum));
 		return freq;
