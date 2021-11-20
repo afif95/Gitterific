@@ -187,5 +187,26 @@ public class ApiController extends Controller {
 			        });
 		  
 	  }
+
+
+ public CompletionStage<Result> getIssues(String reponame, String owner, String issueurl){
+		  
+		  //String trimmed =    issueurl.substring(0, issueurl.length()-9);
+		  
+		//  return ws.url(baseUrl + "/search/issues?q=repo" + owner+"/"+reponame).get()
+		  
+		  return ws.url(baseUrl + "/repos/" + owner+"/"+reponame+"/issues").get()
+				  .thenApplyAsync(result -> {	
+					  
+			        	List<String> s = result.asJson().findValues("title").stream().map(JsonNode::asText).collect(Collectors.toList());
+
+			        	
+			        	return ok(views.html.issuestatistics.render(s));
+			        });
+
+	        //return ok(views.html.issuestatistics.render(trimmed,reponame, owner));
+	        
+	   }
+	 
 	        
 }
