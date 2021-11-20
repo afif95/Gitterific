@@ -19,6 +19,8 @@ import views.html.*;
 import javax.inject.Inject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +38,7 @@ import play.i18n.MessagesApi;
 import play.libs.Json;
 
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -261,7 +264,12 @@ public class ApiController extends Controller {
 	        
 	   }
 	  
-	  
+	  /*public CompletionStage<Result> Calculation(List<String> issues){
+		  
+		  List<String> words = Stream.of(issues).flatMap(Collection::stream).flatMap(str -> Arrays.stream(str.split(" "))).collect(Collectors.toList());
+	        return ok(views.html.issuestatistics.render(words));
+
+	  }*/
 	/*   public CompletionStage<Repository> getRepos(final String keywords) {
            return ws.url(baseUrl + "/search/repositories?q="+ keywords + "&per_page=5")
        	        .get()
