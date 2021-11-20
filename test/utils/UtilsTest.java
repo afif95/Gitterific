@@ -30,7 +30,13 @@ public class UtilsTest {
 	UtilClass util = new UtilClass();
 	
 	
-
+	/**
+	 * This is to used to test <code>JSONtoRepoList</> method
+	 * in <code>Utils</code> class. The method tests if the list
+	 * returned by the mentioned method is the same as what was expected.
+	 * 
+	 * @author Amrit Singh
+	 */
 	@Test
 	public void testJSONtoRepoList() {
 		
@@ -67,6 +73,15 @@ public class UtilsTest {
 		
 	}
 	
+	
+	/**
+	 * This is to used to test <code>GetPublicOwnerInfo</> method
+	 * in <code>Utils</code> class. The method tests given the mentioned 
+	 * method takes a <code>JsonNode</code> as an input, does it
+	 * map it correctly to the <code>PublicOwnerInfo</code> object.
+	 * 
+	 * @author Rimsha Afzal
+	 */
 	@Test
 	public void testGetPublicOwnerInfo() {
 		
@@ -94,6 +109,15 @@ public class UtilsTest {
 		
 	}
 	
+	
+	/**
+	 * This is to used to test <code>GetPublicRepositoryInfo</> method
+	 * in <code>Utils</code> class. The method tests given the mentioned 
+	 * method takes a <code>JsonNode</code> as an input, does it map it correctly to the
+	 * <code>PublicRepositoryInfo</code> object.
+	 * 
+	 * @author Roxane Tissier
+	 */
 	@Test
 	public void testetPublicRepositoryInfo() {
 		
@@ -122,7 +146,14 @@ public class UtilsTest {
 		
 	}
 	
-	
+	/**
+	 * This is to used to test <code>getOwnerRepos</> method
+	 * in <code>Utils</code> class. The method tests given the mentioned 
+	 * method takes a <code>JsonNode</code> as an input, does it correctly returns
+	 * the list of repositories for an owner.
+	 * 
+	 * @author Rimsha Afzal
+	 */
 	@Test
 	public void testOwnerRepo() {
 		List<String> listOfRepos = new ArrayList<>();
@@ -149,6 +180,15 @@ public class UtilsTest {
 		
 	}
 	
+	/**
+	 * This is to used to test <code>insertKeyInOwnerMap</> method
+	 * in <code>Utils</code> class. The method tests given the mentioned 
+	 * method takes a <code>JsonNode</code>, a <code>HashMap</code> and User Login 
+	 * as an input, does it correctly returns and stores the owner login 
+	 * and owner's object in a <code>HashMap</code>.
+	 * 
+	 * @author Rimsha Afzal
+	 */
 	@Test
 	public void testInsertKeyInOwnerMap() {
 		HashMap <String, PublicOwnerInfo> map = new HashMap();
@@ -172,6 +212,15 @@ public class UtilsTest {
 		}
 	}
 	
+	/**
+	 * This is to used to test <code>addRepoToUserMap</> method
+	 * in <code>Utils</code> class. The method tests given the mentioned 
+	 * method takes a <code>HashMap</code>, a <code>List</code> and and the id 
+	 * of the user who was searching as an input, does it correctly returns 
+	 * and stores the user and his searches in a <code>HashMap</code>.
+	 * 
+	 * @author Roxane Tissier
+	 */
 	@Test
 	public void testAddRepoToUserMap() {
 		HashMap <String, List<Repository>> map = new HashMap();
@@ -198,7 +247,21 @@ public class UtilsTest {
 	}
 	
 	
+<<<<<<< HEAD
 	/*public void testGetIssues() {
+=======
+	
+	/**
+	 * This is to used to test <code>getIssues</> method
+	 * in <code>Utils</code> class. The method tests given the mentioned 
+	 * method takes a <code>List</code> as an input, does it correctly 
+	 * return the frequency of each word.
+	 * 
+	 * @author Afif Bin Kamrul
+	 */
+	@Test
+	public void testGetIssues() {
+>>>>>>> d9d2fd9ce34437b62d2f0ac03af8e5238d05e39a
 		List<String> list = new ArrayList<>();
 		list.add("issue1");
 		list.add("issue2");

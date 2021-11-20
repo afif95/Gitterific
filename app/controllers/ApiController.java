@@ -65,7 +65,7 @@ public class ApiController extends Controller {
 	private HashMap <String, List<Repository>> user_searches;
 	private HashMap <String, List<Repository>> all_searches;
 	private HashMap <String, PublicOwnerInfo> ownerMap;
-	private List<String> issues;
+	private List<String> issues;//= new ArrayList<>();
 	String baseUrl = "https://api.github.com";
 	UtilClass util = new UtilClass();
 
@@ -87,7 +87,7 @@ public class ApiController extends Controller {
 	    this.user_searches = new HashMap<>();
 	    this.all_searches = new HashMap<>();
 	    this.ownerMap= new HashMap<>();
-	    
+	    this.issues = new ArrayList<>();
 	  }
 	  
 	  /**
@@ -255,12 +255,8 @@ public class ApiController extends Controller {
 		  return ws.url(baseUrl + "/repos/"+ searchKey + "/" + SearchRepo)
 			        .get()
 			        .thenApplyAsync(result -> {	
-			        	
 			        	return  ok(views.html.repository.render(util.getPublicRepositoryInfo(result.asJson()), 
-			        						util.getPublicOwnerInfo(result.asJson()), issues));
-			        
-			        			
-			        			
+			        						util.getPublicOwnerInfo(result.asJson()), issues));		
 			        });
 		}
 	  
