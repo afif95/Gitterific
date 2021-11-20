@@ -15,7 +15,7 @@ GET 	/topics/:key						controllers.ApiController.getReposByTopic(key: String)
 
 GET 	/repository/:key/:repo				controllers.ApiController.getRepository(key: String, repo: String)
 
-
+GET 	/issues/:reponame/:owner/:issueurl				controllers.ApiController.getIssues(reponame: String, owner: String, issueurl: String)
 
 GET 	/home						controllers.ApiController.showRepos(request: Request)
 +nocsrf

@@ -1,0 +1,30 @@
+@import helper._
+@import play.mvc.Http.Request
+
+
+@(s: List[String])
+<!-- HTML Head -->
+
+	<body>
+		
+            
+          @if(!s.isEmpty)    {
+
+
+        
+        
+        @for(issues <- s) {
+            
+           <p>@issues</p>
+        }
+        
+        </tbody>
+       
+    </table>
+}
+
+       
+      
+		
+		
+	</body>
