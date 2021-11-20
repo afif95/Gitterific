@@ -69,7 +69,7 @@ public class UtilClass {
 	
 	public List<String> getIssuesRepo(JsonNode node) {
 		return node.findValues("title").stream().map(JsonNode::asText)
-		.collect(Collectors.toList());
+					.collect(Collectors.toList());
 	}
 	
 	
