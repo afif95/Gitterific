@@ -30,6 +30,7 @@ import java.util.function.BiFunction;
 
 import play.routing.RoutingDsl;
 import play.server.Server;
+import utils.UtilClass;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.FormFactory.*;
@@ -68,6 +69,7 @@ public class ApiController extends Controller {
 	private HashMap <String, List<Repository>> all_searches;
 	private HashMap <String, PublicOwnerInfo> ownerMap;
 	String baseUrl = "https://api.github.com";
+	UtilClass util = new UtilClass();
 
 
 
@@ -99,6 +101,7 @@ public class ApiController extends Controller {
 		  	String uid;
 		  	 if((request.session().get("id")).isPresent()) {
 		  		List<Repository> tmp = user_searches.get(request.session().get("id").get());
+		  		//To prevent Nullpointer
 		  		if(tmp == null) {
 		  			tmp = new ArrayList<>();
 		  		}
@@ -121,46 +124,16 @@ public class ApiController extends Controller {
 			if (bindedForm.hasErrors()) {
 				return CompletableFuture.completedFuture(badRequest(views.html.home.render(bindedForm, repos, request, messagesApi.preferred(request))));
 			} else {
-				//return CompletableFuture.supplyAsync(() -> {
 				formData data = bindedForm.get();
-				
-				//IMPLEMENT IF CACH
-				/*if(all_searches.get(data.searchInput) != null) {
-					user_searches.put(data.searchInput, all_searches.get(data.searchInput));
-					
-				}*/
-
-				try {
-					
-					String searchVal = data.searchInput;
-					
-					
-					return ws.url(baseUrl + "/search/repositories?q="+ searchVal  + "&per_page=5&sort=updated")
-			        .get()
-			        
+				try {					
+					String searchVal = data.searchInput;	
+					return ws.url(baseUrl + "/search/repositories?q="+ searchVal  + "&per_page=10&sort=updated")
+			        .get()			        
 			        .thenApply(r -> {
-			        				        	
-			        	List<Repository> list = StreamSupport.stream( r.asJson().get("items").spliterator(), false)
-			                    .map(sObj -> Json.fromJson(sObj, Repository.class))
-			                    .collect(Collectors.toList());
-	
-			        	return list;
+			        	return util.JSONtoRepoList(r.asJson());
 			        }).thenApply(list -> {
 			        	String s = request.session().get("id").get();
-			        	if(!all_searches.containsKey(searchVal)){
-			        		all_searches.put(searchVal, list);
-			        	}
-			        	/*else {
-			        		all_searches.put(searchVal, list);
-			        	}*/
-
-			        	//repos.addAll(list);
-			        	
-			        	List<Repository> tmp = user_searches.get(s);
-			        	if(tmp ==  null) {
-			        		user_searches.put(s, new ArrayList<Repository>());
-			        	}
-			        	user_searches.get(s).addAll(list);
+			        	user_searches = util.addRepoToUserMap(s, user_searches, list);
 			        	return user_searches.get(s);
 			        }).thenApply(m -> redirect(routes.ApiController.showRepos()));
 			        		
@@ -172,23 +145,12 @@ public class ApiController extends Controller {
 
 			}
 		}
-	    
-	  
-	  
-	  
-	/*  public static Repository convertToRepo(JsonNode str) {
-		  return Json.fromJson(str, Repository.class);
-	  } */
 	  
 	  public CompletionStage<Result> getOwner(String searchKey) {
 		  return ws.url(baseUrl + "/users/"+ searchKey)
 			        .get()
 			        .thenApplyAsync(result -> {	
-			        	JsonNode jd =  result.asJson();
-			        	PublicOwnerInfo p = Json.fromJson(jd, PublicOwnerInfo.class);
-			        	if(!ownerMap.containsKey(searchKey)) {
-			        		ownerMap.put(searchKey, p);
-			        	}
+			        	ownerMap = util.insertKeyInOwnerMap(result.asJson(), ownerMap, searchKey);
 			        	return redirect(routes.ApiController.getOwnerRepos(searchKey));
 			        });
 		  
@@ -197,11 +159,8 @@ public class ApiController extends Controller {
 	  public CompletionStage<Result> getOwnerRepos(String searchKey) {
 		  return ws.url(baseUrl + "/users/"+ searchKey+ "/repos")
 			        .get()
-			        .thenApplyAsync(result -> {	
-			        	//JsonNode jd = ;
-			        	List<String> s = result.asJson().findValues("name").stream().map(JsonNode::asText).collect(Collectors.toList());
-			        	
-			        	return ok(views.html.owner.render(ownerMap.get(searchKey),s));
+			        .thenApplyAsync(result -> {				        	
+			        	return ok(views.html.owner.render(ownerMap.get(searchKey),util.getOwnerRepos(result.asJson())));
 			        });
 		   
 	  }
@@ -214,12 +173,8 @@ public class ApiController extends Controller {
 		  return ws.url(baseUrl + "/repos/"+ searchKey + "/" + SearchRepo)
 			        .get()
 			        .thenApplyAsync(result -> {	
-			        	JsonNode jd =  result.asJson();
-			        	JsonNode owner = jd.get("owner");
-			        	PublicRepositoryInfo repo = Json.fromJson(jd, PublicRepositoryInfo.class);
-			        	PublicOwnerInfo p = Json.fromJson(owner, PublicOwnerInfo.class);
-			        	//return ok(result.asJson());
-			        	return ok(views.html.repository.render(repo, p));
+			        	return ok(views.html.repository.render(util.getPublicRepositoryInfo(result.asJson()), 
+			        			util.getPublicOwnerInfo(result.asJson())));
 			        });
 		  
 	  }
@@ -228,18 +183,12 @@ public class ApiController extends Controller {
 		  return ws.url(baseUrl + "/search/repositories?q=topic:"+ searchKey + "&sort=updated&per_page=10")
 			        .get()
 			        
-			        .thenApplyAsync(result -> {	
-			        	
-			        	List<Repository> list = StreamSupport.stream( result.asJson().get("items").spliterator(), false)
-			                    .map(sObj -> Json.fromJson(sObj, Repository.class))
-			                    .collect(Collectors.toList());
-	
-			        	//return list;
-			        
-			        	return ok(views.html.topics.render(list));
+			        .thenApplyAsync(result -> {				        
+			        	return ok(views.html.topics.render(util.JSONtoRepoList(result.asJson())));
 			        });
 		  
 	  }
+
 
  public CompletionStage<Result> getIssues(String reponame, String owner, String issueurl){
 		  
@@ -274,5 +223,6 @@ public class ApiController extends Controller {
                    .thenApplyAsync(WSResponse::asJson)
                    .thenApplyAsync(this::convertToRepo);
    } */
+	 
 	        
 }
