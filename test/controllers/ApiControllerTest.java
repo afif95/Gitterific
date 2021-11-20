@@ -50,7 +50,7 @@ public class ApiControllerTest extends WithApplication{
 		assertEquals(Http.Status.OK, result.status());
     }*/
     
-    @Test
+  /*  @Test
     public void testConvertToRepo() throws JsonMappingException, JsonProcessingException {
     	String str = "{\"full_name\": \"fullNameOwner\",\"name\": \"nameOwner\", \"Owner\": \"owner\",\"topics\": [\"tetris\", \"game\"]}";
     	ObjectMapper mapper = new ObjectMapper();
@@ -62,7 +62,7 @@ public class ApiControllerTest extends WithApplication{
 		assertEquals( Json.fromJson(json, Repository.class).getOwner(), repo.getOwner());
 		assertEquals( Json.fromJson(json, Repository.class).getTopics(), repo.getTopics());
 
-    }
+    }*/
 
     @Test
     public void testGetOwner() {
