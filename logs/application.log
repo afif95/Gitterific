@@ -1,9 +1,19 @@
+<<<<<<< HEAD
+2021-11-20 14:59:05,407 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-8 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
+=======
 2021-11-20 13:44:03,281 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-5 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
+>>>>>>> d9d2fd9ce34437b62d2f0ac03af8e5238d05e39a
 
     play.filters.csrf.CSRFFilter
     play.filters.headers.SecurityHeadersFilter
     play.filters.hosts.AllowedHostsFilter
 
+<<<<<<< HEAD
+2021-11-20 14:59:05,454 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-8 - Application started (Dev) (no global state)
+2021-11-20 14:59:12,242 [ERROR] from play.api.http.DefaultHttpErrorHandler in application-akka.actor.default-dispatcher-4 - 
+
+! @7lmfe6n53 - Internal server error, for (GET) [/rep/fishercoder1534/Leetcode] ->
+=======
 2021-11-20 13:44:03,411 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-5 - Application started (Dev) (no global state)
 2021-11-20 13:44:19,694 [ERROR] from play.api.http.DefaultHttpErrorHandler in application-akka.actor.default-dispatcher-8 - 
 
@@ -46,6 +56,7 @@ Caused by: java.lang.NullPointerException: null
 2021-11-20 13:44:31,914 [ERROR] from play.api.http.DefaultHttpErrorHandler in application-akka.actor.default-dispatcher-8 - 
 
 ! @7lmf4bpcm - Internal server error, for (GET) [/rep/CoCreate-app/CoCreateJS] ->
+>>>>>>> d9d2fd9ce34437b62d2f0ac03af8e5238d05e39a
  
 play.api.PlayException: Execution exception[[CompletionException: java.lang.NullPointerException]]
 	at play.api.http.HttpErrorHandlerExceptions$.$anonfun$convertToPlayException$3(HttpErrorHandler.scala:388)
@@ -78,6 +89,14 @@ Caused by: java.lang.NullPointerException: null
 	at views.html.repository$.apply(repository.template.scala:44)
 	at views.html.repository$.render(repository.template.scala:150)
 	at views.html.repository.render(repository.template.scala)
+<<<<<<< HEAD
+	at controllers.ApiController.lambda$getRepository$6(ApiController.java:259)
+	at java.base/java.util.concurrent.CompletableFuture$UniApply.tryFire(CompletableFuture.java:642)
+=======
 	at controllers.ApiController.lambda$getRepository$6(ApiController.java:257)
 	at java.util.concurrent.CompletableFuture.uniApply(CompletableFuture.java:616)
+>>>>>>> d9d2fd9ce34437b62d2f0ac03af8e5238d05e39a
 	... 6 common frames omitted
+2021-11-20 14:59:48,429 [INFO] from play.core.server.AkkaHttpServer in play-dev-mode-shutdown-hook-1 - Stopping Akka HTTP server...
+2021-11-20 14:59:48,439 [INFO] from play.core.server.AkkaHttpServer in play-dev-mode-akka.actor.internal-dispatcher-3 - Terminating server binding for /0:0:0:0:0:0:0:0:9000
+2021-11-20 14:59:48,605 [INFO] from play.core.server.AkkaHttpServer in play-dev-mode-akka.actor.internal-dispatcher-12 - Running provided shutdown stop hooks

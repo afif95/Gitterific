@@ -110,7 +110,7 @@
 	<p>network count: @repo.network_count</p>
 	<p>subscribers count: @repo.subscribers_count</p>
 	
-	<form action="@routes.ApiController.getIssues(repo.name, owner.login, repo.issues_url)">
+	<form action="@routes.ApiController.getIssues(repo.name, owner.login)">
     	<input type="submit" value="Show Issue Statistics" />
 	</form>
 </body>

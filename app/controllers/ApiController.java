@@ -20,7 +20,9 @@ import javax.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -283,22 +285,30 @@ public class ApiController extends Controller {
 		}
 
 
- public CompletionStage<Result> getIssues(String reponame, String owner, String issueurl){
-		  
-		  //String trimmed =    issueurl.substring(0, issueurl.length()-9);
-		  
-		//  return ws.url(baseUrl + "/search/issues?q=repo" + owner+"/"+reponame).get()
-		  
+ /**
+  * Action which returns the titles of all the issues
+  * Afterwards, sorts the unique words of all the titles in descending order
+  * @author Afif Bin Kamrul
+  * @param reponame The repository from which issues will be collected
+  * @param owner The owner of the repository
+  * @return CompletionStage<Result>
+
+ */
+public CompletionStage<Result> getIssues(String reponame, String owner){
+
 		  return ws.url(baseUrl + "/repos/" + owner+"/"+reponame+"/issues").get()
 				  .thenApplyAsync(result -> {	
 					  
-			        	//List<String> s = result.asJson().findValues("title").stream().map(JsonNode::asText).collect(Collectors.toList());
-			        	//Map<String, Integer> freq = s.parallelStream().flatMap(sob -> Arrays.asList(sob.split(" ")).stream()).collect(Collectors.toConcurrentMap(sob1->sob1, sob1 ->1, Integer::sum));
-			        	//return ok(views.html.issuestatistics.render(freq));
-			        	return ok(views.html.issuestatistics.render(util.getIssues(result.asJson().findValues("title").stream().map(JsonNode::asText).collect(Collectors.toList()))));
+			        	List<String> s = result.asJson().findValues("title").stream().map(JsonNode::asText).collect(Collectors.toList());
+			        	
+			        	Map<String, Integer> freq = s.parallelStream().flatMap(sob -> Arrays.asList(sob.split(" ")).stream()).collect(Collectors.toConcurrentMap(sob1->sob1, sob1 ->1, Integer::sum));
+			        	
+			        	Map<String,Integer> freq_result = freq.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+		                        (previous, changed) -> previous, LinkedHashMap::new));
+			        	return ok(views.html.issuestatistics.render(freq_result));
+
 			        });
 
-	        //return ok(views.html.issuestatistics.render(trimmed,reponame, owner));
 	        
 	   }
 	  
