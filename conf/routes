@@ -17,6 +17,8 @@ GET 	/repository/:key/:repo				controllers.ApiController.getRepository(key: Stri
 
 GET 	/issues/:reponame/:owner/:issueurl				controllers.ApiController.getIssues(reponame: String, owner: String, issueurl: String)
 
+GET 	/issues/:reponame/:owner/:issueurl				controllers.ApiController.getIssues(reponame: String, owner: String, issueurl: String)
+
 GET 	/home						controllers.ApiController.showRepos(request: Request)
 +nocsrf
 POST 	/home						controllers.ApiController.fetchRepos(request: Request)

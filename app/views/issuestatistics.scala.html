@@ -2,29 +2,18 @@
 @import play.mvc.Http.Request
 
 
-@(s: List[String])
+@(issuemap: Map[String,Integer])
 <!-- HTML Head -->
 
 	<body>
 		
             
-          @if(!s.isEmpty)    {
-
-
+       <p> @println(issuemap)</p>
+               <p> @issuemap</p>
         
-        
-        @for(issues <- s) {
-            
-           <p>@issues</p>
-        }
-        
-        </tbody>
        
-    </table>
-}
 
-       
-      
+
 		
 		
 	</body>
