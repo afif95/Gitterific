@@ -1,35 +1,34 @@
-# Play Hello World Web Tutorial for Java
+Repository URL: https://github.com/RoxaneTissier/NAgr3
 
-To follow the steps in this tutorial, you will need the correct version of Java and a build tool. You can build Play projects with any Java build tool. Since sbt takes advantage of Play features such as auto-reload, the tutorial describes how to build the project with sbt. 
+Task distribution of team members for the individual work:
 
-Prerequisites include:
+1st Team member:
 
-* Java Software Developer's Kit (SE) 1.8 or higher
-* sbt 0.13.15 or higher (we recommend 1.2.3) Note: if you downloaded this project as a zip file from https://developer.lightbend.com, the file includes an sbt distribution for your convenience.
+Name: Roxane Tissier, Student ID: 40204758
 
-To check your Java version, enter the following in a command window:
+Individual Task # Repository Profile
 
-`java -version`
+2nd Team member:
 
-To check your sbt version, enter the following in a command window:
+Name: Rimsha Afzal, Student ID: 40161804
 
-`sbt sbtVersion`
+Individual Task # User Profile
 
-If you do not have the required versions, follow these links to obtain them:
+3rd Team member:
 
-* [Java SE](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-* [sbt](http://www.scala-sbt.org/download.html)
+Name: Afif Bin Kamrul, Student ID: 40202952
 
-## Build and run the project
+Individual Task # Repository Issues
 
-This example Play project was created from a seed template. It includes all Play components and an Akka HTTP server. The project is also configured with filters for Cross-Site Request Forgery (CSRF) protection and security headers.
+4th Team member:
 
-To build and run the project:
+Name: Amrit Singh , Student ID: 40195950
 
-1. Use a command window to change into the example project directory, for example: `cd play-java-hello-world-web`
+Individual Task # Topics
 
-2. Build the project. Enter: `sbt run`. The project builds and starts the embedded HTTP server. Since this downloads libraries and dependencies, the amount of time required depends partly on your connection's speed.
+5th Team member:
 
-3. After the message `Server started, ...` displays, enter the following URL in a browser: <http://localhost:9000>
+Name: Jason Khaou, Student ID: 40206161
 
-The Play application responds: `Welcome to the Hello World Tutorial!`
+Individual Task # Repository Commits
+

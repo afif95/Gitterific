@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 2021-11-20 11:45:13,242 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-5 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
+=======
+2021-11-20 11:51:07,755 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-9 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
+>>>>>>> master
 
     play.filters.csrf.CSRFFilter
     play.filters.headers.SecurityHeadersFilter
     play.filters.hosts.AllowedHostsFilter
 
+<<<<<<< HEAD
 2021-11-20 11:45:13,275 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-5 - Application started (Dev) (no global state)
 2021-11-20 11:45:24,280 [ERROR] from play.api.http.DefaultHttpErrorHandler in application-akka.actor.default-dispatcher-5 - 
 
@@ -1027,3 +1032,6 @@ Caused by: java.lang.NullPointerException: null
 	at controllers.ApiController.lambda$getRepository$6(ApiController.java:184)
 	at java.base/java.util.concurrent.CompletableFuture$UniApply.tryFire(CompletableFuture.java:642)
 	... 6 common frames omitted
+=======
+2021-11-20 11:51:07,787 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-9 - Application started (Dev) (no global state)
+>>>>>>> master
