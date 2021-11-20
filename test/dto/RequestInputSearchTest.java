@@ -3,8 +3,9 @@ package dto;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 /**
@@ -78,5 +79,51 @@ public class RequestInputSearchTest {
 		assertEquals(null, testNull.getFull_name());
 		assertEquals(null, testNull.getOwner());
 		assertEquals(null, testNull.getTopics());
+	}
+	
+	/**
+	 * This test checks the <code> addRepo </code>method.
+	 * It checks that the repository list contains the new repository.
+	 */
+	@Test
+	public void testAddRepo() {
+		Repository repo = new Repository("otherFullName", "otherName");
+		Repository.addRepo(repo);
+		assertTrue(Repository.repoList.contains(repo));
+	}
+	
+	/**
+	 * This test checks the <code> addAllRepo </code>method.
+	 * It checks that the repository list contains all the repositories 
+	 * that were added.
+	 */
+	@Test
+	public void testAddAllRepo() {
+		Repository repo1 = new Repository("otherFullName1", "otherName1");
+		Repository repo2 = new Repository("otherFullName2", "otherName2");
+		Repository repo3 = new Repository("otherFullName3", "otherName3");
+		List<Repository> listRepo = new ArrayList<>();
+		listRepo.add(repo1);
+		listRepo.add(repo2);
+		listRepo.add(repo3);
+		
+		Repository.addAllRepo(listRepo);
+		assertTrue(Repository.repoList.contains(repo1));
+		assertTrue(Repository.repoList.contains(repo2));
+		assertTrue(Repository.repoList.contains(repo3));
+	}
+	
+	/**
+	 * This test checks the <code> getRepo </code>method.
+	 * It checks that the repository list is equal to the original list 
+	 * of repositories.
+	 */
+	@Test
+	public void testGetRepos() {
+		Repository repo = new Repository("otherFullName", "otherName");
+		List<Repository> listRepo = new ArrayList<>();
+		listRepo.add(repo);
+		Repository.addAllRepo(listRepo);
+		assertEquals(listRepo, Repository.getRepos());
 	}
 }

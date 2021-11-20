@@ -50,8 +50,10 @@ public class ApiControllerTest extends WithApplication{
         //add test when session id exist;
 		RequestBuilder request = Helpers.fakeRequest(routes.ApiController.showRepos());
 		Result result = route(app, request);
+		Result result1 = route(app, request);
+
 		assertEquals(Http.Status.OK, result.status());
-    	
+		assertEquals(Http.Status.OK, result1.status());
     }
     
     /**
@@ -97,6 +99,21 @@ public class ApiControllerTest extends WithApplication{
     
     /**
 	 * This test is used the check the status of the result 
+	 * returned by the application when the application 
+	 * receives a <code>GET</code> request for a repository
+	 * and <code>ApiController</code> invokes <code>getRepositoryIssues</code>
+	 */
+    @Test
+    public void testGetRepositoryIssues() {
+    	String searchKey= "chvin";
+    	String searchRepo = "react-tetris";
+		RequestBuilder request = Helpers.fakeRequest(routes.ApiController.getRepositoryIssues(searchKey, searchRepo));
+		Result result = route(app, request);
+		assertEquals(Http.Status.SEE_OTHER, result.status());
+    }
+    
+    /**
+	 * This test is used the check the status of the result 
 	 * returned when the application when the application 
 	 * receives a <code>GET</code> request for a repository 
 	 * by a specific topic and <code>ApiController</code> 
@@ -122,7 +139,7 @@ public class ApiControllerTest extends WithApplication{
     	String url = "someUrl";
     	String owner = "chvin";
     	String reponame = "react-tetris";
-		RequestBuilder request = Helpers.fakeRequest(routes.ApiController.getIssues(owner, reponame, url));
+		RequestBuilder request = Helpers.fakeRequest(routes.ApiController.getIssues(owner, reponame));
 		Result result = route(app, request);
 		assertEquals(Http.Status.OK, result.status());
 
