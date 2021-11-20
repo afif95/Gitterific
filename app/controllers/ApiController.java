@@ -20,7 +20,9 @@ import javax.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -200,9 +202,12 @@ public class ApiController extends Controller {
 				  .thenApplyAsync(result -> {	
 					  
 			        	List<String> s = result.asJson().findValues("title").stream().map(JsonNode::asText).collect(Collectors.toList());
+			        	
 			        	Map<String, Integer> freq = s.parallelStream().flatMap(sob -> Arrays.asList(sob.split(" ")).stream()).collect(Collectors.toConcurrentMap(sob1->sob1, sob1 ->1, Integer::sum));
 			        	
-			        	return ok(views.html.issuestatistics.render(freq));
+			        	Map<String,Integer> freq_result = freq.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+		                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+			        	return ok(views.html.issuestatistics.render(freq_result));
 			        });
 
 	        //return ok(views.html.issuestatistics.render(trimmed,reponame, owner));
