@@ -24,15 +24,27 @@ import dto.Repository;
 
 public class ApiControllerTest extends WithApplication{
 	
-	
+	/**
+	 * This test is used the check the status returned when
+	 * the application when the application receives a
+	 * <code>GET</code> request with a path of <code>/</code>
+	 * and <code>index</code> method is invoked by <code>ApiController</code>.
+	 */
 	@Test
-	public void testIndex1() {
+	public void testIndex() {
 		
-		RequestBuilder request = Helpers.fakeRequest(routes.ApiController.index1());
+		RequestBuilder request = Helpers.fakeRequest(routes.ApiController.index());
 		Result result = route(app, request);
 		assertEquals(OK, result.status());
 	}
 	
+	
+	/**
+	 * This test is used the check the status of the result returned when
+	 * the application when the application receives a
+	 * <code>GET</code> request with a path of <code>/home</code>
+	 * and <code>showRepos</code> method is invoked by <code>ApiController</code>.
+	 */
     @Test
     public void testfetchTweets() {
         //add test when session id exist;
@@ -42,28 +54,13 @@ public class ApiControllerTest extends WithApplication{
     	
     }
     
-    //must create a request?
-   /* @Test
-    public void testFetchRepos() {
-    	RequestBuilder request = Helpers.fakeRequest(routes.ApiController.fetchRepos());
-		Result result = route(app, request);
-		assertEquals(Http.Status.OK, result.status());
-    }*/
-    
-  /*  @Test
-    public void testConvertToRepo() throws JsonMappingException, JsonProcessingException {
-    	String str = "{\"full_name\": \"fullNameOwner\",\"name\": \"nameOwner\", \"Owner\": \"owner\",\"topics\": [\"tetris\", \"game\"]}";
-    	ObjectMapper mapper = new ObjectMapper();
-        JsonNode json = mapper.readTree(str);
-        
-        Repository repo = controllers.ApiController.convertToRepo(json);
-		assertEquals( Json.fromJson(json, Repository.class).getName(), repo.getName());
-		assertEquals( Json.fromJson(json, Repository.class).getFull_name(), repo.getFull_name());
-		assertEquals( Json.fromJson(json, Repository.class).getOwner(), repo.getOwner());
-		assertEquals( Json.fromJson(json, Repository.class).getTopics(), repo.getTopics());
-
-    }*/
-
+    /**
+	 * This test is used the check the status of the result 
+	 * returned when the application when the application 
+	 * receives a <code>GET</code> request for owner and his repositories 
+	 * and <code>ApiController</code> invokes <code>getOwner</code> and 
+	 * <code>getOwnerRepos</code> methods.
+	 */
     @Test
     public void testGetOwner() {
     	String searchKey= "chvin";
@@ -82,7 +79,13 @@ public class ApiControllerTest extends WithApplication{
 		assertEquals(Http.Status.OK, result3.status());
     }
     
-    
+    /**
+	 * This test is used the check the status of the result 
+	 * returned when the application when the application 
+	 * receives a <code>GET</code> request for a repository
+	 * and <code>ApiController</code> invokes <code>getRepository</code> and 
+	 * <code>getOwnerRepos</code> methods.
+	 */
     @Test
     public void testGetRepository() {
     	String searchKey= "chvin";
@@ -92,6 +95,14 @@ public class ApiControllerTest extends WithApplication{
 		assertEquals(Http.Status.OK, result.status());
     }
     
+    /**
+	 * This test is used the check the status of the result 
+	 * returned when the application when the application 
+	 * receives a <code>GET</code> request for a repository 
+	 * by a specific topic and <code>ApiController</code> 
+	 * invokes <code>getReposByTpoic</code> and 
+	 * <code>getOwnerRepos</code> methods.
+	 */
     @Test
     public void  testGetReposByTopic() {
     	String searchKey= "topic";
@@ -100,6 +111,12 @@ public class ApiControllerTest extends WithApplication{
 		assertEquals(Http.Status.OK, result.status());
     }
     
+    /**
+	 * This test is used the check the status of the result returned 
+	 * when the application when the application receives a <code>GET</code> 
+	 * request for issues and <code>ApiController</code> invokes <code>getIssues</code> 
+	 * and <code>getIssues</code> methods.
+	 */
     @Test
     public void testGetIssues() {
     	String url = "someUrl";
