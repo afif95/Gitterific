@@ -193,23 +193,7 @@ public class UtilClass {
                 (previous, changed) -> previous, LinkedHashMap::new));
 
 	}
-	/**This method is used to return the frequency of words of title of a particular repository.
-	 * It takes a list as an arguments and computes the frequency
-	 * for all the words in the list and stores them in a <code>HashMap</code> 
-	 * and then sorts 
-	 * @author Afif Bin Kamrul
-	 * @param node JsonNode extracted from an HTTP request
-	 * @ownerMap the map of users and his search results
-	 * @searchKey the search the user made 
-	 * @return HashMap <String, PublicOwnerInfo> a data structure storing user and his searches
-	 */
-/*	public Map<String, Integer> getIssues(List<String> s){
-		Map<String, Integer> freq = s.parallelStream().flatMap(sob -> Arrays.asList(sob.split(" ")).stream()).collect(Collectors.toConcurrentMap(sob1->sob1, sob1 ->1, Integer::sum));
-		Map<String,Integer> freq_result = freq.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
-                (previous, changed) -> previous, LinkedHashMap::new));
-		return freq_result;
-	}*/
-	
+
 	
 
 }

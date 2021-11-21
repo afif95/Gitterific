@@ -2,6 +2,7 @@ package utils;
 
 import static org.junit.Assert.*;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ import dto.PublicRepositoryInfo;
 import dto.Repository;
 import play.api.libs.ws.WSResponse;
 import play.libs.Json;
+import play.libs.ws.WSClient;
 
 import static java.util.stream.Collectors.toList;
 
@@ -249,7 +251,7 @@ public class UtilsTest {
 
 	
 	/**
-	 * This is to used to test <code>getIssues</> method
+	 * This is to used to test <code>JsontoIssueList</> method
 	 * in <code>Utils</code> class. The method tests given the mentioned 
 	 * method takes a <code>List</code> as an input, does it correctly 
 	 * return the frequency of each word.
@@ -257,13 +259,45 @@ public class UtilsTest {
 	 * @author Afif Bin Kamrul
 	 */
 	@Test
-	public void testGetIssues() {
+	public void testJsontoIssueList() {
+		List<String> list1 = new ArrayList<String>();
+		list1.add("issue1");
+		list1.add("issue2");
+				
+
+		String jsonStr = "{ \"issue1\" : \"issue2\"}";
+			
+		ObjectMapper object = new ObjectMapper();
+		
+		JsonNode node;
+		try {
+			node = object.readTree(jsonStr);
+						
+			List<String> testerlist = util.JsontoIssueList(node);
+			assertEquals(list1.get(1),testerlist.get(1));
+			
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * This is to used to test <code>issue_to_title_frequency</> method
+	 * in <code>Utils</code> class. The method tests given the mentioned 
+	 * method takes a <code>List</code> as an input, does it correctly 
+	 * return the frequency of each word.
+	 * 
+	 * @author Afif Bin Kamrul
+	 */
+	public void testissue_to_title_frequency() {
 		List<String> list = new ArrayList<>();
 		list.add("issue1");
 		list.add("issue2");
 		list.add("issue2");
 		
-		Map<String, Integer> freq = util.getIssues(list);
+		Map<String, Integer> freq = util.issue_to_title_frequency(list);
 		
 		assertTrue(freq.containsKey("issue1"));
 		assertTrue(freq.get("issue1") == 1);
@@ -272,6 +306,27 @@ public class UtilsTest {
 		assertTrue(freq.get("issue2") == 2);
 	}
 	
+	/**
+	 * This is to used to test <code>issue_to_title_frequency_descendingorder</> method
+	 * in <code>Utils</code> class. The method tests given the mentioned 
+	 * method takes a <code>List</code> as an input, does it correctly 
+	 * return the frequency of each word in sorted condition.
+	 * 
+	 * @author Afif Bin Kamrul
+	 */
+	public void testissue_to_title_frequency_descendingorder() {
+		Map<String, Integer> list = new HashMap<String, Integer>();
+		list.put("issue1", 1);
+		list.put("issue2", 2);
+		
+		Map<String, Integer> freq = util.issue_to_title_frequency_descendingorder(list);
+		
+		Map.Entry<String, Integer> actual = freq.entrySet().stream().findFirst().get();
+		
+		Map.Entry<String, Integer> expected = new AbstractMap.SimpleEntry<String,Integer>("issue2",2);
+
+		assertEquals(expected,actual);
+	}
 	
 	/**
 	 * This is used to test <code>getIssuesRepo</> method
