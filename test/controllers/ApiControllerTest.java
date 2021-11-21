@@ -7,6 +7,10 @@ import play.mvc.Http.Request;
 import play.mvc.Http.RequestBuilder;
 
 import static play.test.Helpers.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -46,7 +50,7 @@ public class ApiControllerTest extends WithApplication{
 	 * and <code>showRepos</code> method is invoked by <code>ApiController</code>.
 	 */
     @Test
-    public void testfetchTweets() {
+    public void testShowRepos() {
         //add test when session id exist;
 		RequestBuilder request = Helpers.fakeRequest(routes.ApiController.showRepos());
 		Result result = route(app, request);
@@ -54,6 +58,20 @@ public class ApiControllerTest extends WithApplication{
 
 		assertEquals(Http.Status.OK, result.status());
 		assertEquals(Http.Status.OK, result1.status());
+    }
+    
+    @Test
+    public void testfetchRepos() {
+       
+    	Map<String, String> form2 = new HashMap<String, String>();
+    	
+        form2.put("searchInput", "java");
+        RequestBuilder request = Helpers.fakeRequest(routes.ApiController.showRepos());
+        request = Helpers.fakeRequest("POST","/home").bodyForm(form2).session("id","1");
+		Result result = route(app, request);
+		
+		assertEquals(Http.Status.SEE_OTHER, result.status());
+		
     }
     
     /**

@@ -133,7 +133,7 @@ public class ApiController extends Controller {
 		  		id=id+1;
 		    	uid = id.toString();
 		    	List<Repository> repo = new ArrayList<>();
-		    	user_searches.put(uid, repo);
+		    	//user_searches.put(uid, repo);
 		        return CompletableFuture.completedFuture(ok(views.html.home.render(form, repo, request, messagesApi.preferred(request))).addingToSession(request, "id",uid));
 		  	 }
 		}
@@ -157,6 +157,11 @@ public class ApiController extends Controller {
 	  
 		public CompletionStage<Result> fetchRepos(Request request) {
 			final Form<formData> bindedForm = form.bindFromRequest(request);
+			if(!user_searches.containsKey(request.session().get("id").get())) {
+				List<Repository> repo1 = new ArrayList<>();
+				user_searches.put(request.session().get("id").get(), repo1);
+			}
+	    	
 
 			if (bindedForm.hasErrors()) {
 				return CompletableFuture.completedFuture(badRequest(views.html.home.render(bindedForm, repos, request, messagesApi.preferred(request))));
