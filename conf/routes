@@ -17,6 +17,8 @@ GET 	/rep/:key/:repo			                controllers.ApiController.getRepository(k
 GET 	/issues/:reponame/:owner				controllers.ApiController.getIssues(reponame: String, owner: String)
 #GET 	/issues/:reponame/:owner/:issueurl		controllers.ApiController.getIssues(reponame: String, owner: String)
 
+GET        /commit/:key/:com                        controllers.ApiController.getCommit(key: String, com: String)
+
 GET 	/home									controllers.ApiController.showRepos(request: Request)
 +nocsrf
 POST 	/home									controllers.ApiController.fetchRepos(request: Request)

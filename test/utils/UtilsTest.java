@@ -329,7 +329,7 @@ public class UtilsTest {
 	
 	/**
 	 * This is used to test <code>getIssuesRepo</> method
-	 * int <code>Utils</> class.
+	 * in <code>Utils</> class.
 	 * @author Roxane Tissier
 	 */
 	@Test
@@ -351,5 +351,40 @@ public class UtilsTest {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * This is used to test getCommit method
+	 * in Utils class
+	 * 
+	 * @author Jason Khaou
+	 */
+	@Test
+    public void testCommit() {
+
+        String jsonStr = "{\"commit\" : \"commit1\"}";
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        ObjectMapper objM = new ObjectMapper();
+        try {
+        List<JsonNode> testList = new ArrayList<>();
+        testList.add(objM.readTree(jsonStr));
+
+        JsonNode node;
+
+            node = objM.readTree(jsonStr);
+
+
+            List<JsonNode> list = util.getCommit(node);
+            assertEquals("\"commit1\"", list.get(0).toString());
+            
+
+        } catch (JsonMappingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
 }

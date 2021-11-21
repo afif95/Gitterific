@@ -2,6 +2,12 @@ package dto;
 
 import java.util.Date;
 
+
+/**
+ * Class used to define all the attributes of the Owner
+ *
+ */
+
 public class PublicOwnerInfo {
 	
 	

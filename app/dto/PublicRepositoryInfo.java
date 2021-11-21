@@ -2,6 +2,12 @@ package dto;
 
 import java.util.ArrayList;
 
+/**
+ * Class used to define the attributes of a repository
+ * 
+ *
+ */
+
 public class PublicRepositoryInfo {
 	 public float id;
 	 public String node_id;

@@ -65,6 +65,13 @@ public class ApiControllerTest extends WithApplication{
 		
     }
     
+    /**
+	 * This test is used the check the status of the result returned when
+	 * the application when the application receives a
+	 * <code>POST</code> request with a path of <code>/home</code>
+	 * and <code>showRepos</code>, then <code>fetchRepos</code> method is invoked by <code>ApiController</code>.
+	 */
+    
     @Test
     public void testfetchRepos() {
        
@@ -166,6 +173,17 @@ public class ApiControllerTest extends WithApplication{
 		Result result = route(app, request);
 		assertEquals(Http.Status.OK, result.status());
 
+    }
+    
+    @Test
+    public void testGetCommit() {
+    	String owner = "chvin";
+    	String reponame = "react-tetris";
+    	
+    	RequestBuilder request = Helpers.fakeRequest(routes.ApiController.getCommit(reponame, owner));
+
+		Result result = route(app, request);
+		assertEquals(Http.Status.OK, result.status());
     }
     
 }

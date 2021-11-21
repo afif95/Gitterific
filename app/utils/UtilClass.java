@@ -193,7 +193,18 @@ public class UtilClass {
                 (previous, changed) -> previous, LinkedHashMap::new));
 
 	}
-
 	
+	/**
+	 * This function returns all the commits in a Json.
+	 * 
+	 * @author Jason Khaou
+	 * @param node
+	 * @return list of jsonNodes representing the commits
+	 */
+
+	public List<JsonNode> getCommit(JsonNode node) {
+        return node.findValues("commit").stream().limit(100)
+                .collect(Collectors.toList());
+    }
 
 }

@@ -324,8 +324,30 @@ public CompletionStage<Result> getIssues(String reponame, String owner){
 
 	        
 	   }
+
+/**
+ * This method is used to find the commits of a repository.
+ * 
+ * @author Jason Khaou
+ * @param searchKey
+ * @param SearchCom
+ * @return
+ */
 	  
 
- 
+public CompletionStage<Result> getCommit(String searchKey, String SearchCom) {
+    return ws.url(baseUrl + "/repos/"+ searchKey + "/" + SearchCom + "/commits")
+              .get()
+              .thenApplyAsync(result -> {
+                  JsonNode jd =  result.asJson();
+                  JsonNode owner = jd.get("owner");
+                  //Commit commit = Json.fromJson(jd, Commit.class);
+                  PublicOwnerInfo p = Json.fromJson(owner, PublicOwnerInfo.class);
+                  List<JsonNode> list = util.getCommit(result.asJson());
+
+                 
+                  return ok(views.html.commit.render(list));
+              });
+}
 	        
 }
