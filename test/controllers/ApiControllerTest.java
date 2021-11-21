@@ -52,12 +52,17 @@ public class ApiControllerTest extends WithApplication{
     @Test
     public void testShowRepos() {
         //add test when session id exist;
-		RequestBuilder request = Helpers.fakeRequest(routes.ApiController.showRepos());
+		RequestBuilder request = Helpers.fakeRequest(routes.ApiController.showRepos()).session("id", "1");
 		Result result = route(app, request);
 		Result result1 = route(app, request);
 
 		assertEquals(Http.Status.OK, result.status());
 		assertEquals(Http.Status.OK, result1.status());
+		
+		RequestBuilder request2 = Helpers.fakeRequest(routes.ApiController.showRepos());
+		Result result2 = route(app, request2);
+		assertEquals(Http.Status.OK, result2.status());
+		
     }
     
     @Test
