@@ -154,10 +154,10 @@ public class ApiControllerTest extends WithApplication{
 	 */
     @Test
     public void testGetIssues() {
-    	String url = "someUrl";
     	String owner = "chvin";
     	String reponame = "react-tetris";
-		RequestBuilder request = Helpers.fakeRequest(routes.ApiController.getIssues(owner, reponame));
+		RequestBuilder request = Helpers.fakeRequest(routes.ApiController.getIssues(reponame, owner));
+
 		Result result = route(app, request);
 		assertEquals(Http.Status.OK, result.status());
 

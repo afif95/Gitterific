@@ -2,8 +2,9 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -107,7 +108,13 @@ public class UtilClass {
 	 * @author Rimsha Afzal
 	 * @param node JsonNode extracted from an HTTP request
 	 * @ownerMap the map of user login and his object
-	 * @searchKey owner's login
+	 * @searchKey session().get("id").get();
+			        	user_searches = util.addRepoToUserMap(s, user_searches, list);
+			        	return user_searches.get(s);
+			        }).thenApply(m -> redirect(routes.ApiController.showRepos()));
+			        		
+				} catch (Exception exp) {
+					return CompletableFuture.completedFuture(ok());owner's login
 	 * @return HashMap <String, PublicOwnerInfo> a data structure storing user and his profile
 	 */
 	
@@ -158,21 +165,35 @@ public class UtilClass {
 	}
 	
 	
-	/**This method is used to return the frequency of words.
-	 * It takes a list as an arguments and computes the frequency
-	 * for all the words in the list and stores them in a <code>HashMap</code> 
-	 * 
+	/**
 	 * @author Afif Bin Kamrul
 	 * @param node JsonNode extracted from an HTTP request
-	 * @ownerMap the map of users and his search results
-	 * @searchKey the search the user made 
-	 * @return HashMap <String, PublicOwnerInfo> a data structure storing user and his searches
+	 * @return all the titles of a specific repository
 	 */
-	public Map<String, Integer> getIssues(List<String> s){
-		Map<String, Integer> freq = s.parallelStream().flatMap(sob -> Arrays.asList(sob.split(" ")).stream()).collect(Collectors.toConcurrentMap(sob1->sob1, sob1 ->1, Integer::sum));
-		return freq;
+	public List<String> JsontoIssueList(JsonNode node){
+		return node.findValues("title").stream().map(JsonNode::asText).collect(Collectors.toList());
 	}
 	
+	/**
+	 * @author Afif Bin Kamrul
+	 * @param s all the titles of a specific repository
+	 * @return frequency of all words present in all the tiles
+	 */
+	public Map<String, Integer> issue_to_title_frequency(List<String> s) {
+		return s.parallelStream().flatMap(sob -> Arrays.asList(sob.split(" ")).stream()).collect(Collectors.toConcurrentMap(sob1->sob1, sob1 ->1, Integer::sum));
+	}
+	
+	/**
+	 * @author Afif Bin Kamrul
+	 * @param freq frequency of all words present in all the tiles
+	 * @return frequency of all words presented in all the titles in descending order
+	 */
+	public Map<String, Integer> issue_to_title_frequency_descendingorder(Map<String,Integer> freq){
+		return freq.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                (previous, changed) -> previous, LinkedHashMap::new));
+
+	}
+
 	
 
 }
