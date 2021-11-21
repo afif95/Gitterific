@@ -262,10 +262,9 @@ public class UtilsTest {
 	public void testJsontoIssueList() {
 		List<String> list1 = new ArrayList<String>();
 		list1.add("issue1");
-		list1.add("issue2");
 				
 
-		String jsonStr = "{ \"issue1\" : \"issue2\"}";
+		String jsonStr = "{ \"title\" : \"issue1\"}";
 			
 		ObjectMapper object = new ObjectMapper();
 		
@@ -274,7 +273,7 @@ public class UtilsTest {
 			node = object.readTree(jsonStr);
 						
 			List<String> testerlist = util.JsontoIssueList(node);
-			assertEquals(list1.get(1),testerlist.get(1));
+			assertEquals(list1,testerlist);
 			
 		} catch (JsonMappingException e) {
 			e.printStackTrace();
