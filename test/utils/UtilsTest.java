@@ -252,10 +252,8 @@ public class UtilsTest {
 	
 	/**
 	 * This is to used to test <code>JsontoIssueList</> method
-	 * in <code>Utils</code> class. The method tests given the mentioned 
-	 * method takes a <code>List</code> as an input, does it correctly 
-	 * return the frequency of each word.
-	 * 
+	 * in <code>Utils</code> class. The method tests if the issues returned are as same 
+	 * as expected
 	 * @author Afif Bin Kamrul
 	 */
 	@Test
