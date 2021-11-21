@@ -246,10 +246,7 @@ public class UtilsTest {
 		
 	}
 	
-	
-<<<<<<< HEAD
-	/*public void testGetIssues() {
-=======
+
 	
 	/**
 	 * This is to used to test <code>getIssues</> method
@@ -261,7 +258,6 @@ public class UtilsTest {
 	 */
 	@Test
 	public void testGetIssues() {
->>>>>>> d9d2fd9ce34437b62d2f0ac03af8e5238d05e39a
 		List<String> list = new ArrayList<>();
 		list.add("issue1");
 		list.add("issue2");
@@ -274,7 +270,7 @@ public class UtilsTest {
 		
 		assertTrue(freq.containsKey("issue2"));
 		assertTrue(freq.get("issue2") == 2);
-	}*/
+	}
 	
 	
 	/**

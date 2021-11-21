@@ -298,8 +298,9 @@ public class ApiController extends Controller {
 
 
  /**
-  * Action which returns the titles of all the issues
-  * Afterwards, sorts the unique words of all the titles in descending order
+  	 * This method is used to return frequency of all the words present in a specific repository.
+	 * It takes repository and ownername as argument name
+	 	
   * @author Afif Bin Kamrul
   * @param reponame The repository from which issues will be collected
   * @param owner The owner of the repository
@@ -311,25 +312,15 @@ public CompletionStage<Result> getIssues(String reponame, String owner){
 		  return ws.url(baseUrl + "/repos/" + owner+"/"+reponame+"/issues").get()
 				  .thenApplyAsync(result -> {	
 					  
-			        	List<String> s = result.asJson().findValues("title").stream().map(JsonNode::asText).collect(Collectors.toList());
 			        	
-			        	Map<String, Integer> freq = s.parallelStream().flatMap(sob -> Arrays.asList(sob.split(" ")).stream()).collect(Collectors.toConcurrentMap(sob1->sob1, sob1 ->1, Integer::sum));
-			        	
-			        	Map<String,Integer> freq_result = freq.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
-		                        (previous, changed) -> previous, LinkedHashMap::new));
-			        	return ok(views.html.issuestatistics.render(freq_result));
+			        	return ok(views.html.issuestatistics.render(util.issue_to_title_frequency_descendingorder(util.issue_to_title_frequency(util.JsontoIssueList(result.asJson())))));
 
 			        });
 
 	        
 	   }
 	  
- /*public CompletionStage<Void> frequency(String issuesingle){
-      issueresult = Arrays.stream(issuesingle.split(" "))
-    		  .map(String::trim)
-    		  .toArray(String[]::new);
-	 
- }*/
+
  
 	        
 }
