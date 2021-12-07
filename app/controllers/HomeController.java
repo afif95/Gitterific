@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import play.libs.streams.ActorFlow;
+import actors.OwnerActor;
 import actors.TimeActor;
 import akka.actor.ActorSystem;
 import akka.stream.Materializer;
@@ -56,6 +57,16 @@ public class HomeController extends Controller {
         }
     }
 	
+	public Result owner(String ownerName) {
+		String uid;
+		//String url = routes.HomeController.ws().webSocketURL(request);
+		//if((request.session().get("id")).isPresent()) {
+			
+			return ok(views.html.owner.render(ownerName));
+		//}
+		
+    }
+	
 /*	public Result getOwner(Http.Request request) {
 		String uid;
 		//String url = routes.HomeController.ownerWS().webSocketURL(request);
@@ -75,8 +86,8 @@ public class HomeController extends Controller {
 				ws -> UserActor.props(ws,wsc,request.session()), actorSystem, materializer));
     }
     
-  /*  public WebSocket ownerWS() {
+    public WebSocket ownerWS() {
         return WebSocket.Json.accept(request -> ActorFlow.actorRef(
 				ws -> OwnerActor.props(ws,wsc,request.session()), actorSystem, materializer));
-    }*/
+    }
 }
