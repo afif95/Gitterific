@@ -107,7 +107,7 @@ public class OwnerActor extends AbstractActor {
     	
 		try {
 			String sid = session.get("id").get();
-			String searchVal = js.get("message").textValue();
+			String searchVal = "Scala";
 			gh.fetchResultsImp(userSearches, searchVal, ws, wsc, self(), session, singleton)
 			 .thenApply(r -> {
 		            final ObjectNode response = Json.newObject();
