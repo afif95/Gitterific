@@ -19,7 +19,7 @@ public class TimeActor extends AbstractActorWithTimers {
 	
 	
 	// operation 1
-    private static final class Tick {
+    public static final class Tick {
     	
     }
     

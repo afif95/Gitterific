@@ -16,7 +16,7 @@
 	<script>
 	
 	
-	 var webSocket, ownerSocket;
+	 var webSocket, ownerSocket, repositorySocket;
      var messageInput;
 
         function init() {
@@ -34,6 +34,14 @@
             
              ownerSocket = new WebSocket("ws://localhost:9000/ownerWS");
              ownerSocket.onmessage = function(event) {
+             	var receivedData = JSON.parse(evt.data);
+            	console.log("New Data: ", receivedData);
+             }
+             
+           	//Repository Socket
+             
+             repositorySocket = new WebSocket("ws://localhost:9000/repositoryWS");
+             repositorySocket.onmessage = function(event) {
              	var receivedData = JSON.parse(evt.data);
             	console.log("New Data: ", receivedData);
              }
@@ -115,12 +123,12 @@
         
         function appendMessageToView(owner_name, repo_name,topics) {
         
-            $("#messageContent").append("<tr> <td>" + getHyperlinked(owner_name, "/owner/" + owner_name) + " </td> <td>" + "   " + " -" + getHyperlinked(repo_name, "#") + "</td> <td>Topics: " + print(topics) + " </td> </tr>");
+            $("#messageContent").append("<tr> <td>" + getHyperlinked(owner_name, "/owner/" + owner_name) + " </td> <td>" + "   " + " -" + getHyperlinked(repo_name, "/repository/" + repo_name) + "</td> <td>Topics: " + print(topics) + " </td> </tr>");
         }
         
         function prependMessageToView(owner_name, repo_name,topics) {
         
-            $("#messageContent").prepend("<tr> <td>" + getHyperlinked(owner_name, "/owner/" + owner_name) + " </td> <td>" + "   " + " -" + getHyperlinked(repo_name, "#") + "</td> <td>Topics: " + print(topics) + " </td> </tr>");
+            $("#messageContent").prepend("<tr> <td>" + getHyperlinked(owner_name, "/owner/" + owner_name) + " </td> <td>" + "   " + " -" + getHyperlinked(repo_name, "/repository/" + repo_name) + "</td> <td>Topics: " + print(topics) + " </td> </tr>");
         }
         
          function print(topics) {
@@ -194,23 +202,6 @@
          window.addEventListener("load", init, false);
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 	
 	
 	</script>

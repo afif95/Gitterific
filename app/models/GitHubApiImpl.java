@@ -1,6 +1,8 @@
 package models;
 
 import java.util.ArrayList;
+import play.Logger;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +54,17 @@ public class GitHubApiImpl implements GitHubApi{
 				 return r.asJson();
 			 });		        
 	       
+	}
+
+	@Override
+	public CompletionStage<JsonNode> fetchRepositoryImp(Map<String, List<Repository>> userSearches, String searchVal,
+			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
+		Logger.info(searchVal);
+		return wsc.url(baseUrl + "/search/repositories?q=/"+ searchVal)
+			       
+				 .get().thenApply(r -> {
+					 return r.asJson();
+				 });
 	}
 
 /*	@Override

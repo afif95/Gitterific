@@ -8,6 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 import play.libs.streams.ActorFlow;
 import actors.OwnerActor;
+import actors.RepositoryActor;
 import actors.TimeActor;
 import akka.actor.ActorSystem;
 import akka.stream.Materializer;
@@ -80,6 +81,12 @@ public class HomeController extends Controller {
 			return ok(views.html.index.render(url)).addingToSession(request, "id",uid);
         }
     }*/
+	
+	public Result repository(String Owner, String repository) {
+		String uid;
+		return ok(views.html.repository.render(Owner, repository));
+		
+    }
    
     public WebSocket ws() {
         return WebSocket.Json.accept(request -> ActorFlow.actorRef(
@@ -89,5 +96,10 @@ public class HomeController extends Controller {
     public WebSocket ownerWS() {
         return WebSocket.Json.accept(request -> ActorFlow.actorRef(
 				ws -> OwnerActor.props(ws,wsc,request.session()), actorSystem, materializer));
+    }
+    
+    public WebSocket repositoryWS() {
+        return WebSocket.Json.accept(request -> ActorFlow.actorRef(
+				ws -> RepositoryActor.props(ws,wsc,request.session()), actorSystem, materializer));
     }
 }

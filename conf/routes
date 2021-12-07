@@ -5,8 +5,16 @@
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index(request: Request)
 GET     /ws                         controllers.HomeController.ws
+
+
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+
 GET     /ownerWS                    controllers.HomeController.ownerWS	
 GET     /owner/:key                      controllers.HomeController.owner(key: String)
+
+GET		/repositoryWS				controllers.HomeController.repositoryWS
+GET		/repository/:owner/:repo	controllers.HomeController.repository(owner: String, repo: String)
+	
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
