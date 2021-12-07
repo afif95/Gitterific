@@ -10,6 +10,7 @@ import play.libs.streams.ActorFlow;
 import actors.OwnerActor;
 import actors.RepositoryActor;
 import actors.TimeActor;
+import actors.TopicsActor;
 import akka.actor.ActorSystem;
 import akka.stream.Materializer;
 import views.package$;
@@ -68,6 +69,16 @@ public class HomeController extends Controller {
 		
     }
 	
+	public Result topics(String topic) {
+		String uid;
+		//String url = routes.HomeController.ws().webSocketURL(request);
+		//if((request.session().get("id")).isPresent()) {
+			
+			return ok(views.html.topics.render(topic));
+		//}
+		
+    }
+	
 /*	public Result getOwner(Http.Request request) {
 		String uid;
 		//String url = routes.HomeController.ownerWS().webSocketURL(request);
@@ -98,8 +109,15 @@ public class HomeController extends Controller {
 				ws -> OwnerActor.props(ws,wsc,request.session()), actorSystem, materializer));
     }
     
+
     public WebSocket repositoryWS() {
         return WebSocket.Json.accept(request -> ActorFlow.actorRef(
 				ws -> RepositoryActor.props(ws,wsc,request.session()), actorSystem, materializer));
+    }
+
+    public WebSocket topicWS() {
+        return WebSocket.Json.accept(request -> ActorFlow.actorRef(
+				ws -> TopicsActor.props(ws,wsc,request.session()), actorSystem, materializer));
+
     }
 }

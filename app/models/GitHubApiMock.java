@@ -112,6 +112,26 @@ public class GitHubApiMock implements GitHubApi {
    	 	return null;
 	}*/
 
+		JsonNode node = null;
+		try {
+			node = objM.readTree(str);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
+		
+		return node;
+	}
+
+
+	@Override
+	public CompletionStage<JsonNode> fetchReposByTopic(Map<String, List<Repository>> userSearches, String searchVal,
+			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 	
 	
 	/*
