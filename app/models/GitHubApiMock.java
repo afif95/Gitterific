@@ -32,10 +32,6 @@ import javax.inject.Inject;
 
 public class GitHubApiMock implements GitHubApi {
 
-
-	
-
-
 	utilClass util = new utilClass();
 	String jsonForFetch = "[{\"owner\" : {\"login\" : \"User\", \"id\" : 1}, \"full_name\" : \"login\", \"topics\" : [\"topic\"]}]";
 	String jsonStr = "{\"items\" : [{\"owner\" : {\"login\" : \"User\", \"id\" : 1}, \"full_name\" : \"login\", \"topics\" : [\"topic\"]}]}";
@@ -43,7 +39,6 @@ public class GitHubApiMock implements GitHubApi {
 
 	
 	public ObjectNode createResponse(String searchVal, JsonNode str) {
-		//JsonNode abc = createJson(str);
         final ObjectNode response = Json.newObject();
 		response.put("search_flag","new" );
         response.put("search_term", searchVal );
@@ -56,12 +51,10 @@ public class GitHubApiMock implements GitHubApi {
 	@Override
 	public CompletionStage<JsonNode> fetchResultsImp(Map<String, List<Repository>> userSearches, String searchVal, ActorRef ws,
 			WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
-		
 		return CompletableFuture.supplyAsync(() -> {
-			List<Repository> repos = util.JSONtoRepoList(createJson(jsonStr));
+			List<Repository> repos = util.JSONtoRepoList(util.createJson(jsonStr));
 	        userSearches.putIfAbsent(searchVal,repos);
-	        final ObjectNode response = createResponse(searchVal, createJson(jsonForFetch));
-	        //ws.tell(response, ws);
+	        final ObjectNode response = createResponse(searchVal, util.createJson(jsonForFetch));
 	        return response;
 		});
 		
@@ -77,10 +70,10 @@ public class GitHubApiMock implements GitHubApi {
 	
 
 
-	public ObjectNode createUpdatedResponse(Map<String,List<Repository>> userSearches, String searchVal) {
+	/*public ObjectNode createUpdatedResponse(Map<String,List<Repository>> userSearches, String searchVal) {
 		int countNewRepos = 0;
 		
-		List<Repository> new_search_results = util.JSONtoRepoList(createJson(jsonStr2));
+		List<Repository> new_search_results = util.JSONtoRepoList(util.createJson(jsonStr2));
 		
 		List<Repository> prev_repos = userSearches.get(searchVal);
    	 	List<Repository> show_new_repos = new ArrayList<>();
@@ -103,22 +96,10 @@ public class GitHubApiMock implements GitHubApi {
    	 		return response;
    	 	}
    	 	return null;
-	}
+	}*/
 
 	
-	public JsonNode createJson(String str) {
-		ObjectMapper objM = new ObjectMapper();
 	
-		JsonNode node = null;
-		try {
-			node = objM.readTree(str);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		};
-		
-		return node;
-	}
 	/*
 	@Override
 	public ObjectNode fetchingUpdateImp(JsonNode r,  Map<String, List<Repository>> userSearches, String searchVal) {

@@ -1,13 +1,27 @@
-2021-12-07 03:02:35,707 [WARN] from play.filters.headers.SecurityHeadersConfig in play-dev-mode-akka.actor.default-dispatcher-7 - play.filters.headers.contentSecurityPolicy is deprecated in 2.7.0.  Please use play.filters.csp.CSPFilter instead.
-2021-12-07 03:02:35,715 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-7 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
+2021-12-07 11:39:22,980 [WARN] from play.filters.headers.SecurityHeadersConfig in play-dev-mode-akka.actor.default-dispatcher-6 - play.filters.headers.contentSecurityPolicy is deprecated in 2.7.0.  Please use play.filters.csp.CSPFilter instead.
+2021-12-07 11:39:22,984 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-6 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
 
     play.filters.csrf.CSRFFilter
     play.filters.headers.SecurityHeadersFilter
     play.filters.hosts.AllowedHostsFilter
 
-2021-12-07 03:02:35,811 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-7 - Application started (Dev) (no global state)
-2021-12-07 03:02:35,929 [INFO] from application in application-akka.actor.default-dispatcher-6 - TimeActor Actor[akka://application/user/timeActor#-101159187] started
-2021-12-07 03:03:36,897 [INFO] from play.api.internal.libs.concurrent.CoordinatedShutdownSupport in pool-82-thread-9 - Starting synchronous coordinated shutdown with ServerStoppedReason reason and 35000 milliseconds timeout
-2021-12-07 03:03:36,899 [INFO] from play.core.server.AkkaHttpServer in pool-82-thread-9 - Stopping Akka HTTP server...
-2021-12-07 03:03:36,907 [INFO] from play.core.server.AkkaHttpServer in play-dev-mode-akka.actor.internal-dispatcher-3 - Terminating server binding for /0:0:0:0:0:0:0:0:9000
-2021-12-07 03:03:36,968 [INFO] from play.core.server.AkkaHttpServer in play-dev-mode-akka.actor.internal-dispatcher-13 - Running provided shutdown stop hooks
+2021-12-07 11:39:23,032 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-6 - Application started (Dev) (no global state)
+2021-12-07 11:39:23,085 [INFO] from application in application-akka.actor.default-dispatcher-4 - TimeActor Actor[akka://application/user/timeActor#1082006380] started
+2021-12-07 11:39:27,355 [INFO] from application in application-akka.actor.default-dispatcher-7 - in function !!!!
+2021-12-07 11:39:27,456 [INFO] from application in ForkJoinPool.commonPool-worker-3 - {"search_flag":"new","search_term":"hey","data":[{"owner":{"login":"User","id":1},"full_name":"login","topics":["topic"]}]}
+2021-12-07 11:40:40,916 [INFO] from play.api.internal.libs.concurrent.CoordinatedShutdownSupport in pool-10-thread-7 - Starting synchronous coordinated shutdown with ServerStoppedReason reason and 35000 milliseconds timeout
+2021-12-07 11:40:40,919 [INFO] from play.core.server.AkkaHttpServer in pool-10-thread-7 - Stopping Akka HTTP server...
+2021-12-07 11:40:40,930 [INFO] from play.core.server.AkkaHttpServer in play-dev-mode-akka.actor.internal-dispatcher-2 - Terminating server binding for /0:0:0:0:0:0:0:0:9000
+2021-12-07 11:40:40,989 [INFO] from play.core.server.AkkaHttpServer in play-dev-mode-akka.actor.internal-dispatcher-2 - Running provided shutdown stop hooks
+2021-12-07 11:40:58,917 [WARN] from play.filters.headers.SecurityHeadersConfig in pool-1-thread-1 - play.filters.headers.contentSecurityPolicy is deprecated in 2.7.0.  Please use play.filters.csp.CSPFilter instead.
+2021-12-07 11:40:59,177 [WARN] from play.filters.headers.SecurityHeadersConfig in pool-1-thread-1 - play.filters.headers.contentSecurityPolicy is deprecated in 2.7.0.  Please use play.filters.csp.CSPFilter instead.
+2021-12-07 11:40:59,267 [INFO] from application in application-akka.actor.default-dispatcher-6 - TimeActor Actor[akka://application/user/timeActor#-1364960012] started
+2021-12-07 11:41:00,054 [WARN] from play.filters.headers.SecurityHeadersConfig in pool-1-thread-1 - play.filters.headers.contentSecurityPolicy is deprecated in 2.7.0.  Please use play.filters.csp.CSPFilter instead.
+2021-12-07 11:41:54,554 [WARN] from play.filters.headers.SecurityHeadersConfig in pool-1-thread-1 - play.filters.headers.contentSecurityPolicy is deprecated in 2.7.0.  Please use play.filters.csp.CSPFilter instead.
+2021-12-07 11:41:54,732 [WARN] from play.filters.headers.SecurityHeadersConfig in pool-1-thread-1 - play.filters.headers.contentSecurityPolicy is deprecated in 2.7.0.  Please use play.filters.csp.CSPFilter instead.
+2021-12-07 11:41:54,800 [INFO] from application in application-akka.actor.default-dispatcher-7 - TimeActor Actor[akka://application/user/timeActor#341851662] started
+2021-12-07 11:41:55,403 [WARN] from play.filters.headers.SecurityHeadersConfig in pool-1-thread-1 - play.filters.headers.contentSecurityPolicy is deprecated in 2.7.0.  Please use play.filters.csp.CSPFilter instead.
+2021-12-07 11:49:31,589 [WARN] from play.filters.headers.SecurityHeadersConfig in pool-1-thread-1 - play.filters.headers.contentSecurityPolicy is deprecated in 2.7.0.  Please use play.filters.csp.CSPFilter instead.
+2021-12-07 11:49:31,741 [INFO] from application in application-akka.actor.default-dispatcher-4 - TimeActor Actor[akka://application/user/timeActor#675786111] started
+2021-12-07 11:49:32,434 [WARN] from play.filters.headers.SecurityHeadersConfig in pool-1-thread-1 - play.filters.headers.contentSecurityPolicy is deprecated in 2.7.0.  Please use play.filters.csp.CSPFilter instead.
+2021-12-07 11:49:32,538 [WARN] from play.filters.headers.SecurityHeadersConfig in pool-1-thread-1 - play.filters.headers.contentSecurityPolicy is deprecated in 2.7.0.  Please use play.filters.csp.CSPFilter instead.

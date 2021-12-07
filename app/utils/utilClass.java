@@ -13,7 +13,9 @@ import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import controllers.routes;
 import dto.*;
@@ -39,6 +41,25 @@ public class utilClass {
                 .collect(Collectors.toList());
 	}
 	
+	/**
+	 * 
+	 * @author roxane tissier
+	 * @param str
+	 * @return
+	 */
 	
+	public JsonNode createJson(String str) {
+		ObjectMapper objM = new ObjectMapper();
+	
+		JsonNode node = null;
+		try {
+			node = objM.readTree(str);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
+		
+		return node;
+	}
 	
 }
