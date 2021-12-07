@@ -1,7 +1,7 @@
 @(owner: String)
 
 
-    <title>Welcome to Gitterific!</title>
+   
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
    
 
@@ -44,16 +44,21 @@
         }
 
         function onMessage(evt) {
+        	$("#messageContent").empty();
             var receivedData = JSON.parse(evt.data);
             console.log("Owner :::: ", receivedData);
-            appendMessage("login: ",receivedData.data.login);
-            
+            //appendMessage("login: ",receivedData.data.login);
+            //$("#messageContent").empty();
+	           		  
             const keys = Object.keys(receivedData.data);
             
-            
-				           Object.keys(receivedData.data).forEach(function(key) {
-				    appendMessage(key, receivedData.data[key]);
+            		appendHeading("Public Owner Information:");
+				    Object.keys(receivedData.data).forEach(function(key) {
+				    appendMessage1(key, receivedData.data[key]);
 				}); 
+					appendHeading("Public Owner Repositories:");
+						receivedData.data1.forEach(r => {
+	            	appendMessage(r.full_name); });
 				  				
            	/*	if (receivedData.search_flag == 'new'){
 	           		receivedData.data.forEach(r => {
@@ -95,9 +100,14 @@
          //   $("#messageContent").append("<p>" + title + ": " + message + "</p>");
         //}
         
-           function appendMessage(title, field) {
+           function appendMessage1(title, field) {
         
             $("#messageContent").append("<p>" + title + ": " + field + "</p>");
+        }
+        
+          function appendMessage(title) {
+        
+            $("#messageContent").append("<p>" + title + "</p>");
         }
         
         function appendMessageToView(repo_name) {
