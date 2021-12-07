@@ -33,6 +33,9 @@ import javax.inject.Inject;
 public class GitHubApiMock implements GitHubApi {
 
 
+	
+
+
 	utilClass util = new utilClass();
 	String jsonForFetch = "[{\"owner\" : {\"login\" : \"User\", \"id\" : 1}, \"full_name\" : \"login\", \"topics\" : [\"topic\"]}]";
 	String jsonStr = "{\"items\" : [{\"owner\" : {\"login\" : \"User\", \"id\" : 1}, \"full_name\" : \"login\", \"topics\" : [\"topic\"]}]}";
@@ -63,6 +66,13 @@ public class GitHubApiMock implements GitHubApi {
 		});
 		
 	
+	}
+	
+	@Override
+	public CompletionStage<JsonNode> fetchOwnerImp(Map<String, List<Repository>> userSearches, String searchVal,
+			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

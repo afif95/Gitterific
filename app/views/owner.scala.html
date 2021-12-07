@@ -46,9 +46,15 @@
         function onMessage(evt) {
             var receivedData = JSON.parse(evt.data);
             console.log("Owner :::: ", receivedData);
+            appendMessage("login: ",receivedData.data.login);
             
-            	 
-  				
+            const keys = Object.keys(receivedData.data);
+            
+            
+				           Object.keys(receivedData.data).forEach(function(key) {
+				    appendMessage(key, receivedData.data[key]);
+				}); 
+				  				
            	/*	if (receivedData.search_flag == 'new'){
 	           		receivedData.data.forEach(r => {
 	            	//appendMessageToView(r.owner.login, r.full_name); 
@@ -88,6 +94,11 @@
         //document.getElementById("messageContent").innerHTML = "Hello"
          //   $("#messageContent").append("<p>" + title + ": " + message + "</p>");
         //}
+        
+           function appendMessage(title, field) {
+        
+            $("#messageContent").append("<p>" + title + ": " + field + "</p>");
+        }
         
         function appendMessageToView(repo_name) {
         

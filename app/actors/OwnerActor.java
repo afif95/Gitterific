@@ -6,6 +6,7 @@ import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import controllers.routes;
+import dto.PublicOwnerInfo;
 import dto.Repository;
 import models.GitHubApi;
 import modules.GitHubModule;
@@ -107,20 +108,21 @@ public class OwnerActor extends AbstractActor {
     	
 		try {
 			String sid = session.get("id").get();
-			String searchVal = "Scala";
-			gh.fetchResultsImp(userSearches, searchVal, ws, wsc, self(), session, singleton)
+			String searchVal = js.get("message").textValue();
+			gh.fetchOwnerImp(userSearches, searchVal, ws, wsc, self(), session, singleton)
 			 .thenApply(r -> {
 		            final ObjectNode response = Json.newObject();
 		            final Map<String,String> a1 = new HashMap<>();
 		            
-		            List<Repository> repos = util.JSONtoRepoList(r);
-		            singleton.setNum(sid, searchVal,repos);
-		            JsonNode abc = Json.toJson(repos);
+		            PublicOwnerInfo p = Json.fromJson(r, PublicOwnerInfo.class);
+		           // List<Repository> repos = util.JSONtoRepoList(r);
+		           // singleton.setNum(sid, searchVal,repos);
+		            JsonNode abc = r;
 		            
 		            
 		            response.put("search_flag","new" );
 		            response.put("search_term", searchVal );
-		            response.putPOJO("data", abc);
+		            response.putPOJO("data", r);
 		            return response;
 		        }).thenAccept(r -> ws.tell(r, self()));
         	
@@ -135,51 +137,29 @@ public class OwnerActor extends AbstractActor {
     	
     	
 		try {		
-			
+			/*
 			String sid = session.get("id").get();
-
-			singleton.getNum(sid).keySet()
-			.parallelStream()
-			.forEach(searchVal -> {
-			gh.fetchResultsImp(userSearches, searchVal, ws, wsc, self(), session, singleton)		        
-	        .thenApply(r -> {
-	        	 String a = searchVal;
-	        	 final ObjectNode response = Json.newObject();
-		         final Map<String,String> a1 = new HashMap<>();
-		         
-		         int countNewRepos = 0;
-		         List<Repository> new_search_results = util.JSONtoRepoList(r);
-	        	// List<Repository> prev_repos = userSearches.get(searchVal);
-		         
-		         List<Repository> prev_repos = singleton.getNum(sid).get(searchVal);
-	        	 List<Repository> show_new_repos = new ArrayList<>();
-	        		 
-	        	 
-		        
-		        for(Repository repo : new_search_results) {
-		        	if((new_search_results.get(countNewRepos).getFull_name()).equals(prev_repos.get(0).getFull_name())) {
-		        			break; 	 
-		        	}	
-		        	else {
-		        		prev_repos.add(0,repo);	
-		        	}
-		        	countNewRepos++;
-		        }
-		        	singleton.setNum(sid,searchVal,prev_repos);
-			       // userSearches.replace(searchVal,prev_repos);
-		            JsonNode abc = Json.toJson(singleton.getNum(sid));
-		        	//JsonNode abc = Json.toJson(prev_repos);
-		            response.put("search_flag","old" );
+			//String searchVal = js.get("message").textValue();
+			gh.fetchOwnerImp(userSearches, searchVal, ws, wsc, self(), session, singleton)
+			 .thenApply(r -> {
+		            final ObjectNode response = Json.newObject();
+		            final Map<String,String> a1 = new HashMap<>();
+		            
+		            PublicOwnerInfo p = Json.fromJson(r, PublicOwnerInfo.class);
+		           // List<Repository> repos = util.JSONtoRepoList(r);
+		           // singleton.setNum(sid, searchVal,repos);
+		            JsonNode abc = r;
+		            
+		            
+		            response.put("search_flag","new" );
 		            response.put("search_term", searchVal );
-		            response.putPOJO("data", abc);
+		            response.putPOJO("data", r);
 		            return response;
-       }).thenAccept(r -> ws.tell(r, self()));
-		});
-       
+		        }).thenAccept(r -> ws.tell(r, self()));
 			
 			//ObjectNode response = gh.fetchingUpdateImp(userSearches, ws, wsc, session, singleton);
 			//ws.tell(response, self());
-			
+			*/
 		} catch (Exception exp) {
 		}
 			

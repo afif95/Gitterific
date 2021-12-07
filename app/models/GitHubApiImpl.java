@@ -42,6 +42,17 @@ public class GitHubApiImpl implements GitHubApi{
 			 });		        
 	       
 	}
+	
+	@Override
+	public CompletionStage<JsonNode> fetchOwnerImp(Map<String, List<Repository>> userSearches, String searchVal, ActorRef ws,
+			WSClient wsc, ActorRef ua, Session session, Singleton singleton) {	
+			return wsc.url(baseUrl + "/users/"+ searchVal)
+	       
+			 .get().thenApply(r -> {
+				 return r.asJson();
+			 });		        
+	       
+	}
 
 /*	@Override
 	public CompletionStage<WSResponse> fetchingUpdateImp(Map<String, List<Repository>> userSearches, ActorRef ws,
