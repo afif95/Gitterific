@@ -57,7 +57,6 @@ public class GitHubApiImpl implements GitHubApi{
 	}
 
 	@Override
-<<<<<<< HEAD
 	public CompletionStage<JsonNode> fetchRepositoryImp(Map<String, List<Repository>> userSearches, String searchVal,
 			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
 		Logger.info(searchVal);
@@ -68,7 +67,6 @@ public class GitHubApiImpl implements GitHubApi{
 				 });
 	}
 
-=======
 	public CompletionStage<JsonNode> fetchOwnerReposImp(Map<String, List<Repository>> userSearches, String searchVal,
 			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
 		return wsc.url(baseUrl + "/users/"+ searchVal +  "/repos")
@@ -80,7 +78,6 @@ public class GitHubApiImpl implements GitHubApi{
 	}
 
 
->>>>>>> assignment2
 /*	@Override
 	public CompletionStage<WSResponse> fetchingUpdateImp(Map<String, List<Repository>> userSearches, ActorRef ws,
 			WSClient wsc, Session session, Singleton singleton) {
