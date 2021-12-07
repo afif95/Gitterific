@@ -20,6 +20,7 @@ import javax.inject.Inject;
 
 public interface GitHubApi {
 	CompletionStage<JsonNode> fetchResultsImp(Map<String, List<Repository>> userSearches, String searchVal, ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton);
+	CompletionStage<JsonNode> fetchOwnerImp(Map<String, List<Repository>> userSearches, String searchVal, ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton);
 	//CompletionStage<WSResponse> fetchingUpdateImp(Map<String, List<Repository>> userSearches, ActorRef ws, WSClient wsc, Session session, Singleton singleton);
 	
 /*	ObjectNode fetchResultsImp(JsonNode r,  Map<String, List<Repository>> userSearches, String searchVal);
