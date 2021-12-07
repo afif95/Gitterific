@@ -30,13 +30,7 @@
             webSocket.onmessage = onMessage;
             webSocket.onerror = onError;
             
-            //Owner Socket
-            
-             ownerSocket = new WebSocket("ws://localhost:9000/ownerWS");
-             ownerSocket.onmessage = function(event) {
-             	var receivedData = JSON.parse(evt.data);
-            	console.log("New Data: ", receivedData);
-             }
+      
             
         }
 

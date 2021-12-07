@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -43,6 +44,7 @@ public class OwnerActor extends AbstractActor {
 	Map <String, HashMap <String, List<Repository>>> user_searches;
 	Http.Session session;
 	Singleton singleton;
+	String ownerName;
 	
 	Injector injector = Guice.createInjector(new GitHubModule());
 	@Inject
@@ -109,23 +111,18 @@ public class OwnerActor extends AbstractActor {
 		try {
 			String sid = session.get("id").get();
 			String searchVal = js.get("message").textValue();
+			ownerName = searchVal;
 			gh.fetchOwnerImp(userSearches, searchVal, ws, wsc, self(), session, singleton)
-			 .thenApply(r -> {
-		            final ObjectNode response = Json.newObject();
-		            final Map<String,String> a1 = new HashMap<>();
-		            
-		            PublicOwnerInfo p = Json.fromJson(r, PublicOwnerInfo.class);
-		           // List<Repository> repos = util.JSONtoRepoList(r);
-		           // singleton.setNum(sid, searchVal,repos);
-		            JsonNode abc = r;
-		            
-		            
-		            response.put("search_flag","new" );
-		            response.put("search_term", searchVal );
-		            response.putPOJO("data", r);
-		            return response;
-		        }).thenAccept(r -> ws.tell(r, self()));
-        	
+			.thenCombine(gh.fetchOwnerReposImp(userSearches, searchVal, ws, wsc, self(), session, singleton),
+					(ownerInfo, ownerRepo) -> {
+						final ObjectNode response = Json.newObject();
+						response.put("search_flag","new" );
+			            response.put("search_term", searchVal );
+			            response.putPOJO("data", ownerInfo);
+			            response.putPOJO("data1", ownerRepo);
+						return response;
+					}).thenAccept(r -> ws.tell(r, self()));
+			
 		} catch (Exception exp) {
 		
 		}
@@ -137,29 +134,17 @@ public class OwnerActor extends AbstractActor {
     	
     	
 		try {		
-			/*
-			String sid = session.get("id").get();
-			//String searchVal = js.get("message").textValue();
-			gh.fetchOwnerImp(userSearches, searchVal, ws, wsc, self(), session, singleton)
-			 .thenApply(r -> {
-		            final ObjectNode response = Json.newObject();
-		            final Map<String,String> a1 = new HashMap<>();
-		            
-		            PublicOwnerInfo p = Json.fromJson(r, PublicOwnerInfo.class);
-		           // List<Repository> repos = util.JSONtoRepoList(r);
-		           // singleton.setNum(sid, searchVal,repos);
-		            JsonNode abc = r;
-		            
-		            
-		            response.put("search_flag","new" );
-		            response.put("search_term", searchVal );
-		            response.putPOJO("data", r);
-		            return response;
-		        }).thenAccept(r -> ws.tell(r, self()));
+			gh.fetchOwnerImp(userSearches, ownerName, ws, wsc, self(), session, singleton)
+			.thenCombine(gh.fetchOwnerReposImp(userSearches, ownerName, ws, wsc, self(), session, singleton),
+					(ownerInfo, ownerRepo) -> {
+						final ObjectNode response = Json.newObject();
+						response.put("search_flag","new" );
+			            response.put("search_term", ownerName );
+			            response.putPOJO("data", ownerInfo);
+			            response.putPOJO("data1", ownerRepo);
+						return response;
+					}).thenAccept(r -> ws.tell(r, self()));
 			
-			//ObjectNode response = gh.fetchingUpdateImp(userSearches, ws, wsc, session, singleton);
-			//ws.tell(response, self());
-			*/
 		} catch (Exception exp) {
 		}
 			

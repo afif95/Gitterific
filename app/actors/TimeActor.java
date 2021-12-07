@@ -61,5 +61,8 @@ public class TimeActor extends AbstractActorWithTimers {
     	//userActors.forEach(ar -> ar.tell(tMsg, self()));
     	UserActor.checkForUpdates cfp = new UserActor.checkForUpdates();
     	userActors.forEach(ar -> ar.tell(cfp, self()));
+    	
+    	OwnerActor.checkForUpdates cfpo = new OwnerActor.checkForUpdates();
+    	userActors.forEach(ar -> ar.tell(cfpo, self()));
 	}
 }
