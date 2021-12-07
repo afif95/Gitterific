@@ -14,16 +14,11 @@ GET     /ownerWS                    controllers.HomeController.ownerWS
 GET     /topicWS                    controllers.HomeController.topicWS	
 
 GET     /owner/:key                      controllers.HomeController.owner(key: String)
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
 GET		/repositoryWS				controllers.HomeController.repositoryWS
 GET		/repository/:owner/:repo	controllers.HomeController.repository(owner: String, repo: String)
 	
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
 GET     /topics/:key                      controllers.HomeController.topics(key: String)
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
