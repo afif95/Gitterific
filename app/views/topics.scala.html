@@ -53,37 +53,7 @@
         		prependMessageToView(r.owner.login, r.full_name,r.topics); 
        		});
        		prependHeading("Results for Topic: "+ receivedData.search_term);  
-            
-            	 
-  				
-           	/*	if (receivedData.search_flag == 'new'){
-	           		receivedData.data.forEach(r => {
-	            	//appendMessageToView(r.owner.login, r.full_name); 
-	            	//if(r.topics.length != 0){
-	            		prependMessageToView(r.owner.login, r.full_name,r.topics); 
-	            		
-	            	//}      
-	    			//print(r.topics);
-	           		});
-	           	prependHeading("Results for Search Term: "+ receivedData.search_term);       
-	           		
-	           		
-	           	}
-	           	else {
-	           		$("#messageContent").empty();
-	           		  
-				for (var key of Object.keys(receivedData.data)) {
-					appendHeading("Results for Search Term: "+ key);
-					receivedData.data[key].forEach(r => {appendMessageToView(r.owner.login, r.full_name,r.topics);});
-				
-				}  
-	           		  
-	           	}*/
-
-            //appendMessageToView("Server", receivedData.time.items["0"].name);
-           // receivedData.time.items.forEach(r => {
-            //	appendMessageToView("Server: " , r.full_name);           	
-            //});
+          
             
         } 
         

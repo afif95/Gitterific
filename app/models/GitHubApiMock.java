@@ -112,16 +112,6 @@ public class GitHubApiMock implements GitHubApi {
    	 	return null;
 	}*/
 
-		JsonNode node = null;
-		try {
-			node = objM.readTree(str);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		};
-		
-		return node;
-	}
 
 
 	@Override

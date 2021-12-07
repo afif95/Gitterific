@@ -34,7 +34,7 @@
             
              ownerSocket = new WebSocket("ws://localhost:9000/ownerWS");
              ownerSocket.onmessage = function(event) {
-             	var receivedData = JSON.parse(evt.data);
+             	var receivedData = JSON.parse(event.data);
             	console.log("New Data: ", receivedData);
              }
              

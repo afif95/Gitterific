@@ -68,7 +68,7 @@ public class TimeActor extends AbstractActorWithTimers {
 
 
     	TopicsActor.checkForUpdates cfpT = new TopicsActor.checkForUpdates();
-    	userActors.forEach(ar -> ar.tell(cfpT, self()));
+    	userActors.forEach(ar -> ar.tell(cfpT, self())); 
     	
 	}
 }

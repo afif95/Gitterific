@@ -18,9 +18,12 @@ import play.mvc.Http;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -66,6 +69,7 @@ public class TopicsActor extends AbstractActor {
     public TopicsActor(final ActorRef wsOut, WSClient wsc, Http.Session session) {
     	ws =  wsOut;
     	this.wsc =  wsc;
+    	user_searches = new ArrayList<>();
     	this.userSearches = new HashMap<>();
     	this.session = session;
     	this.singleton = Singleton.getInstance( );
@@ -146,17 +150,34 @@ public class TopicsActor extends AbstractActor {
 		            
 		            List<Repository> repos = util.JSONtoRepoList(r);
 		           // singleton.setNum(sid, searchVal,repos);
-		            JsonNode abc = Json.toJson(repos);
-		            user_searches.addAll(0, repos);
-		            user_searches = user_searches.stream().distinct().collect(Collectors.toList());
 		            
+		        	 List<Repository> show_new_repos = new ArrayList<>();
+		        	 int countNewRepos = 0;
+			        
+			        for(Repository repo : repos) {
+			        	if((repos.get(countNewRepos).getFull_name()).equals(user_searches.get(0).getFull_name())) {
+			        			break; 	 
+			        	}	
+			        	else {
+			        		show_new_repos.add(repo);	
+			        	}
+			        	countNewRepos++;
+			        }
+			        user_searches.addAll(0, show_new_repos);
+			        user_searches = user_searches.stream().distinct().collect(Collectors.toList());
+		            
+		            //repos = repos.stream().filter(r2 -> !user_searches.contains(r2)).collect(Collectors.toList());
+		           // user_searches.addAll(0, repos);
+		            //user_searches = user_searches.stream().filter(r -> user)
+		            JsonNode abc = Json.toJson(user_searches);
+
 		            response.put("search_flag","old" );
 		            response.put("search_term", topic );
 		            response.putPOJO("data", abc);
 		            return response;
 		        }).thenAccept(r -> ws.tell(r, self()));
 		} catch (Exception exp) {
-		}
+		}	
 			
 			
 
