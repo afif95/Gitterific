@@ -40,7 +40,7 @@ public class TimeActor extends AbstractActorWithTimers {
     @Override
     public void preStart() {
     	Logger.info("TimeActor {} started", self());
-    	getTimers().startPeriodicTimer("Timer", new Tick(), Duration.create(15, TimeUnit.SECONDS));
+    	getTimers().startPeriodicTimer("Timer", new Tick(), Duration.create(10, TimeUnit.SECONDS));
     }
 
     // Registering the UserActor
@@ -62,7 +62,13 @@ public class TimeActor extends AbstractActorWithTimers {
     	UserActor.checkForUpdates cfp = new UserActor.checkForUpdates();
     	userActors.forEach(ar -> ar.tell(cfp, self()));
     	
+
     	OwnerActor.checkForUpdates cfpo = new OwnerActor.checkForUpdates();
     	userActors.forEach(ar -> ar.tell(cfpo, self()));
+
+
+    	TopicsActor.checkForUpdates cfpT = new TopicsActor.checkForUpdates();
+    	userActors.forEach(ar -> ar.tell(cfpT, self())); 
+    	
 	}
 }

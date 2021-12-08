@@ -112,6 +112,16 @@ public class GitHubApiMock implements GitHubApi {
    	 	return null;
 	}*/
 
+
+
+	@Override
+	public CompletionStage<JsonNode> fetchReposByTopic(Map<String, List<Repository>> userSearches, String searchVal,
+			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 	
 	
 	/*
