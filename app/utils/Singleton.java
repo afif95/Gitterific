@@ -6,6 +6,13 @@ import java.util.List;
 
 import dto.Repository;
 
+/**
+ * This class is used as a database for the searches
+ * made by users
+ * @author Rimsha/Amrit
+ *
+ */
+
 public class Singleton {
 	
 
@@ -17,10 +24,21 @@ public class Singleton {
 	   
 	   HashMap <String, HashMap <String, List<Repository>>> user_searches;
 	   
+	   
+	   /**
+	    * This is used to get the searches made a specific user
+	    * @param user
+	    * @return
+	    */
 	   public HashMap <String, List<Repository>> getNum(String user) {
 		return user_searches.get(user);
 	   }
 	   
+	   /**
+	    * This is used to store the user searches
+	    * @param user
+	    * @param usm
+	    */
 	   
 		public void setNum(String user, HashMap <String, List<Repository>> usm) {
 			
@@ -29,6 +47,13 @@ public class Singleton {
 			
 			//this.user_searches = usm;
 		}
+		
+		/**
+		 * This is used to store the user searches.
+		 * @param user
+		 * @param searchTerm
+		 * @param usm
+		 */
 		
 		public void setNum(String user,String searchTerm, List<Repository> usm) {
 			if(user_searches.containsKey(user)) {
@@ -51,11 +76,14 @@ public class Singleton {
 		}
 
 
-
+		/**
+		 * Private constructor
+		 */
 	private Singleton() { 
 		user_searches=new HashMap<>();
 	   }
-
+	
+	
 	   /* Static 'instance' method */
 	   public static Singleton getInstance( ) {
 	      return singleton;

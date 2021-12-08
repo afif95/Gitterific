@@ -36,6 +36,12 @@ import play.libs.Json;
 import javax.inject.Inject;
 import utils.*;
 
+/**
+ * This actor is used to implement the repositories' information page.
+ * @author Roxane
+ *
+ */
+
 public class RepositoryActor extends AbstractActor {
 	private final ActorRef ws;
 	private WSClient wsc;
@@ -50,6 +56,11 @@ public class RepositoryActor extends AbstractActor {
 	@Inject
 	private GitHubApi gh = injector.getInstance(GitHubApi.class);
 	
+	/**
+	 * A time class that sets the time.
+	 *
+	 */
+	
 	
 	static public class TimeMessage {
         public final String time;
@@ -60,17 +71,21 @@ public class RepositoryActor extends AbstractActor {
         }
     }
 	
+	/**
+	 * This class is used to fetch new updates for Repository
+	 *
+	 */
+	
 	static public class checkForUpdates {
        
     }
 	
+
+
 	/**
-	 * Constructor for Repository Actor
-	 * 
-	 * @param wsOut
-	 * @param wsc
-	 * @param session
+	 * This is the constructor.
 	 */
+
     public RepositoryActor(final ActorRef wsOut, WSClient wsc, Http.Session session) {
     	ws =  wsOut;
     	this.wsc =  wsc;
@@ -80,14 +95,25 @@ public class RepositoryActor extends AbstractActor {
     	
     }
 
+    /**
+     * These are the props.
+     * @param wsout
+     * @param wsc
+     * @param session
+     * @return
+     */
+    
     public static Props props(final ActorRef wsout, WSClient wsc,Http.Session session) {
         return Props.create(RepositoryActor.class, wsout, wsc, session);
     }
     
     /**
-     * Method createReceive overrided to match the messages to an action
-     * @return Receive
+     * This method decides which method will be called based
+     * on different behaviours. It will either fetch information for
+     * the first time or send updates for the existing one.
+
      */
+
     @Override 
     public Receive createReceive() {
     	return receiveBuilder().match(TimeMessage.class, this::sendTime)
@@ -98,9 +124,10 @@ public class RepositoryActor extends AbstractActor {
     }
     
     /**
-     * Method used before starting, in order to register to the TimeActor
-     * 
+     * This method is used to register actor in the timer Actor
+     * so that updates can be send after a set duration
      */
+    
     @Override
     public void preStart() {
        	context().actorSelection("/user/timeActor/")
@@ -108,7 +135,10 @@ public class RepositoryActor extends AbstractActor {
     }
     
     
-   
+    /**
+     * This method is used to test the behaviour of sockets.
+     * @param msg
+     */
    
     
     private void sendTime(TimeMessage msg) {
@@ -121,11 +151,13 @@ public class RepositoryActor extends AbstractActor {
         ws.tell(response, self());
     }
     
-    
+
     /**
-     * Method used to fetch the data stored in the repository class and to send this data to the webServer
-     * @param JsonNode
+     * This method fetches the repository information for the first time
+     * and sends it through the socket.
+     * @param js
      */
+    
     private void fetchResults(JsonNode js){
     	
 		try {
@@ -152,6 +184,11 @@ public class RepositoryActor extends AbstractActor {
 		}
 
     }
+    
+    /**
+     * This method is used to fetch updates for repository's information.
+     * This will be called for the timer class.
+     */
     
   
     private void fetchingUpdates() {

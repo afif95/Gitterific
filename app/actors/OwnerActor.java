@@ -33,7 +33,11 @@ import com.google.inject.Injector;
 import play.libs.Json;
 import javax.inject.Inject;
 import utils.*;
-
+/**
+ * This actor is used to implement the owner's information page.
+ * @author Rimsha
+ *
+ */
 
 public class OwnerActor extends AbstractActor {
 	private final ActorRef ws;
@@ -51,6 +55,11 @@ public class OwnerActor extends AbstractActor {
 	private GitHubApi gh = injector.getInstance(GitHubApi.class);
 	
 	
+	/**
+	 * A time class that sets the time.
+	 *
+	 */
+	
 	static public class TimeMessage {
         public final String time;
         
@@ -60,9 +69,22 @@ public class OwnerActor extends AbstractActor {
         }
     }
 	
+	/**
+	 * This class is used to fetch new updates for Owner's profile
+	 *
+	 */
+	
+	
 	static public class checkForUpdates {
        
     }
+	
+	/**
+	 * This is the constructor.
+	 * @param wsOut
+	 * @param wsc
+	 * @param session
+	 */
 	
     public OwnerActor(final ActorRef wsOut, WSClient wsc, Http.Session session) {
     	ws =  wsOut;
@@ -73,9 +95,23 @@ public class OwnerActor extends AbstractActor {
     	
     }
 
+    /**
+     * These are the props.
+     * @param wsout
+     * @param wsc
+     * @param session
+     * @return
+     */
     public static Props props(final ActorRef wsout, WSClient wsc,Http.Session session) {
         return Props.create(OwnerActor.class, wsout, wsc, session);
     }
+    
+   
+    /**
+     * This method decides which method will be called based
+     * on different behaviours. It will either fetch information for
+     * the first time or send updates for the existing one.
+     */
     
     @Override 
     public Receive createReceive() {
@@ -86,6 +122,11 @@ public class OwnerActor extends AbstractActor {
     						   .build();
     }
     
+    /**
+     * This method is used to register actor in the timer Actor
+     * so that updates can be send after a set duration
+     */
+    
     @Override
     public void preStart() {
        	context().actorSelection("/user/timeActor/")
@@ -94,7 +135,10 @@ public class OwnerActor extends AbstractActor {
     
     
    
-   
+   /**
+    * This method is used to test the behaviour of sockets.
+    * @param msg
+    */
     
     private void sendTime(TimeMessage msg) {
         final ObjectNode response = Json.newObject();
@@ -105,6 +149,12 @@ public class OwnerActor extends AbstractActor {
         //response.put("time", abc);
         ws.tell(response, self());
     }
+    
+    /**
+     * This method fetches the owner information for the first time
+     * and sends it through the socket.
+     * @param js
+     */
     
     private void fetchResults(JsonNode js){
     	
@@ -129,6 +179,10 @@ public class OwnerActor extends AbstractActor {
 
     }
     
+    /**
+     * This method is used to fetch updates for owner's information.
+     * This will be called for the timer class.
+     */
   
     private void fetchingUpdates() {
     	

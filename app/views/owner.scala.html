@@ -107,7 +107,7 @@
         
           function appendMessage(title) {
         
-            $("#messageContent").append("<p>" + title + "</p>");
+            $("#messageContent").append("<p>" + getHyperlinked(title, "/repository/" + title) + "</p>");
         }
         
         function appendMessageToView(repo_name) {
