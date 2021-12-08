@@ -81,13 +81,11 @@ public class RepositoryActor extends AbstractActor {
     }
 	
 
+
 	/**
 	 * This is the constructor.
-	 * @param wsOut
-	 * @param wsc
-	 * @param session
 	 */
-	
+
     public RepositoryActor(final ActorRef wsOut, WSClient wsc, Http.Session session) {
     	ws =  wsOut;
     	this.wsc =  wsc;
@@ -113,8 +111,9 @@ public class RepositoryActor extends AbstractActor {
      * This method decides which method will be called based
      * on different behaviours. It will either fetch information for
      * the first time or send updates for the existing one.
+
      */
-    
+
     @Override 
     public Receive createReceive() {
     	return receiveBuilder().match(TimeMessage.class, this::sendTime)
@@ -152,6 +151,7 @@ public class RepositoryActor extends AbstractActor {
         ws.tell(response, self());
     }
     
+
     /**
      * This method fetches the repository information for the first time
      * and sends it through the socket.
@@ -167,10 +167,9 @@ public class RepositoryActor extends AbstractActor {
 			 .thenApply(r -> {
 		            final ObjectNode response = Json.newObject();
 		            final Map<String,String> a1 = new HashMap<>();
-		            Logger.info(r.get("items").toString());
+		            //Logger.info(r.get("items").toString());
 		            RepositoryInfo p = Json.fromJson(r, RepositoryInfo.class);
-		           // List<Repository> repos = util.JSONtoRepoList(r);
-		           // singleton.setNum(sid, searchVal,repos);
+		           
 		            JsonNode abc = r;
 		            
 		            

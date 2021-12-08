@@ -31,6 +31,8 @@ public class GitHubApiTest extends WithApplication{
 	static utilClass util = new utilClass();
 
 	String jsonForFetch = "[{\"owner\":{\"login\":\"User\",\"id\":1},\"full_name\":\"login\",\"topics\":[\"topic\"]}]";
+	String jsonRepo = "[{\"login\" : \"User\" , \"id\" : 1, \"node_id\" : \"NJueibhcOIJB875DCBNdcsj\"}]";
+
 	static Map<String, List<Repository>> userSearches = new HashMap<>();
 
 	
@@ -53,9 +55,27 @@ public class GitHubApiTest extends WithApplication{
 	public void fetchResultImpTest() throws Exception{
 		CompletionStage<JsonNode> result = testGitHub.fetchResultsImp(userSearches, "string", null, null, null, null, null);
         CompletableFuture<JsonNode> future = result.toCompletableFuture();
-		//assertTrue(future.isDone());
         JsonNode resul= future.get();
 		assertEquals(jsonForFetch, resul.get("data").toString());
 	}
+	
+	@Test 
+	public void fetchRepositoryImpTest() throws Exception{
+	/*	CompletionStage<JsonNode> result = testGitHub.fetchRepositoryImp(userSearches, "string", null, null, null, null, null);
+        CompletableFuture<JsonNode> future = result.toCompletableFuture();
+
+        JsonNode resul= future.get();
+		assertEquals(jsonRepo, resul.get("data").toString());*/
+	}
+	
+	@Test 
+	public void fetchOwnerImpTest() throws Exception{
+		CompletionStage<JsonNode> result = testGitHub.fetchOwnerImp(userSearches, "string", null, null, null, null, null);
+        CompletableFuture<JsonNode> future = result.toCompletableFuture();
+        JsonNode resul= future.get();
+		assertEquals(jsonForFetch, resul.get("data").toString());
+	}
+	
+	
 	
 }
