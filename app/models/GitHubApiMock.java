@@ -27,6 +27,7 @@ import utils.Singleton;
 import utils.utilClass;
 
 import javax.inject.Inject;
+import play.Logger;
 
 
 
@@ -37,6 +38,9 @@ public class GitHubApiMock implements GitHubApi {
 	String jsonStr = "{\"items\" : [{\"owner\" : {\"login\" : \"User\", \"id\" : 1}, \"full_name\" : \"login\", \"topics\" : [\"topic\"]}]}";
 	String jsonStr2 = "{\"items\" : [{\"owner\" : {\"login\" : \"User\", \"id\" : 1}, \"full_name\" : \"login\", \"topics\" : [\"topic\"]},{\"owner\" : {\"login\" : \"User2\", \"id\" : 2}, \"full_name\" : \"full_name2\", \"topics\" : [\"topic2\"]}]}";
 
+	String jsonRepo = "{\"login\" : \"User\" , \"id\" : 1, \"node_id\" : \"NJueibhcOIJB875DCBNdcsj\"}";
+;
+	String jsonOwnerRepos;
 	
 	public ObjectNode createResponse(String searchVal, JsonNode str) {
         final ObjectNode response = Json.newObject();
@@ -64,18 +68,30 @@ public class GitHubApiMock implements GitHubApi {
 	@Override
 	public CompletionStage<JsonNode> fetchOwnerImp(Map<String, List<Repository>> userSearches, String searchVal,
 			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
-		// TODO Auto-generated method stub
-		return null;
+		return CompletableFuture.supplyAsync(() -> {
+			List<Repository> repos = util.JSONtoRepoList(util.createJson(jsonStr));
+	        userSearches.putIfAbsent(searchVal,repos);
+	        final ObjectNode response = createResponse(searchVal, util.createJson(jsonForFetch));
+	        return response;
+		});
 	}
 
 
 	@Override
 	public CompletionStage<JsonNode> fetchRepositoryImp(Map<String, List<Repository>> userSearches, String searchVal,
 			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton){
+		Logger.info(jsonRepo);
 
-		// TODO Auto-generated method stub
-				return null;
+		return CompletableFuture.supplyAsync(() -> {
+			List<Repository> repos = util.JSONtoRepoList(util.createJson(jsonRepo));
+	        userSearches.putIfAbsent(searchVal,repos);
+	        final ObjectNode response = createResponse(searchVal, util.createJson(jsonRepo));
+	        Logger.info(response.data);
+	        return response;
+		});
 	}
+	
+	
 		public CompletionStage<JsonNode> fetchOwnerReposImp(Map<String, List<Repository>> userSearches, String searchVal,
 			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
 		// TODO Auto-generated method stub

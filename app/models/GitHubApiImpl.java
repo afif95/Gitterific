@@ -59,7 +59,6 @@ public class GitHubApiImpl implements GitHubApi{
 	@Override
 	public CompletionStage<JsonNode> fetchRepositoryImp(Map<String, List<Repository>> userSearches, String searchVal,
 			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
-		Logger.info(searchVal);
 		return wsc.url(baseUrl + "/search/repositories?q=/"+ searchVal)
 			       
 				 .get().thenApply(r -> {
