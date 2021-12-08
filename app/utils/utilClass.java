@@ -42,10 +42,11 @@ public class utilClass {
 	}
 	
 	/**
+	 * This method is used to create a json from a string.
 	 * 
 	 * @author roxane tissier
 	 * @param str
-	 * @return
+	 * @return created json
 	 */
 	
 	public JsonNode createJson(String str) {
