@@ -1,74 +1,172 @@
-@import helper._
-@import play.mvc.Http.Request
-@import dto.formData
-@import dto.Repository
+@(topic: String)
 
 
-@(repoList: List[Repository])
-<!-- HTML Head -->
+    <title>Welcome to Gitterific!</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+   
 
+    <h1>Welcome to Gitterific!</h1>  
+    
 
+	<div id="messageContent"></div>
+	<script>
+	
+	
+	 var webSocket, ownerSocket;
+     var messageInput;
 
-<body>
-   		<h1>Search by Topics</h1>
-
-
-
-
-    <style>
-        table, th, td {
-         border: 1px solid black;
+        function init() {
+            initWebSocket();
         }
-        </style>
-    @if(repoList != null && !repoList.isEmpty)    {
-    <table  style="width: 100%">
 
-        <colgroup>
-            <col span="1" style="width: 25%;">
-            <col span="1" style="width: 25%;">
-            <col span="1" style="width: 50%;">
-         </colgroup>
+        function initWebSocket() {
+            webSocket = new WebSocket("ws://localhost:9000/topicWS");
+            webSocket.onopen = onOpen;
+            webSocket.onclose = onClose;
+            webSocket.onmessage = onMessage;
+            webSocket.onerror = onError;
+    
+        }
 
+        function onOpen(evt) {
+            writeToScreen("CONNECTED");
+            sendMsg();         
+        }
 
-        <thead>
-            <tr>
-                <th>User</th>
-                <th>Repository</th>
-                <th>Topics</th>
+        function onClose(evt) {
+            writeToScreen("DISCONNECTED");
+            appendMessageToView(":", "DISCONNECTED");
+        }
 
-              </tr>
-        </thead>
-        <tbody>
+        function onError(evt) {
+            writeToScreen("ERROR: " + evt.data);
+            writeToScreen("ERROR: " + JSON.stringify(evt));
+        }
 
+        function onMessage(evt) {
+            var receivedData = JSON.parse(evt.data);
+            console.log("Owner :::: ", receivedData);
+           	$("#messageContent").empty();
+            
+            
+            receivedData.data.forEach(r => {
+        		prependMessageToView(r.owner.login, r.full_name,r.topics); 
+       		});
+       		prependHeading("Results for Topic: "+ receivedData.search_term);  
+          
+            
+        } 
         
-        
-        @for(repo <- repoList) {
-            
-           <tr>
-            <td><a class="btn btn-link" href="@routes.ApiController.getOwner(repo.getOwner().getLogin())">@repo.getOwner().getLogin()</td>
-            <td><a class="btn btn-link" href="@routes.ApiController.getRepository(repo.getOwner().getLogin(), repo.getName())">@repo.getFull_name()</td>
-            <td>Topics : 
-                
-                @for(topic <- repo.getTopics()) {
-                    <a class="btn btn-link" href="@routes.ApiController.getReposByTopic(topic)">@topic</a>    
-                }
-
-
-            </td>
-            
-            
-            
-            
-           
-            
-           </tr>
-       
+         function writeToScreen(message) {
+            console.log("New message: ", message);
         }
         
-        </tbody>
-       
-    </table>
-}
+       // function appendMessageToView(title, message) {
+        //document.getElementById("messageContent").innerHTML = "Hello"
+         //   $("#messageContent").append("<p>" + title + ": " + message + "</p>");
+        //}
+        
+        function appendMessageToView(repo_name) {
+        
+            $("#messageContent").append("<tr> <td>" + repo_name + "</td> </tr>");
+        }
+        
+        function appendMessageToView(owner_name, repo_name,topics) {
+        
+            $("#messageContent").append("<tr> <td>" + getHyperlinked(owner_name, "/owner/" + owner_name) + " </td> <td>" + "   " + " -" + getHyperlinked(repo_name, "/repository/" + repo_name) + "</td> <td>Topics: " + print(topics) + " </td> </tr>");
+        }
+        
+        function prependMessageToView(owner_name, repo_name,topics) {
+        
+            $("#messageContent").prepend("<tr> <td>" + getHyperlinked(owner_name, "/owner/" + owner_name) + " </td> <td>" + "   " + " -" + getHyperlinked(repo_name, "/repository/" + repo_name) + "</td> <td>Topics: " + print(topics) + " </td> </tr>");
+        }
+        
+         function print(topics) {
+            var str = "";
+         
+         	topics.forEach(t => str = str + getHyperlinked(t, "/topics/" + t) + ", ");
+         	return str;
+        	//for(var topic in topics) {
+        	//	str += topic + ", ";
+        	//}
+        	
+        	//return str;
+           // $("#messageContent").append(" <td>" + topics.forEach(myFunc) + "</td> ");
+        }
+        
+        function getHyperlinked(value, path) {
+        	return "<a href=\"" + path + "\">" + value + "</a>";
+        }
+        
+        function myFunc(item) {
+        
+        	"<td>" + item + " </td>";
+        	
+        }
+     
+        
+        function appendHeading(message) {
+        
+            $("#messageContent").append("<h1>"  + message + "</h1>");
+        }
+        
+         function prependHeading(message) {
+        
+            $("#messageContent").prepend("<h1>"  + message + "</h1>");
+        }
+        
+        
+        function doSend(protocolMessage) {
+            if(webSocket.readyState == WebSocket.OPEN) {
+                writeToScreen("SENT: " + protocolMessage.message);
+                webSocket.send(JSON.stringify(protocolMessage));
+            } else {
+                writeToScreen("Could not send data. Websocket is not open.");
+            }
+        }
+        
+        
+        function sendMsg() {
+        	console.log("Submitting.");
+            newMessage();
+        }
+        
+        function newMessage() {
+          
 
-</body>
+          // appendMessageToView(messageInput);
 
+            var message = {
+                message: "@topic"
+            };
+
+            doSend(message);
+        }
+        
+        
+        
+         window.addEventListener("load", init, false);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	</script>
+	
+          

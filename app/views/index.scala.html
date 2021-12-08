@@ -1,5 +1,209 @@
 
 
-<h1>Welcome to Gitterific! </h1>
 
-<h2><a class="btn btn-link" href="@routes.ApiController.showRepos()">Click here to search</h2>
+    <title>Welcome to Gitterific!</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+   
+
+    <h1>Welcome to Gitterific!</h1>  
+    
+    
+     <form>
+            <textarea id="messageInput"></textarea>
+            <button id="sendButton" onclick="sendMsg()" type="button">Send</button>
+     </form>
+	<div id="messageContent"></div>
+	<script>
+	
+	
+	 var webSocket, ownerSocket, repositorySocket;
+     var messageInput;
+
+        function init() {
+            initWebSocket();
+        }
+
+        function initWebSocket() {
+            webSocket = new WebSocket("ws://localhost:9000/ws");
+            webSocket.onopen = onOpen;
+            webSocket.onclose = onClose;
+            webSocket.onmessage = onMessage;
+            webSocket.onerror = onError;
+            
+      
+            
+             ownerSocket = new WebSocket("ws://localhost:9000/ownerWS");
+             ownerSocket.onmessage = function(event) {
+             	var receivedData = JSON.parse(event.data);
+            	console.log("New Data: ", receivedData);
+             }
+             
+           	//Repository Socket
+             
+             repositorySocket = new WebSocket("ws://localhost:9000/repositoryWS");
+             repositorySocket.onmessage = function(event) {
+             	var receivedData = JSON.parse(evt.data);
+            	console.log("New Data: ", receivedData);
+             }
+            
+        }
+
+        function onOpen(evt) {
+            writeToScreen("CONNECTED");
+        }
+
+        function onClose(evt) {
+            writeToScreen("DISCONNECTED");
+            appendMessageToView(":", "DISCONNECTED");
+        }
+
+        function onError(evt) {
+            writeToScreen("ERROR: " + evt.data);
+            writeToScreen("ERROR: " + JSON.stringify(evt));
+        }
+
+        function onMessage(evt) {
+            var receivedData = JSON.parse(evt.data);
+            console.log("New Data: ", receivedData);
+            	 
+  				
+           		if (receivedData.search_flag == 'new'){
+	           		receivedData.data.forEach(r => {
+	            	//appendMessageToView(r.owner.login, r.full_name); 
+	            	//if(r.topics.length != 0){
+	            		prependMessageToView(r.owner.login, r.full_name,r.topics); 
+	            		
+	            	//}      
+	    			//print(r.topics);
+	           		});
+	           	prependHeading("Results for Search Term: "+ receivedData.search_term);       
+	           		
+	           		
+	           	}
+	           	else {
+	           		$("#messageContent").empty();
+	           		  
+				for (var key of Object.keys(receivedData.data)) {
+				appendHeading("Results for Search Term: "+ key);
+				receivedData.data[key].forEach(r => {appendMessageToView(r.owner.login, r.full_name,r.topics);});
+				
+				}  
+	           		  
+	           		
+
+	         /*  		const map = new Map(Object.entries(receivedData.data));
+	           		map.forEach((searchTerm, value) => {
+	           			appendHeading("Updated Results for Search Term: "+ searchTerm);     
+	           			value.forEach( r=> {
+	            			appendMessageToView(r.owner.login, r.full_name,r.topics);      	
+	           			});
+	           		});*/
+	           	}
+
+            //appendMessageToView("Server", receivedData.time.items["0"].name);
+           // receivedData.time.items.forEach(r => {
+            //	appendMessageToView("Server: " , r.full_name);           	
+            //});
+            
+        }
+        
+         function writeToScreen(message) {
+            console.log("New message: ", message);
+        }
+        
+       // function appendMessageToView(title, message) {
+        //document.getElementById("messageContent").innerHTML = "Hello"
+         //   $("#messageContent").append("<p>" + title + ": " + message + "</p>");
+        //}
+        
+        function appendMessageToView(repo_name) {
+        
+            $("#messageContent").append("<tr> <td>" + repo_name + "</td> </tr>");
+        }
+        
+        function appendMessageToView(owner_name, repo_name,topics) {
+        
+            $("#messageContent").append("<tr> <td>" + getHyperlinked(owner_name, "/owner/" + owner_name) + " </td> <td>" + "   " + " -" + getHyperlinked(repo_name, "/repository/" + repo_name) + "</td> <td>Topics: " + print(topics) + " </td> </tr>");
+        }
+        
+        function prependMessageToView(owner_name, repo_name,topics) {
+        
+            $("#messageContent").prepend("<tr> <td>" + getHyperlinked(owner_name, "/owner/" + owner_name) + " </td> <td>" + "   " + " -" + getHyperlinked(repo_name, "/repository/" + repo_name) + "</td> <td>Topics: " + print(topics) + " </td> </tr>");
+        }
+        
+         function print(topics) {
+            var str = "";
+         
+         	topics.forEach(t => str = str + getHyperlinked(t, "/topics/" + t) + ", ");
+         	return str;
+        	//for(var topic in topics) {
+        	//	str += topic + ", ";
+        	//}
+        	
+        	//return str;
+           // $("#messageContent").append(" <td>" + topics.forEach(myFunc) + "</td> ");
+        }
+        
+        function getHyperlinked(value, path) {
+        	return "<a href=\"" + path + "\">" + value + "</a>";
+        }
+        
+        function myFunc(item){
+        
+        	"<td>" + item + " </td>";
+        	
+        }
+     
+        
+        function appendHeading(message) {
+        
+            $("#messageContent").append("<h1>"  + message + "</h1>");
+        }
+        
+         function prependHeading(message) {
+        
+            $("#messageContent").prepend("<h1>"  + message + "</h1>");
+        }
+        
+        
+        function doSend(protocolMessage) {
+            if(webSocket.readyState == WebSocket.OPEN) {
+                writeToScreen("SENT: " + protocolMessage.message);
+                webSocket.send(JSON.stringify(protocolMessage));
+            } else {
+                writeToScreen("Could not send data. Websocket is not open.");
+            }
+        }
+        
+        
+        function sendMsg() {
+        	console.log("Submitting.");
+            newMessage();
+        }
+        
+        function newMessage() {
+            messageInput = $("#messageInput").val();
+            $("#messageInput").val("");
+            if ($.trim(messageInput) == "") {
+                return false;
+            }
+
+          // appendMessageToView(messageInput);
+
+            var message = {
+                message: messageInput
+            };
+
+            doSend(message);
+        }
+        
+        
+        
+         window.addEventListener("load", init, false);
+	
+	
+	
+	
+	</script>
+	
+          

@@ -7,8 +7,7 @@ import static org.junit.Assert.assertNull;
 
 /**
  * This tests the <code>OwnerInfo</code> class.
- * @author Roxane
- *
+ * 
  */
 
 public class OwnerInfoTest {

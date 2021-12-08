@@ -20,7 +20,7 @@
         }
 
         function initWebSocket() {
-            webSocket = new WebSocket("ws://localhost:9000/repositoryWS");
+            webSocket = new WebSocket("ws://localhost:9000/issueWS");
             webSocket.onopen = onOpen;
             webSocket.onclose = onClose;
             webSocket.onmessage = onMessage;

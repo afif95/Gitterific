@@ -1,4 +1,4 @@
-@(owner: String, repository: String)
+@(Commit: String)
 
 
     <title>Welcome to Gitterific!</title>
@@ -12,7 +12,7 @@
 	<script>
 	
 	
-	 var webSocket, ownerSocket, repositorySocket;
+	 var webSocket, ownerSocket;
      var messageInput;
 
         function init() {
@@ -20,7 +20,7 @@
         }
 
         function initWebSocket() {
-            webSocket = new WebSocket("ws://localhost:9000/repositoryWS");
+            webSocket = new WebSocket("ws://localhost:9000/commitWS");
             webSocket.onopen = onOpen;
             webSocket.onclose = onClose;
             webSocket.onmessage = onMessage;
@@ -46,42 +46,25 @@
         function onMessage(evt) {
             var receivedData = JSON.parse(evt.data);
             console.log("Owner :::: ", receivedData);
-            appendMessage("login: ",receivedData.data[0].id);
+           	$("#messageContent").empty();
             
             
+            receivedData.data.forEach(r => {
+        		prependMessageToView(r.owner.login, r.full_name,r.topics); 
+       		});
+       		prependHeading("Results for Topic: "+ receivedData.search_term);  
+          
             
-            const keys = Object.keys(receivedData.data[0]);
-            
-            
-	        Object.keys(receivedData.data[0]).forEach(function(key) {
-	        	if(key == "owner"){
-	        		Object.keys(receivedData.data[0][key]).forEach(function(ownerKey){
-	        			if(ownerKey == "login"){
-	        				$("#messageContent").append("owner " + ownerKey + ": " + getHyperlinked(receivedData.data[0][key][ownerKey], "/owner/" + receivedData.data[0][key][ownerKey]));
-	        			}
-	        			else{
-	        				appendMessage("owner " + ownerKey, receivedData.data[0][key][ownerKey]);
-	        			}
-	        			
-	        		});
-	        	}
-	        	else{
-	        		appendMessage(key, receivedData.data[0][key]);
-	        	}
-	    		
-			}); 
         } 
         
          function writeToScreen(message) {
             console.log("New message: ", message);
         }
         
-      
-        
-           function appendMessage(title, field) {
-        
-            $("#messageContent").append("<p>" + title + ": " + field + "</p>");
-        }
+       // function appendMessageToView(title, message) {
+        //document.getElementById("messageContent").innerHTML = "Hello"
+         //   $("#messageContent").append("<p>" + title + ": " + message + "</p>");
+        //}
         
         function appendMessageToView(repo_name) {
         
@@ -90,21 +73,14 @@
         
         function appendMessageToView(owner_name, repo_name,topics) {
         
-            $("#messageContent").append("<tr> <td>" + getHyperlinked(owner_name, "#") + " </td> <td>" + "   " + " -" + getHyperlinked(repo_name, "#") + "</td> <td>Topics: " + print(topics) + " </td> </tr>");
+            $("#messageContent").append("<tr> <td>" + getHyperlinked(owner_name, "/owner/" + owner_name) + " </td> <td>" + "   " + " -" + getHyperlinked(repo_name, "/repository/" + repo_name) + "</td> <td>Topics: " + print(topics) + " </td> </tr>");
         }
         
         function prependMessageToView(owner_name, repo_name,topics) {
         
-            $("#messageContent").prepend("<tr> <td>" + getHyperlinked(owner_name, "#") + " </td> <td>" + "   " + " -" + getHyperlinked(repo_name, "#") + "</td> <td>Topics: " + print(topics) + " </td> </tr>");
+            $("#messageContent").prepend("<tr> <td>" + getHyperlinked(owner_name, "/owner/" + owner_name) + " </td> <td>" + "   " + " -" + getHyperlinked(repo_name, "/repository/" + repo_name) + "</td> <td>Topics: " + print(topics) + " </td> </tr>");
         }
         
-         function print(topics) {
-            var str = "";
-         
-         	topics.forEach(t => str = str + getHyperlinked(t, "#") + ", ");
-         	return str;
-        	
-        }
         
         function getHyperlinked(value, path) {
         	return "<a href=\"" + path + "\">" + value + "</a>";
@@ -145,8 +121,11 @@
         
         function newMessage() {
           
+
+          // appendMessageToView(messageInput);
+
             var message = {
-                message: "@repository"
+                message: "@topic"
             };
 
             doSend(message);
@@ -155,6 +134,25 @@
         
         
          window.addEventListener("load", init, false);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 	
 	
 	</script>
