@@ -56,28 +56,28 @@ public class UserActorTest {
 		timeActor = system.actorOf(TimeActor.getProps(), "timeActor");
 	}
 
-	@Test
+	/*@Test
 	public void testMainSearch() {
-
+	
 		final TestKit testProbe = new TestKit(system);
-
+	
 		final ActorRef userSearchActor = system
 				.actorOf(UserActor.props(testProbe.getRef(), wsc, Helpers.fakeRequest().build().session()));
-
+	
 		final ObjectMapper mapper = new ObjectMapper();
-
+	
 		// testApp = new
 		// GuiceApplicationBuilder().overrides(bind(GitHubApi.class).to(GitHubApiMock.class)).build();
-
+	
 		final ObjectNode request = mapper.createObjectNode();
-
+	
 		request.set("data", mapper.readValue("{\"message\" : \"java\"}", ObjectNode.class));
-
+	
 		userSearchActor.tell(request, ActorRef.noSender());
-
+	
 		testProbe.expectMsgClass(Duration.ofSeconds(10), ObjectNode.class);
-
-	}
+	
+	}*/
 
 	/**
 	 * Shutdown the actor system
