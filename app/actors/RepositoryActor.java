@@ -64,6 +64,13 @@ public class RepositoryActor extends AbstractActor {
        
     }
 	
+	/**
+	 * Constructor for Repository Actor
+	 * 
+	 * @param wsOut
+	 * @param wsc
+	 * @param session
+	 */
     public RepositoryActor(final ActorRef wsOut, WSClient wsc, Http.Session session) {
     	ws =  wsOut;
     	this.wsc =  wsc;
@@ -77,6 +84,10 @@ public class RepositoryActor extends AbstractActor {
         return Props.create(RepositoryActor.class, wsout, wsc, session);
     }
     
+    /**
+     * Method createReceive overrided to match the messages to an action
+     * @return Receive
+     */
     @Override 
     public Receive createReceive() {
     	return receiveBuilder().match(TimeMessage.class, this::sendTime)
@@ -86,6 +97,10 @@ public class RepositoryActor extends AbstractActor {
     						   .build();
     }
     
+    /**
+     * Method used before starting, in order to register to the TimeActor
+     * 
+     */
     @Override
     public void preStart() {
        	context().actorSelection("/user/timeActor/")
@@ -106,6 +121,11 @@ public class RepositoryActor extends AbstractActor {
         ws.tell(response, self());
     }
     
+    
+    /**
+     * Method used to fetch the data stored in the repository class and to send this data to the webServer
+     * @param JsonNode
+     */
     private void fetchResults(JsonNode js){
     	
 		try {
@@ -115,10 +135,9 @@ public class RepositoryActor extends AbstractActor {
 			 .thenApply(r -> {
 		            final ObjectNode response = Json.newObject();
 		            final Map<String,String> a1 = new HashMap<>();
-		            Logger.info(r.get("items").toString());
+		            //Logger.info(r.get("items").toString());
 		            RepositoryInfo p = Json.fromJson(r, RepositoryInfo.class);
-		           // List<Repository> repos = util.JSONtoRepoList(r);
-		           // singleton.setNum(sid, searchVal,repos);
+		           
 		            JsonNode abc = r;
 		            
 		            

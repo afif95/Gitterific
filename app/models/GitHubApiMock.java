@@ -86,7 +86,6 @@ public class GitHubApiMock implements GitHubApi {
 			List<Repository> repos = util.JSONtoRepoList(util.createJson(jsonRepo));
 	        userSearches.putIfAbsent(searchVal,repos);
 	        final ObjectNode response = createResponse(searchVal, util.createJson(jsonRepo));
-	        Logger.info(response.data);
 	        return response;
 		});
 	}
@@ -94,8 +93,12 @@ public class GitHubApiMock implements GitHubApi {
 	
 		public CompletionStage<JsonNode> fetchOwnerReposImp(Map<String, List<Repository>> userSearches, String searchVal,
 			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
-		// TODO Auto-generated method stub
-		return null;
+			return CompletableFuture.supplyAsync(() -> {
+				List<Repository> repos = util.JSONtoRepoList(util.createJson(jsonStr));
+		        userSearches.putIfAbsent(searchVal,repos);
+		        final ObjectNode response = createResponse(searchVal, util.createJson(jsonForFetch));
+		        return response;
+			});
 	}
 	
 
