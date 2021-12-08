@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class TimeActor extends AbstractActorWithTimers {
 	
-	// unique set of all the userActors registered so far
+	/** unique set of all the userActors registered so far */
 	private Set<ActorRef> userActors;
 	
 	
@@ -36,16 +36,16 @@ public class TimeActor extends AbstractActorWithTimers {
     	this.userActors = new HashSet<>();
     }
     
-    // implementation of a timer with duration of 5 seconds
+    /** implementation of a timer with duration of 5 seconds */
     @Override
     public void preStart() {
     	Logger.info("TimeActor {} started", self());
     	getTimers().startPeriodicTimer("Timer", new Tick(), Duration.create(10, TimeUnit.SECONDS));
     }
 
-    // Registering the UserActor
-    // When the TimeActor receives this message from the UserActor
-    // it simply adds the user actor to a private field, e.g.,  userActors:
+    /**Registering the UserActor
+    *  When the TimeActor receives this message from the UserActor
+    * it simply adds the user actor to a private field, e.g.,  userActors:*/
     @Override
     public Receive createReceive() {
         return receiveBuilder()
@@ -54,8 +54,8 @@ public class TimeActor extends AbstractActorWithTimers {
                 .build();
     }
 
-    // Every time this TimeActor receives a Tick message, it will go through its set of 
-    // userActors and send each of them a message with the current (server) time
+    /** Every time this TimeActor receives a Tick message, it will go through its set of 
+    * userActors and notify them to fetch updates */
 	private void notifyClients() {
     	//UserActor.TimeMessage tMsg = new UserActor.TimeMessage(LocalDateTime.now().toString());
     	//userActors.forEach(ar -> ar.tell(tMsg, self()));

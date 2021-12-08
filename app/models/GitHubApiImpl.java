@@ -32,7 +32,11 @@ public class GitHubApiImpl implements GitHubApi{
 	String baseUrl = "https://api.github.com";
 	Singleton singleton;
 	
-	
+	/**
+	 * This method is used to fetch searches from GitHub's search api.
+	 * 
+	 * @author Amrit/Roxane/Rimsha
+	 */
 	@Override
 	public CompletionStage<JsonNode> fetchResultsImp(Map<String, List<Repository>> userSearches, String searchVal, ActorRef ws,
 			WSClient wsc, ActorRef ua, Session session, Singleton singleton) {	
@@ -45,6 +49,11 @@ public class GitHubApiImpl implements GitHubApi{
 	       
 	}
 	
+	/**
+	 * This method is used to fetch owner's information from GitHub's api.
+	 * 
+	 * @author Rimsha
+	 */
 	@Override
 	public CompletionStage<JsonNode> fetchOwnerImp(Map<String, List<Repository>> userSearches, String searchVal, ActorRef ws,
 			WSClient wsc, ActorRef ua, Session session, Singleton singleton) {	
@@ -55,6 +64,12 @@ public class GitHubApiImpl implements GitHubApi{
 			 });		        
 	       
 	}
+	
+	/**
+	 * This method is used to fetch owner's  repositories' information from GitHub's api.
+	 * 
+	 * @author Roxane
+	 */
 
 	@Override
 	public CompletionStage<JsonNode> fetchRepositoryImp(Map<String, List<Repository>> userSearches, String searchVal,
@@ -66,6 +81,12 @@ public class GitHubApiImpl implements GitHubApi{
 					 return r.asJson();
 				 });
 	}
+	
+	/**
+	 * This method is used to fetch owner's repositories information from GitHub's api.
+	 * 
+	 * @author Rimsha
+	 */
 
 	public CompletionStage<JsonNode> fetchOwnerReposImp(Map<String, List<Repository>> userSearches, String searchVal,
 			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
@@ -76,6 +97,12 @@ public class GitHubApiImpl implements GitHubApi{
 				 });		        
 		       
 	}
+	
+	/**
+	 * This method is used to fetch topic's information from GitHub's api.
+	 * 
+	 * @author Amrit
+	 */
 
 	public CompletionStage<JsonNode> fetchReposByTopic(Map<String, List<Repository>> userSearches, String searchVal,
 			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
