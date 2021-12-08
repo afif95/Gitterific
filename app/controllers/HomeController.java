@@ -153,6 +153,11 @@ public class HomeController extends Controller {
 		
     }
    
+	public Result issue(String Owner, String repository) {
+		String uid;
+		return ok(views.html.issue.render(Owner, repository));
+		
+    }
 	/**
      * Websocket used to send the search and search results 
      * handled by the <code>User Actor</code>
@@ -208,4 +213,10 @@ public class HomeController extends Controller {
 				ws -> CommitActor.props(ws,wsc,request.session()), actorSystem, materializer));
 
     }
+    
+    /*public WebSocket issueWS() {
+        return WebSocket.Json.accept(request -> ActorFlow.actorRef(
+				ws -> IssueActor.props(ws,wsc,request.session()), actorSystem, materializer));
+
+    }*/
 }

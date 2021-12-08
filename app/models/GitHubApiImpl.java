@@ -122,7 +122,14 @@ public class GitHubApiImpl implements GitHubApi{
 			 });	
 	}
 	
-	
+	public CompletionStage<JsonNode> fetchIssueImp(Map<String, List<Repository>> userSearches, String searchVal,
+			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
+		return wsc.url(baseUrl + "/search/repositories?q=/"+ searchVal)
+			       
+				 .get().thenApply(r -> {
+					 return r.asJson();
+				 });
+	}
 
 /*	@Override
 	public CompletionStage<WSResponse> fetchingUpdateImp(Map<String, List<Repository>> userSearches, ActorRef ws,

@@ -1,0 +1,162 @@
+@(owner: String, repository: String)
+
+
+    <title>Welcome to Gitterific!</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+   
+
+    <h1>Welcome to Gitterific!</h1>  
+    
+
+	<div id="messageContent"></div>
+	<script>
+	
+	
+	 var webSocket, ownerSocket, repositorySocket;
+     var messageInput;
+
+        function init() {
+            initWebSocket();
+        }
+
+        function initWebSocket() {
+            webSocket = new WebSocket("ws://localhost:9000/issueWS");
+            webSocket.onopen = onOpen;
+            webSocket.onclose = onClose;
+            webSocket.onmessage = onMessage;
+            webSocket.onerror = onError;
+    
+        }
+
+        function onOpen(evt) {
+            writeToScreen("CONNECTED");
+            sendMsg();         
+        }
+
+        function onClose(evt) {
+            writeToScreen("DISCONNECTED");
+            appendMessageToView(":", "DISCONNECTED");
+        }
+
+        function onError(evt) {
+            writeToScreen("ERROR: " + evt.data);
+            writeToScreen("ERROR: " + JSON.stringify(evt));
+        }
+
+        function onMessage(evt) {
+            var receivedData = JSON.parse(evt.data);
+            console.log("Owner :::: ", receivedData);
+            appendMessage("login: ",receivedData.data[0].id);
+            
+            
+            
+            const keys = Object.keys(receivedData.data[0]);
+            
+            
+	        Object.keys(receivedData.data[0]).forEach(function(key) {
+	        	if(key == "owner"){
+	        		Object.keys(receivedData.data[0][key]).forEach(function(ownerKey){
+	        			if(ownerKey == "login"){
+	        				$("#messageContent").append("owner " + ownerKey + ": " + getHyperlinked(receivedData.data[0][key][ownerKey], "/owner/" + receivedData.data[0][key][ownerKey]));
+	        			}
+	        			else{
+	        				appendMessage("owner " + ownerKey, receivedData.data[0][key][ownerKey]);
+	        			}
+	        			
+	        		});
+	        	}
+	        	else{
+	        		appendMessage(key, receivedData.data[0][key]);
+	        	}
+	    		
+			}); 
+        } 
+        
+         function writeToScreen(message) {
+            console.log("New message: ", message);
+        }
+        
+      
+        
+           function appendMessage(title, field) {
+        
+            $("#messageContent").append("<p>" + title + ": " + field + "</p>");
+        }
+        
+        function appendMessageToView(repo_name) {
+        
+            $("#messageContent").append("<tr> <td>" + repo_name + "</td> </tr>");
+        }
+        
+        function appendMessageToView(owner_name, repo_name,topics) {
+        
+            $("#messageContent").append("<tr> <td>" + getHyperlinked(owner_name, "#") + " </td> <td>" + "   " + " -" + getHyperlinked(repo_name, "#") + "</td> <td>Topics: " + print(topics) + " </td> </tr>");
+        }
+        
+        function prependMessageToView(owner_name, repo_name,topics) {
+        
+            $("#messageContent").prepend("<tr> <td>" + getHyperlinked(owner_name, "#") + " </td> <td>" + "   " + " -" + getHyperlinked(repo_name, "#") + "</td> <td>Topics: " + print(topics) + " </td> </tr>");
+        }
+        
+         function print(topics) {
+            var str = "";
+         
+         	topics.forEach(t => str = str + getHyperlinked(t, "#") + ", ");
+         	return str;
+        	
+        }
+        
+        function getHyperlinked(value, path) {
+        	return "<a href=\"" + path + "\">" + value + "</a>";
+        }
+        
+        function myFunc(item) {
+        
+        	"<td>" + item + " </td>";
+        	
+        }
+     
+        
+        function appendHeading(message) {
+        
+            $("#messageContent").append("<h1>"  + message + "</h1>");
+        }
+        
+         function prependHeading(message) {
+        
+            $("#messageContent").prepend("<h1>"  + message + "</h1>");
+        }
+        
+        
+        function doSend(protocolMessage) {
+            if(webSocket.readyState == WebSocket.OPEN) {
+                writeToScreen("SENT: " + protocolMessage.message);
+                webSocket.send(JSON.stringify(protocolMessage));
+            } else {
+                writeToScreen("Could not send data. Websocket is not open.");
+            }
+        }
+        
+        
+        function sendMsg() {
+        	console.log("Submitting.");
+            newMessage();
+        }
+        
+        function newMessage() {
+          
+            var message = {
+                message: "@repository"
+            };
+
+            doSend(message);
+        }
+        
+        
+        
+         window.addEventListener("load", init, false);
+	
+	
+	</script>
+	
+          
