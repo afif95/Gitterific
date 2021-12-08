@@ -37,6 +37,8 @@ public class GitHubApiMock implements GitHubApi {
 	String jsonForFetch = "[{\"owner\" : {\"login\" : \"User\", \"id\" : 1}, \"full_name\" : \"login\", \"topics\" : [\"topic\"]}]";
 	String jsonStr = "{\"items\" : [{\"owner\" : {\"login\" : \"User\", \"id\" : 1}, \"full_name\" : \"login\", \"topics\" : [\"topic\"]}]}";
 	String jsonStr2 = "{\"items\" : [{\"owner\" : {\"login\" : \"User\", \"id\" : 1}, \"full_name\" : \"login\", \"topics\" : [\"topic\"]},{\"owner\" : {\"login\" : \"User2\", \"id\" : 2}, \"full_name\" : \"full_name2\", \"topics\" : [\"topic2\"]}]}";
+	String jsonTopics = "{\"items\" : [{\"owner\" : {\"login\" : \"User\", \"id\" : 1}, \"full_name\" : \"login\", \"topics\" : [\"java\"]},{\"owner\" : {\"login\" : \"User2\", \"id\" : 2}, \"full_name\" : \"full_name2\", \"topics\" : [\"java\"]}]}";
+	
 
 	String jsonRepo = "{\"login\" : \"User\" , \"id\" : 1, \"node_id\" : \"NJueibhcOIJB875DCBNdcsj\"}";
 ;
@@ -137,7 +139,12 @@ public class GitHubApiMock implements GitHubApi {
 	public CompletionStage<JsonNode> fetchReposByTopic(Map<String, List<Repository>> userSearches, String searchVal,
 			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
 		// TODO Auto-generated method stub
-		return null;
+		return CompletableFuture.supplyAsync(() -> {
+			//List<Repository> repos = util.JSONtoRepoList(util.createJson(jsonTopics));
+	        //userSearches.putIfAbsent(searchVal,repos);
+	        final ObjectNode response = createResponse(searchVal, util.createJson(jsonTopics));
+	        return response;
+		});
 	}
 	
 	
