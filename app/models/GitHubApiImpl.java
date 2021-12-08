@@ -76,6 +76,16 @@ public class GitHubApiImpl implements GitHubApi{
 		       
 	}
 
+	public CompletionStage<JsonNode> fetchReposByTopic(Map<String, List<Repository>> userSearches, String searchVal,
+			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
+			return wsc.url(baseUrl + "/search/repositories?q=topic:"+ searchVal + "&sort=updated&per_page=10")
+		       
+			 .get().thenApply(r -> {
+				 return r.asJson();
+			 });	
+	}
+	
+	
 
 /*	@Override
 	public CompletionStage<WSResponse> fetchingUpdateImp(Map<String, List<Repository>> userSearches, ActorRef ws,
