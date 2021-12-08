@@ -46,7 +46,7 @@ public class TestKitSampleTest extends WithApplication{
 	utilClass util = new utilClass();
 
 	 String jsonStr = "{\"items\" : [{\"owner\" : {\"login\" : \"User\", \"id\" : 1}, \"full_name\" : \"login\", \"topics\" : [\"topic\"]}]}";
-
+	 
 	 @BeforeClass
 		public static void initTestApp() {
 			testApp = new GuiceApplicationBuilder()

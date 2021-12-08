@@ -72,6 +72,16 @@ public class GitHubApiImpl implements GitHubApi{
 	 */
 
 	@Override
+	public CompletionStage<JsonNode> fetchCommitImp(Map<String, List<Repository>> userSearches, String searchVal,
+			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
+		return wsc.url(baseUrl + "/commit/"+ searchVal)
+			       
+				 .get().thenApply(r -> {
+					 return r.asJson();
+				 });
+	}
+	
+	@Override
 	public CompletionStage<JsonNode> fetchRepositoryImp(Map<String, List<Repository>> userSearches, String searchVal,
 			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
 		return wsc.url(baseUrl + "/search/repositories?q=/"+ searchVal)

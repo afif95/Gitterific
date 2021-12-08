@@ -11,6 +11,7 @@ import actors.OwnerActor;
 import actors.RepositoryActor;
 import actors.TimeActor;
 import actors.TopicsActor;
+import actors.CommitActor;
 import akka.actor.ActorSystem;
 import akka.stream.Materializer;
 import views.package$;
@@ -199,6 +200,12 @@ public class HomeController extends Controller {
     public WebSocket topicWS() {
         return WebSocket.Json.accept(request -> ActorFlow.actorRef(
 				ws -> TopicsActor.props(ws,wsc,request.session()), actorSystem, materializer));
+
+    }
+    
+    public WebSocket commitWS() {
+        return WebSocket.Json.accept(request -> ActorFlow.actorRef(
+				ws -> CommitActor.props(ws,wsc,request.session()), actorSystem, materializer));
 
     }
 }

@@ -14,6 +14,7 @@ GET     /ownerWS                    controllers.HomeController.ownerWS
 GET     /topicWS                    controllers.HomeController.topicWS	
 
 GET     /owner/:key                      controllers.HomeController.owner(key: String)
+GET     /commit                    controllers.HomeController.commitWS
 
 GET		/repositoryWS				controllers.HomeController.repositoryWS
 GET		/repository/:owner/:repo	controllers.HomeController.repository(owner: String, repo: String)

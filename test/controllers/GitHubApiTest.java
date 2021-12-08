@@ -76,6 +76,12 @@ public class GitHubApiTest extends WithApplication{
 		assertEquals(jsonForFetch, resul.get("data").toString());
 	}
 	
-	
+	@Test 
+	public void fetchCommitImpTest() throws Exception{
+		CompletionStage<JsonNode> result = testGitHub.fetchCommitImp(userSearches, "string", null, null, null, null, null);
+        CompletableFuture<JsonNode> future = result.toCompletableFuture();
+        JsonNode resul= future.get();
+		assertEquals(jsonForFetch, resul.get("data").toString());
+	}
 	
 }

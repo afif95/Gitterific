@@ -1,0 +1,160 @@
+@(Commit: String)
+
+
+    <title>Welcome to Gitterific!</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+   
+
+    <h1>Welcome to Gitterific!</h1>  
+    
+
+	<div id="messageContent"></div>
+	<script>
+	
+	
+	 var webSocket, ownerSocket;
+     var messageInput;
+
+        function init() {
+            initWebSocket();
+        }
+
+        function initWebSocket() {
+            webSocket = new WebSocket("ws://localhost:9000/commitWS");
+            webSocket.onopen = onOpen;
+            webSocket.onclose = onClose;
+            webSocket.onmessage = onMessage;
+            webSocket.onerror = onError;
+    
+        }
+
+        function onOpen(evt) {
+            writeToScreen("CONNECTED");
+            sendMsg();         
+        }
+
+        function onClose(evt) {
+            writeToScreen("DISCONNECTED");
+            appendMessageToView(":", "DISCONNECTED");
+        }
+
+        function onError(evt) {
+            writeToScreen("ERROR: " + evt.data);
+            writeToScreen("ERROR: " + JSON.stringify(evt));
+        }
+
+        function onMessage(evt) {
+            var receivedData = JSON.parse(evt.data);
+            console.log("Owner :::: ", receivedData);
+           	$("#messageContent").empty();
+            
+            
+            receivedData.data.forEach(r => {
+        		prependMessageToView(r.owner.login, r.full_name,r.topics); 
+       		});
+       		prependHeading("Results for Topic: "+ receivedData.search_term);  
+          
+            
+        } 
+        
+         function writeToScreen(message) {
+            console.log("New message: ", message);
+        }
+        
+       // function appendMessageToView(title, message) {
+        //document.getElementById("messageContent").innerHTML = "Hello"
+         //   $("#messageContent").append("<p>" + title + ": " + message + "</p>");
+        //}
+        
+        function appendMessageToView(repo_name) {
+        
+            $("#messageContent").append("<tr> <td>" + repo_name + "</td> </tr>");
+        }
+        
+        function appendMessageToView(owner_name, repo_name,topics) {
+        
+            $("#messageContent").append("<tr> <td>" + getHyperlinked(owner_name, "/owner/" + owner_name) + " </td> <td>" + "   " + " -" + getHyperlinked(repo_name, "/repository/" + repo_name) + "</td> <td>Topics: " + print(topics) + " </td> </tr>");
+        }
+        
+        function prependMessageToView(owner_name, repo_name,topics) {
+        
+            $("#messageContent").prepend("<tr> <td>" + getHyperlinked(owner_name, "/owner/" + owner_name) + " </td> <td>" + "   " + " -" + getHyperlinked(repo_name, "/repository/" + repo_name) + "</td> <td>Topics: " + print(topics) + " </td> </tr>");
+        }
+        
+        
+        function getHyperlinked(value, path) {
+        	return "<a href=\"" + path + "\">" + value + "</a>";
+        }
+        
+        function myFunc(item) {
+        
+        	"<td>" + item + " </td>";
+        	
+        }
+     
+        
+        function appendHeading(message) {
+        
+            $("#messageContent").append("<h1>"  + message + "</h1>");
+        }
+        
+         function prependHeading(message) {
+        
+            $("#messageContent").prepend("<h1>"  + message + "</h1>");
+        }
+        
+        
+        function doSend(protocolMessage) {
+            if(webSocket.readyState == WebSocket.OPEN) {
+                writeToScreen("SENT: " + protocolMessage.message);
+                webSocket.send(JSON.stringify(protocolMessage));
+            } else {
+                writeToScreen("Could not send data. Websocket is not open.");
+            }
+        }
+        
+        
+        function sendMsg() {
+        	console.log("Submitting.");
+            newMessage();
+        }
+        
+        function newMessage() {
+          
+
+          // appendMessageToView(messageInput);
+
+            var message = {
+                message: "@topic"
+            };
+
+            doSend(message);
+        }
+        
+        
+        
+         window.addEventListener("load", init, false);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	</script>
+	
+          

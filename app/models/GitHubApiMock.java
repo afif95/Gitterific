@@ -78,7 +78,17 @@ public class GitHubApiMock implements GitHubApi {
 		});
 	}
 
-
+	@Override
+	public CompletionStage<JsonNode> fetchCommitImp(Map<String, List<Repository>> userSearches, String searchVal,
+			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton) {
+		return CompletableFuture.supplyAsync(() -> {
+			List<Repository> repos = util.JSONtoRepoList(util.createJson(jsonStr));
+	        userSearches.putIfAbsent(searchVal,repos);
+	        final ObjectNode response = createResponse(searchVal, util.createJson(jsonForFetch));
+	        return response;
+		});
+	}
+	
 	@Override
 	public CompletionStage<JsonNode> fetchRepositoryImp(Map<String, List<Repository>> userSearches, String searchVal,
 			ActorRef ws, WSClient wsc, ActorRef ua, Session session, Singleton singleton){
